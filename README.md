@@ -4,14 +4,14 @@
 
 
 ## Features
-•	Automated Attendance Management: The platform allows for automated attendance management using fingerprint, reducing errors and saving time.
-•	Payment Management System: The platform includes a payment management system that allows students to pay their residential school fees online, securely and conveniently.
-•	Maintenance Requests: The platform features a maintenance request system that enables students to quickly report any issues or technical problems in their rooms, with notifications on the status of their requests.
+*	Automated Attendance Management: The platform allows for automated attendance management using fingerprint, reducing errors and saving time.
+*	Payment Management System: The platform includes a payment management system that allows students to pay their residential school fees online, securely and conveniently.
+*	Maintenance Requests: The platform features a maintenance request system that enables students to quickly report any issues or technical problems in their rooms, with notifications on the status of their requests.
 
 ## Benefits
-•	Improved Efficiency: By automating administrative tasks, "Smart Ensias" reduces overhead and increases efficiency.
-•	Greater Transparency: The platform provides students and staff with real-time access to important information, fostering trust and collaboration.
-•	Enhanced Student Experience: "Smart Ensias" simplifies administrative tasks and makes it easy to report issues, enhancing the overall student experience.
+*	Improved Efficiency: By automating administrative tasks, "Smart Ensias" reduces overhead and increases efficiency.
+*	Greater Transparency: The platform provides students and staff with real-time access to important information, fostering trust and collaboration.
+*	Enhanced Student Experience: "Smart Ensias" simplifies administrative tasks and makes it easy to report issues, enhancing the overall student experience.
 
 
 ## USE CASES
