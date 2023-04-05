@@ -1,0 +1,17 @@
+@startuml
+left to right direction
+actor "Enseignant" as fc
+rectangle GestionEnseignants {
+  usecase "Accéder aux informations de profil des étudiants" as UC1
+  usecase "Soumettre des rapports d'absence ou de retard" as UC2
+  usecase "avertir un étudiant" as UC3
+  usecase "S'authentifier" as UC0
+} 
+(UC1) ..> (UC0) : include
+(UC2) ..> (UC0) : include
+(UC3) ..> (UC0) : include
+fc --> UC1
+fc --> UC2
+fc --> UC3
+
+@enduml
