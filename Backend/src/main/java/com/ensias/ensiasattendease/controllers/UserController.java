@@ -20,6 +20,8 @@ public class UserController {
     private final UserRepository userRepository;
 
     //This method returns list of users
+
+    
     //TODO- ADD Response Class, that return elegant json file as Response to the postman user
     @GetMapping
     public ResponseEntity<List<User>> getUsers(){
