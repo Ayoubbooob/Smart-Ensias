@@ -116,8 +116,8 @@ class AttendanceStatistics {
 User <|-- Student
   User <|-- Teacher
   User <|-- Admin
-  Attendance "1" -[dashed]->"*" Course
-  Attendance "*" -- "1" Student
+  Attendance "*" -[dashed]->"1" Course
+  Attendance "*" -- "*" Student
   Filiere "0..*" -- "0..*" Course
   Student "1" -- "1" Filiere
   Teacher "0..*" -- "1" Course

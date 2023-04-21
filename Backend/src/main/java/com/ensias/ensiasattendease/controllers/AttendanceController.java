@@ -1,7 +1,10 @@
 package com.ensias.ensiasattendease.controllers;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ensias.ensiasattendease.repositories.AttendanceRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -10,5 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @RequestMapping("/attendance")
 public class AttendanceController {
-    // private final AttendanceRepository attendanceRepository;
+    private final AttendanceRepository attendanceRepository;
+
+    @GetMapping("/attendance")
+    public String getAttendance(){
+        return "hello welcome to attendance" ; 
+    }
 }
