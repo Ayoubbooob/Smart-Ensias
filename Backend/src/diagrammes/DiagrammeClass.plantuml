@@ -1,0 +1,130 @@
+@startuml
+class User {
+  -password: String
+  -firstName: String
+  -lastName: String
+  -email: String
+  -phone: String
+}
+
+
+class Student {
+  +studentId: String
+  +CNE : String
+}
+class Filiere {
+  +FiliereId: String
+  +FiliereTitle
+  +Promo : String 
+}
+
+class Admin {
+  +AdminId: String
+  +Matricule : String
+}
+
+class Teacher {
+  +teacherId: String
+  +Matricule : String
+}
+
+class Course {
+  +courseId: String
+  +name: String
+  +teacher: Teacher
+  +schedule: Schedule
+}
+
+class Schedule {
+  +daysOfWeek: List<DayOfWeek>
+  +startTime: LocalTime
+  +endTime: LocalTime
+}
+
+class Classroom {
+  +classroomId: String
+  +name: String
+}
+
+
+class Attendance {
+  +attendanceId: String
+  +course: Course
+  +dateTime: LocalDateTime
+  +status: AttendanceStatus
+  +justification: String
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+}
+
+class UserAuthenticationService {
+  +login(username: String, password: String): User
+  +logout(user: User)
+}
+
+class StudentService {
+  +registerAttendance(student: Student, course: Course, dateTime: LocalDateTime, status: AttendanceStatus, justification: String)
+  +getAttendanceHistory(student: Student): List<Attendance>
+  +getCourseSchedule(student: Student): List<Course>
+  +getProfile(student: Student): Student
+  +reportAbsence(student: Student, course: Course, dateTime: LocalDateTime, justification: String)
+  +getNotifications(student: Student): List<Notification>
+}
+
+class TeacherService {
+  +submitAttendanceReport(course: Course, attendanceList: List<Attendance>)
+  +getStudentProfile(student: Student): Student
+  +getCourseSchedule(teacher: Teacher): List<Course>
+  +getProfile(teacher: Teacher): Teacher
+  +notifyStudent(student: Student, message: String)
+}
+
+class ClassroomService {
+  +getAvailableClassrooms(schedule: Schedule): List<Classroom>
+}
+
+class Notification {
+  +notificationId: String
+  +message: String
+  +dateTime: LocalDateTime
+  +read: Boolean
+}
+
+class AttendanceSystemService {
+  +getAttendanceStatistics(course: Course): List<AttendanceStatistics>
+  +generateAttendanceReport(course: Course, fromDate: LocalDate, toDate: LocalDate): Report
+}
+
+class Report {
+  +reportId: String
+  +reportData: String
+  +generatedBy: User
+  +dateTime: LocalDateTime
+}
+
+class AttendanceStatistics {
+  +status: AttendanceStatus
+  +count: Integer
+}
+
+
+
+User <|-- Student
+  User <|-- Teacher
+  User <|-- Admin
+  Attendance "*" -[dashed]->"1" Course
+  Attendance "*" -- "*" Student
+  Filiere "0..*" -- "0..*" Course
+  Student "1" -- "1" Filiere
+  Teacher "0..*" -- "1" Course
+  Course *-- Schedule
+  Attendance "1" -- "0.*" Report
+
+@enduml
+
+
+

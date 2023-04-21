@@ -20,6 +20,7 @@ public interface UserService {
     class UserServiceImpl implements UserService{
         @Override
         public User getUser(Long id) {
+            log.info("Getting user with id {}", id);
             return null;
         }
 
