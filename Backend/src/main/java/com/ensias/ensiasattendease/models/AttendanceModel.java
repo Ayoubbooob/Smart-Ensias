@@ -15,11 +15,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "Attendance")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,5 +38,5 @@ public class AttendanceModel {
     @JoinColumn(name = "course_id")
     private CourseModel course  ; 
     @ManyToMany(fetch = FetchType.LAZY)
-    private Collection<StudentModel> student = new ArrayList() ; 
+    private Collection<StudentModel> student  ; 
 }

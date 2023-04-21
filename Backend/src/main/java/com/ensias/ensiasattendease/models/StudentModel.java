@@ -18,11 +18,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id ; 
+public class StudentModel extends UserModel {
     private String CNE ; 
     @ManyToMany(mappedBy = "student" , fetch = FetchType.LAZY)
-    private Collection<AttendanceModel> attendances = new ArrayList() ;
+    private Collection<AttendanceModel> attendances  ;
 }

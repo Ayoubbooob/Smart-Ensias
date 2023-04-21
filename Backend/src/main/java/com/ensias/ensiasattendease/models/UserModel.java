@@ -9,16 +9,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "User")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@Inheritance(strategy = InheritanceType.JOINED)
+public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
     @NotEmpty
     private String username;
+
+    private String phone  ; 
+
+    private  String email ;
 
 
     @NotEmpty

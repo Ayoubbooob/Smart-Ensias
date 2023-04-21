@@ -4,7 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.ensias.ensiasattendease.models.User;
+import com.ensias.ensiasattendease.models.UserModel;
 
 @SpringBootApplication
 public class EnsiasAttendEaseApplication implements CommandLineRunner{
@@ -16,7 +16,7 @@ public class EnsiasAttendEaseApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'run'");
+		System.out.println("Hello World");
 	}
 	
 

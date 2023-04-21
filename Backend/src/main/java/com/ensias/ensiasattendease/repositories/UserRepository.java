@@ -1,16 +1,16 @@
 package com.ensias.ensiasattendease.repositories;
 
-import com.ensias.ensiasattendease.models.User;
+import com.ensias.ensiasattendease.models.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findUserById(Long id);
+public interface UserRepository extends JpaRepository<UserModel, Long> {
+    UserModel findUserById(Long id);
 
     @Override
-    List<User> findAll();
+    List<UserModel> findAll();
 
     @Override
-    User save(User user);
+    UserModel save(UserModel user);
 }
