@@ -3,7 +3,8 @@ package com.ensias.ensiasattendease.controllers;
 
 import com.ensias.ensiasattendease.models.UserModel;
 import com.ensias.ensiasattendease.repositories.UserRepository;
-import com.ensias.ensiasattendease.services.UserService.UserServiceImpl;
+import com.ensias.ensiasattendease.services.implementations.UserServiceImpl;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,6 @@ import java.util.List;
 public class UserController {
 
     private final UserServiceImpl userService;
-    private final UserRepository userRepository;
 
     //This method returns list of users
 
@@ -25,13 +25,22 @@ public class UserController {
     //TODO- ADD Response Class, that return elegant json file as Response to the postman user
     @GetMapping
     public ResponseEntity<List<UserModel>> getUsers(){
-        List<UserModel> users = userRepository.findAll();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
     }
 
 
     @PostMapping("/add")
-    public ResponseEntity<UserModel> CreateUser(@RequestBody UserModel user){
-        return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED);
+    public ResponseEntity<?> CreateUser(@RequestBody UserModel user){
+        if(user == null){
+            return new ResponseEntity<Error>(HttpStatus.BAD_REQUEST) ; 
+        }
+        else{
+            try {
+                return new ResponseEntity<>(userService.saveUserModel(user) , HttpStatus.CREATED) ;
+            } catch (Exception e) {
+                // TODO: handle exception
+                return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR) ;
+            }
+        }
     }
 }
