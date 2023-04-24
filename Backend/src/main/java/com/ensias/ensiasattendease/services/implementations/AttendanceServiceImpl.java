@@ -1,6 +1,7 @@
 package com.ensias.ensiasattendease.services.implementations;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,5 +30,15 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public List<AttendanceModel> getAllAttendance(){
         return attendanceRepository.findAll() ;
+    }
+
+    @Override
+    public AttendanceModel saveAttendanceModel(AttendanceModel attendance ){
+        return attendanceRepository.save(attendance) ;
+    }
+
+    @Override
+    public Optional<AttendanceModel>getAttendanceById(Long id){
+        return attendanceRepository.findById(id);
     }
 }

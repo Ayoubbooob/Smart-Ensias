@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,12 +36,12 @@ public class UserController {
             return new ResponseEntity<Error>(HttpStatus.BAD_REQUEST) ; 
         }
         else{
-            try {
-                return new ResponseEntity<>(userService.saveUserModel(user) , HttpStatus.CREATED) ;
-            } catch (Exception e) {
-                // TODO: handle exception
-                return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR) ;
-            }
+            return new ResponseEntity<>(userService.saveUserModel(user) , HttpStatus.CREATED) ;
         }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<UserModel>> getUSerById(@PathVariable Long id){
+        return new ResponseEntity<>(userService.getUserById(id) , HttpStatus.OK) ;
     }
 }

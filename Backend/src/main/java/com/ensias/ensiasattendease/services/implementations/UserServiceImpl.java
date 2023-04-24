@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserModel saveUserModel(UserModel user){
         return userRepository.save(user) ; 
+    }
+
+    @Override
+    public Optional<UserModel> getUserById(Long id){
+        return userRepository.findById(id) ;
     }
 
     // implement here all methods that you've already put it in UserService
