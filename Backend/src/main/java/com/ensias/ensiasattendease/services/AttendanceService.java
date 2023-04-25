@@ -9,4 +9,5 @@ public interface AttendanceService {
     List<AttendanceModel> getAllAttendance();
     AttendanceModel saveAttendanceModel(AttendanceModel attendance);
     Optional<AttendanceModel>getAttendanceById(Long id) ;
+    Boolean deleteAttendance(Long id);
 }

@@ -2,7 +2,7 @@
 spring:
   datasource:
     password:
-    url: jdbc:mysql://localhost:4306/ENSIASAttendEase
+    url: jdbc:mysql://localhost:4306/ensias_attendance
     username: root
   jpa:
     hibernate:

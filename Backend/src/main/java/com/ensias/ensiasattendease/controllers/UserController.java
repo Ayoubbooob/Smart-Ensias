@@ -44,4 +44,14 @@ public class UserController {
     public ResponseEntity<Optional<UserModel>> getUSerById(@PathVariable Long id){
         return new ResponseEntity<>(userService.getUserById(id) , HttpStatus.OK) ;
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUserByEmail(@PathVariable String email){
+        if(email == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST) ; 
+        }
+        else{
+            return new ResponseEntity<>(userService.deleteUser(email) , HttpStatus.ACCEPTED);
+        }
+    }
 }
