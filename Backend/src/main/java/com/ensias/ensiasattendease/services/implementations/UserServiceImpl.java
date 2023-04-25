@@ -42,5 +42,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id) ;
     }
 
+    @Override
+    public Boolean deleteUser(String email){
+        try {
+            userRepository.deleteByEmail(email);
+            return true ;
+        } catch (Exception e) {
+            return false ;
+        }
+    }
+
     // implement here all methods that you've already put it in UserService
 }

@@ -9,6 +9,7 @@ public interface UserService {
     List<UserModel> getAllUser();
     UserModel saveUserModel(UserModel user);
     Optional<UserModel> getUserById(Long id) ; 
+    Boolean deleteUser(String email);
 
     //ADD method that you will implement later - Functionalities
     // Ex : getUsers -- to get all users
