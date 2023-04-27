@@ -22,3 +22,4 @@ To mark their attendance, students can use their digital fingerprint to register
 Each dorm room is equipped with an electric handle that can be accessed using digital fingerprint authentication. This ensures that only authorized students can enter their rooms, adding an extra layer of security. In case of non-payment, the system can automatically block access to the room until payment is made. This helps to ensure that students meet their financial obligations and prevents unauthorized access to the room. Additionally, the platform keeps a record when the student leaves the room permanently, such as when they graduate or move out of the college.
 
 
+This for test purpose
