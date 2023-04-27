@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,10 +31,9 @@ public class AttendanceModel  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private  Long id ; 
-
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Date  dateTime ; 
+    private Date  dateTime   ; 
     @Enumerated(EnumType.STRING) 
+    @NotNull
     private AttendanceStatus status ;
     @ManyToOne
     @JoinColumn(name = "course_id")

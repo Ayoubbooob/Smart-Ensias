@@ -1,4 +1,4 @@
-package com.ensias.ensiasattendease.resources;
+package com.ensias.ensiasattendease.resources.responses;
 
 import java.util.HashMap;
 import java.util.Map;

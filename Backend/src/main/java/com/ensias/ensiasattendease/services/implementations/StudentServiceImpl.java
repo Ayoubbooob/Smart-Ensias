@@ -1,5 +1,6 @@
 package com.ensias.ensiasattendease.services.implementations;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
@@ -7,12 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
+import com.ensias.ensiasattendease.models.AttendanceStatus;
 import com.ensias.ensiasattendease.models.StudentModel;
 import com.ensias.ensiasattendease.repositories.AttendanceRepository;
 import com.ensias.ensiasattendease.repositories.StudentRepository;
 import com.ensias.ensiasattendease.services.StudentService;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class StudentServiceImpl implements StudentService {
 
     @Autowired
@@ -40,14 +45,16 @@ public class StudentServiceImpl implements StudentService {
      * @target this methode is used to register student attendance 
      */
     @Override
-    public Boolean registerAttendance(AttendanceModel attendance , String cne){
+    public Boolean registerAttendance(AttendanceStatus status , String cne){
         try {
             StudentModel student = studentRepository.findByCNE(cne);
-            AttendanceModel attendanceFounded = attendanceRepository.save(attendance);
-            student.getAttendances().add(attendanceFounded);
+            AttendanceModel newAttendanceModel = new AttendanceModel();
+            newAttendanceModel.setStatus(status);
+            newAttendanceModel.setDateTime(new Date(System.currentTimeMillis()));
+            newAttendanceModel.getStudent().add(student);
+            attendanceRepository.save(newAttendanceModel);
+            student.getAttendances().add(newAttendanceModel);
             studentRepository.save(student);
-            attendanceFounded.getStudent().add(student);
-            attendanceRepository.save(attendanceFounded);
             return true ;
         } catch (Exception e) {
             // TODO: handle exception

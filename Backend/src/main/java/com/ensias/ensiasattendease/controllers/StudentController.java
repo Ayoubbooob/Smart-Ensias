@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
+import com.ensias.ensiasattendease.models.AttendanceStatus;
+import com.ensias.ensiasattendease.models.AttendanceType;
 import com.ensias.ensiasattendease.models.StudentModel;
 import com.ensias.ensiasattendease.services.implementations.StudentServiceImpl;
 
@@ -46,13 +48,13 @@ public class StudentController {
         }
     }
 
-    @PostMapping("/registerAttendance")
-    public ResponseEntity<?> takeAttendance(@RequestBody AttendanceModel attendance , @RequestBody String cne){
-        if(attendance == null || cne == null){
+    @PostMapping("/registerAttendance/{cne}")
+    public ResponseEntity<?> takeAttendance(@RequestBody String status  , @PathVariable String cne){
+        if(status == null || cne == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST) ;
         }
         else{
-            return new ResponseEntity<>(studentService.registerAttendance(attendance , cne) , HttpStatus.CREATED);
+            return new ResponseEntity<>( studentService.registerAttendance(AttendanceStatus.valueOf(status) , cne)  , HttpStatus.CREATED);
         }
     }
 

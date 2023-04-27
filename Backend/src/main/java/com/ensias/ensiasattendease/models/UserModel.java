@@ -18,26 +18,26 @@ import lombok.NoArgsConstructor;
 public abstract class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
     @Column(unique = true)
     @NotEmpty(message = "le nom d'utilisateur est requis ")
-    private String username;
+    protected String username;
 
     @Column(unique = true)
     @Min(9)
-    private String phone  ; 
+    protected String phone  ; 
 
     @Email(message = "Email Invalide")
-    private  String email ;
+    protected  String email ;
 
 
     @NotEmpty(message = "Le Mot de passe est requis")
     @Min(6)
-    private String password;
+    protected String password;
 
     @NotEmpty(message = "le prenom est requis")
-    private String first_name;
+    protected String first_name;
 
     @NotEmpty(message = "lz nom est requis")
-    private String last_name;
+    protected String last_name;
 }
