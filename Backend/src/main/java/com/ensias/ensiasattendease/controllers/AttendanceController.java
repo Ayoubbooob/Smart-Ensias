@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
+import com.ensias.ensiasattendease.models.JustificationModel;
 import com.ensias.ensiasattendease.services.implementations.AttendanceServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/attendance")
 public class AttendanceController {
     
-    private final AttendanceServiceImpl  attendanceService;
+    private final  AttendanceServiceImpl  attendanceService;
 
     @GetMapping
     public ResponseEntity<List<AttendanceModel>> getAttendance(){
@@ -37,6 +38,34 @@ public class AttendanceController {
         }
         else{
             return new ResponseEntity<>(attendanceService.saveAttendanceModel(attendance) , HttpStatus.CREATED) ;
+        }
+    }
+
+    @PostMapping("{id}/justification/add")
+    public ResponseEntity<?> addJustification(@PathVariable Long id , @RequestBody JustificationModel justification){
+        if(id == null || justification == null){
+            return new ResponseEntity<>("error : the body id and attendance are required" , HttpStatus.BAD_REQUEST) ; 
+        }
+        else{
+            if(attendanceService.addJustificationToAttendance(id, justification) == null){
+                return new ResponseEntity<>( "error : attendance not found", HttpStatus.BAD_REQUEST) ; 
+            }
+            else{
+                return new ResponseEntity<>(attendanceService.addJustificationToAttendance(id, justification) , HttpStatus.CREATED) ;
+            }
+        }
+    }
+
+    @GetMapping("/{id}/justification")
+    public ResponseEntity<?> getAttendanceJustification(@PathVariable Long id){
+        if(id == null){
+            return  new ResponseEntity<>("error : id must provide"  , HttpStatus.BAD_REQUEST) ;
+        }
+        else{
+            if(attendanceService.getAttendanceJustification(id) == null){
+                return new ResponseEntity<>("error : attendance not found" , HttpStatus.BAD_REQUEST) ; 
+            }
+            return new ResponseEntity<>(attendanceService.getAttendanceJustification(id) , HttpStatus.OK) ;
         }
     }
 

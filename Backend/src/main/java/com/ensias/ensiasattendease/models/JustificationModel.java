@@ -3,6 +3,8 @@ package com.ensias.ensiasattendease.models;
 
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,7 +33,7 @@ public class JustificationModel {
     private Long id ; 
     @Lob
     @NotBlank(message = "spt Ajoute une justification")
-    private String justification ; 
+    private String justificatif ; 
     @NotBlank(message = "Spt Attache un fichier")
     private String attache ; 
     @NotNull(message = "stp Choisi un etat")
@@ -39,6 +41,7 @@ public class JustificationModel {
     private JustificationEtat etat = JustificationEtat.EN_ATTENTE ; 
     @NotNull(message ="la justification doit être lier à une abscense")
     @OneToMany(mappedBy = "justification" , fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Collection<AttendanceModel> attendance ; 
     
 }

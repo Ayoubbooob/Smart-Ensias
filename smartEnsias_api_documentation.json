@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "smartEnsias_api",
-    "dateExported": "2023-04-28T11:59:33.610Z",
+    "dateExported": "2023-04-28T18:26:31.652Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -102,6 +102,38 @@
             "tests": []
         },
         {
+            "_id": "548e7a09-ab52-4a4e-a72b-05278b5f6ab3",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "",
+            "name": "add_attendance",
+            "url": "http://localhost:8080/attendance/add",
+            "method": "POST",
+            "sortNum": 27824.8,
+            "created": "2023-04-26T13:18:51.636Z",
+            "modified": "2023-04-28T16:43:19.315Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"status\":\"PRESENT\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "none"
+            },
+            "tests": []
+        },
+        {
             "_id": "5011c44f-a6aa-4054-83cf-3598cb0b8a3d",
             "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
             "containerId": "",
@@ -120,16 +152,16 @@
             "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
             "containerId": "",
             "name": "add_attendance_justification",
-            "url": "http://localhost:8080/justification/add",
+            "url": "http://localhost:8080/attendance/1/justification/add",
             "method": "POST",
             "sortNum": 27868.8,
             "created": "2023-04-25T18:06:52.442Z",
-            "modified": "2023-04-28T11:51:09.357Z",
+            "modified": "2023-04-28T18:20:49.549Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"attendance\" : {\n    \"id\":1\n  },\n  \"justification\":{\n    \"justification\" : \"désole Mr j'etais malade aujourd'hui\",\n    \"attache\" : \"https://stackoverflow.com/questions/68548488/sharing-viewmodel-within-jetpack-compose-navigation\"\n  } \n  \n}",
+                "raw": "{\n  \"justificatif\" : \"désole Mr j'etais malade aujourd'hui\",\n  \"attache\" : \"https://stackoverfldsdsow.com/questions/68548488/sharing-viewmodel-within-jetpack-compose-navigation\",\n  \"attendance\" : []\n}",
                 "form": []
             },
             "tests": []
@@ -144,6 +176,20 @@
             "sortNum": 27879.8,
             "created": "2023-04-25T18:06:52.444Z",
             "modified": "2023-04-28T11:07:35.046Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "c93d4d74-b760-4ad4-a308-5f87e783b493",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "",
+            "name": "get_attendance_justification",
+            "url": "http://localhost:8080/attendance/1/justification",
+            "method": "GET",
+            "sortNum": 27885.3,
+            "created": "2023-04-28T18:21:16.783Z",
+            "modified": "2023-04-28T18:21:58.359Z",
             "headers": [],
             "params": [],
             "tests": []
@@ -164,38 +210,6 @@
                 "type": "json",
                 "raw": "{\n  \"status\": \"PRESENT\"\n}",
                 "form": []
-            },
-            "tests": []
-        },
-        {
-            "_id": "548e7a09-ab52-4a4e-a72b-05278b5f6ab3",
-            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
-            "containerId": "",
-            "name": "add_user",
-            "url": "http://localhost:8080/user/add",
-            "method": "POST",
-            "sortNum": 28125,
-            "created": "2023-04-26T13:18:51.636Z",
-            "modified": "2023-04-28T10:12:56.696Z",
-            "headers": [
-                {
-                    "name": "Content-Type",
-                    "value": "application/json"
-                },
-                {
-                    "name": "Accept",
-                    "value": "*/*",
-                    "isDisabled": true
-                }
-            ],
-            "params": [],
-            "body": {
-                "type": "json",
-                "raw": "{\n  \"username\" : \"Adama33\" , \n  \"phone\" : \"+23455677\" , \n  \"email\" : \"dianeoumar12@gmail.com\" , \n  \"password\": \"123\" ,\n  \"first_name\" : \"oumar\" , \n  \"last_name\" : \"Diane\",\n  \"cne\":\"20191172\"\n}",
-                "form": []
-            },
-            "auth": {
-                "type": "none"
             },
             "tests": []
         },

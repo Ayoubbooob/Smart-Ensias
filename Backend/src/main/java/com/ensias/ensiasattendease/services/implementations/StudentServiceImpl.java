@@ -50,7 +50,6 @@ public class StudentServiceImpl implements StudentService {
             StudentModel student = studentRepository.findByCNE(cne);
             AttendanceModel newAttendanceModel = new AttendanceModel();
             newAttendanceModel.setStatus(status);
-            newAttendanceModel.setDateTime(new Date(System.currentTimeMillis()));
             newAttendanceModel.getStudent().add(student);
             attendanceRepository.save(newAttendanceModel);
             student.getAttendances().add(newAttendanceModel);

@@ -13,7 +13,6 @@ import com.ensias.ensiasattendease.repositories.JustificationRepository;
 import com.ensias.ensiasattendease.services.JustificationService;
 
 import jakarta.transaction.Transactional;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -39,6 +38,9 @@ public class JustificationServiceImpl implements JustificationService {
     @Override
     public JustificationModel deleteJustification(Long id){
         JustificationModel justificationD  = justificationRepository.findById(id).get() ; 
+        if(justificationD == null){
+            return null ; 
+        }
         justificationRepository.delete(justificationRepository.findById(id).get()) ; 
         return justificationD ; 
     }
@@ -52,6 +54,24 @@ public class JustificationServiceImpl implements JustificationService {
         justification.getAttendance().add(attendance.get());
         return justificationRepository.save(justification);
     }
+
+    @Override 
+    public JustificationModel addAttendance(AttendanceModel attendance){
+        JustificationModel justification = new JustificationModel() ; 
+        justification.getAttendance().add(attendance);
+        return justificationRepository.save(justification);
+    }
+
+    @Override 
+    public JustificationModel affectAttendanceTOJustification(Long id , AttendanceModel attendance){
+        JustificationModel justification = justificationRepository.findById(id).get() ; 
+        if(justification == null){
+            return null ; 
+        }
+        justification.getAttendance().add(attendance);
+        return justificationRepository.save(justification);
+    }
+
 
     // @Override
     // public Boolean updateAllJustification(JustificationModel justification){

@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
+import com.ensias.ensiasattendease.models.JustificationModel;
 import com.ensias.ensiasattendease.repositories.AttendanceRepository;
-import com.ensias.ensiasattendease.repositories.StudentRepository;
+import com.ensias.ensiasattendease.repositories.JustificationRepository;
 import com.ensias.ensiasattendease.services.AttendanceService;
 
 import jakarta.transaction.Transactional;
@@ -19,14 +20,19 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor 
 @Slf4j
 @Transactional
-public class AttendanceServiceImpl implements AttendanceService {
+public class AttendanceServiceImpl<justificationRepository> implements AttendanceService {
 
     @Autowired
     private AttendanceRepository attendanceRepository ; 
+
+    @Autowired
+    private JustificationRepository justificationRepository ; 
     
     
-    public void AttendanceServiceImpl(AttendanceRepository attendanceRepository ){
-        this.attendanceRepository = attendanceRepository ; 
+    public void AttendanceServiceImpl(AttendanceRepository attendanceRepository  , JustificationRepository justificationRepository){
+        this.attendanceRepository = attendanceRepository ;  
+        this.justificationRepository  = justificationRepository ; 
+
     }
 
     @Override
@@ -53,5 +59,28 @@ public class AttendanceServiceImpl implements AttendanceService {
             return false ;
         }
     }
+
+    @Override
+    public AttendanceModel addJustificationToAttendance(Long id , JustificationModel justification){ 
+        if(attendanceRepository.findById(id).isPresent() == false){
+            return null ; 
+        }
+        AttendanceModel attendance = attendanceRepository.findById(id).get();
+        justification.getAttendance().add(attendance);
+        justificationRepository.save(justification);
+        attendance.setJustification(justification);
+        return attendanceRepository.save(attendance) ;
+
+    }
+
+    @Override
+    public JustificationModel getAttendanceJustification(Long id){
+        if(attendanceRepository.findById(id).isPresent() == false){
+            return null ; 
+        }
+        AttendanceModel attendance = attendanceRepository.findById(id).get();
+        return attendance.getJustification() ;
+    }
+
 
 }

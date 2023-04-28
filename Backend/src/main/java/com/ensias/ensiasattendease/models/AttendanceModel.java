@@ -1,7 +1,10 @@
 package com.ensias.ensiasattendease.models;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Collection;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,15 +34,16 @@ public class AttendanceModel  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private  Long id ; 
-    private Date  dateTime   ; 
+    private LocalDateTime  dateTime  = java.time.LocalDateTime.now()  ; 
     @Enumerated(EnumType.STRING) 
     @NotNull
-    private AttendanceStatus status ;
+    private AttendanceStatus status = AttendanceStatus.ABSENT ;
     @ManyToOne
     @JoinColumn(name = "course_id")
     private CourseModel course  ; 
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<StudentModel> student  ; 
     @ManyToOne
+    @JsonBackReference
     private JustificationModel justification ; 
 }
