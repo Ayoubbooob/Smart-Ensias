@@ -66,6 +66,9 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Boolean deleteStudent(String cne){
         try {
+            if(studentRepository.findByCNE(cne)==null){
+                return false ;
+            }
             studentRepository.deleteByCNE(cne);
             return true ;
         } catch (Exception e){
@@ -74,9 +77,15 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override 
-    public Collection<AttendanceModel> getStudentAttendance(String cne){
+    public StudentModel getStudentByCNE(String cne){
+        return studentRepository.findByCNE(cne);
+    }
+
+    @Override
+    public Collection<AttendanceModel> getStudentAllAttendance(String cne){
         StudentModel student = studentRepository.findByCNE(cne);
-        return student.getAttendances();
+        Collection<AttendanceModel> attendances = student.getAttendances();
+        return attendances ;
     }
 
     

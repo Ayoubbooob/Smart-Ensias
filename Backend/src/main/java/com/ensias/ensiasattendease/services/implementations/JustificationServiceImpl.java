@@ -1,11 +1,14 @@
 package com.ensias.ensiasattendease.services.implementations;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ensias.ensiasattendease.models.AttendanceModel;
 import com.ensias.ensiasattendease.models.JustificationModel;
+import com.ensias.ensiasattendease.repositories.AttendanceRepository;
 import com.ensias.ensiasattendease.repositories.JustificationRepository;
 import com.ensias.ensiasattendease.services.JustificationService;
 
@@ -18,9 +21,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JustificationServiceImpl implements JustificationService {
 
-    private JustificationRepository justificationRepository ; 
-
     @Autowired
+    private JustificationRepository justificationRepository ; 
+    @Autowired
+    private AttendanceRepository attendanceRepository ; 
+
+   
     public JustificationServiceImpl(JustificationRepository justificationRepository){
         this.justificationRepository = justificationRepository ; 
     }
@@ -38,7 +44,12 @@ public class JustificationServiceImpl implements JustificationService {
     }
 
     @Override
-    public JustificationModel createJustification(JustificationModel justification){
+    public JustificationModel createJustification(Long attendanceId ,JustificationModel justification){
+        Optional<AttendanceModel> attendance  = attendanceRepository.findById(attendanceId);
+        if(attendance.isEmpty()){
+            return null ; 
+        }
+        justification.getAttendance().add(attendance.get());
         return justificationRepository.save(justification);
     }
 

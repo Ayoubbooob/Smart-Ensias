@@ -8,7 +8,7 @@ public interface JustificationService {
 
     List<JustificationModel> getAllJustification() ;
 
-    JustificationModel createJustification(JustificationModel justification) ;
+    JustificationModel createJustification(Long attendanceId ,JustificationModel justification) ;
 
     JustificationModel deleteJustification(Long id) ;
 

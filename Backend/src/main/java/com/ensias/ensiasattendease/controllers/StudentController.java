@@ -34,8 +34,24 @@ public class StudentController {
     }
 
     @GetMapping("/{cne}")
-    public ResponseEntity<Collection<AttendanceModel>> getStudentAttendance(@PathVariable String cne){
-        return new ResponseEntity<>(studentService.getStudentAttendance(cne) , HttpStatus.OK);
+    public ResponseEntity<?> getStudentByCNE(@PathVariable String cne){
+        if(cne == null){
+            return new ResponseEntity<Error>(HttpStatus.BAD_REQUEST) ; 
+        }
+        else{
+            if(studentService.getStudentByCNE(cne)==null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND) ;
+            }
+            return new ResponseEntity<>(studentService.getStudentByCNE(cne) , HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/{cne}/attendances")
+    public ResponseEntity<?> getStudenAllAttendances(@PathVariable  String cne){
+        if(studentService.getStudentByCNE(cne)==null){
+            return new ResponseEntity<>("error : Student do not exist" , HttpStatus.NOT_FOUND) ;
+        }
+        return new ResponseEntity<>(studentService.getStudentAllAttendance(cne) , HttpStatus.OK);
     }
 
     @PostMapping("/enrollStudent")
@@ -64,7 +80,10 @@ public class StudentController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST) ;
         }
         else{
-            return new ResponseEntity<>(studentService.deleteStudent(cne) , HttpStatus.ACCEPTED);
+            if(studentService.deleteStudent(cne) == false){
+                return new ResponseEntity<>("deleted : false" , HttpStatus.NOT_FOUND) ;
+            }
+            return new ResponseEntity<>("deleted : true" , HttpStatus.ACCEPTED);
         }
     }
 

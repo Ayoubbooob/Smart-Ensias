@@ -12,6 +12,7 @@ public interface StudentService {
     StudentModel enrollStudent(StudentModel student ) ; 
     Boolean registerAttendance(AttendanceStatus attendance , String cne);
     Boolean deleteStudent(String cne);
-    Collection<AttendanceModel> getStudentAttendance(String cne);
+    Collection<AttendanceModel> getStudentAllAttendance(String cne);
+    StudentModel getStudentByCNE(String cne);
     
 }

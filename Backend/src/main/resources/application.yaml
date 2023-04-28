@@ -4,6 +4,7 @@ spring:
     password:
     url: jdbc:mysql://localhost:4306/ensias_attendance
     username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update

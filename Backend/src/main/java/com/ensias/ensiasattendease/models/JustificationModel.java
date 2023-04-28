@@ -36,7 +36,7 @@ public class JustificationModel {
     private String attache ; 
     @NotNull(message = "stp Choisi un etat")
     @Enumerated(EnumType.STRING)
-    private JustificationEtat etat ; 
+    private JustificationEtat etat = JustificationEtat.EN_ATTENTE ; 
     @NotNull(message ="la justification doit être lier à une abscense")
     @OneToMany(mappedBy = "justification" , fetch = FetchType.LAZY)
     private Collection<AttendanceModel> attendance ; 

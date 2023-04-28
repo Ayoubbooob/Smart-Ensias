@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ensias.ensiasattendease.models.AttendanceModel;
 import com.ensias.ensiasattendease.models.JustificationModel;
 import com.ensias.ensiasattendease.services.implementations.JustificationServiceImpl;
 
@@ -30,12 +31,12 @@ public class JustificationController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> creatJustification(@RequestBody JustificationModel justification){
-        if(justification == null){
+    public ResponseEntity<?> creatJustification(@RequestBody AttendanceModel attendance , @RequestBody JustificationModel justification){
+        if(justification == null || attendance.getId() == null){
             return new ResponseEntity<Error>(HttpStatus.BAD_REQUEST) ; 
         }
         else{
-            return new ResponseEntity<>(justificationService.createJustification(justification) , HttpStatus.CREATED);
+            return new ResponseEntity<>(justificationService.createJustification(attendance.getId() , justification) , HttpStatus.CREATED);
 
         }
     }
