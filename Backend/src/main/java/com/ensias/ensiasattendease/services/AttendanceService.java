@@ -13,4 +13,7 @@ public interface AttendanceService {
     Boolean deleteAttendance(Long id);
     AttendanceModel addJustificationToAttendance(Long id  , JustificationModel attendance);
     JustificationModel getAttendanceJustification(Long id) ;
+    AttendanceModel updateAttendance(AttendanceModel attendance);
+    JustificationModel updateAttendanceJustification(JustificationModel justification , Long id);
+    Boolean deleteAttendanceJustification(Long id);
 }

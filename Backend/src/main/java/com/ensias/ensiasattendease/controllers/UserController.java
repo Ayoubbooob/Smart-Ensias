@@ -2,10 +2,12 @@ package com.ensias.ensiasattendease.controllers;
 
 
 import com.ensias.ensiasattendease.models.UserModel;
-import com.ensias.ensiasattendease.repositories.UserRepository;
+import com.ensias.ensiasattendease.services.UserService;
 import com.ensias.ensiasattendease.services.implementations.UserServiceImpl;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +20,8 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserServiceImpl userService;
+    @Autowired
+    private final UserService userService;
 
     //This method returns list of users
 

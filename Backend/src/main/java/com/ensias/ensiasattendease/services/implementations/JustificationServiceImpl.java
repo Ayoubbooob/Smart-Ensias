@@ -72,6 +72,22 @@ public class JustificationServiceImpl implements JustificationService {
         return justificationRepository.save(justification);
     }
 
+    @Override
+    public JustificationModel getJustificationById(Long id){
+        if(justificationRepository.findById(id).isEmpty()){
+            return null ; 
+        }
+        return justificationRepository.findById(id).get() ; 
+    }
+
+    @Override
+    public JustificationModel updateJustification(JustificationModel justification){
+        if(justificationRepository.findById(justification.getId()).isEmpty()){
+            return null ; 
+        }
+        return justificationRepository.save(justification);
+    }
+
 
     // @Override
     // public Boolean updateAllJustification(JustificationModel justification){

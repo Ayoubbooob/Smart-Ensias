@@ -1,6 +1,8 @@
 package com.ensias.ensiasattendease.models;
 
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
@@ -27,8 +29,17 @@ public abstract class UserModel {
     @Min(9)
     protected String phone  ; 
 
+    // @NotEmpty(message = "la date de naissance est requise")
+    private LocalDate date_of_birth;
+
+
     @Email(message = "Email Invalide")
     protected  String email ;
+
+    @Enumerated(EnumType.STRING)
+    private GenreUser genre = GenreUser.HOMME;
+
+    private String image_url ; 
 
 
     @NotEmpty(message = "Le Mot de passe est requis")

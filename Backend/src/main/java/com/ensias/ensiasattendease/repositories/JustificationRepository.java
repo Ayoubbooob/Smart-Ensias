@@ -15,5 +15,9 @@ public interface JustificationRepository extends JpaRepository<JustificationMode
     JustificationModel save(JustificationModel justification);
 
     void delete(JustificationModel justification);
+
+    JustificationModel findById(long id);
+
+    void deleteById(long id);
     
 }

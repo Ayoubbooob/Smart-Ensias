@@ -1,5 +1,6 @@
 package com.ensias.ensiasattendease.services.implementations;
 
+import java.io.Console;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
@@ -85,6 +86,38 @@ public class StudentServiceImpl implements StudentService {
         StudentModel student = studentRepository.findByCNE(cne);
         Collection<AttendanceModel> attendances = student.getAttendances();
         return attendances ;
+    }
+
+    @Override
+    public StudentModel updateStudent(StudentModel student){
+        if(studentRepository.findByCNE(student.getCNE())==null){
+            return null ;
+        }
+        return studentRepository.save(student);
+    }
+
+    @Override
+    public AttendanceModel updateStudentAttendance(AttendanceModel attendance , String cne){
+        StudentModel student = studentRepository.findByCNE(cne);
+        if(student==null){
+            return null ;
+        }
+        student.getAttendances().add(attendance);
+        return attendanceRepository.save(attendance);
+    }
+
+    @Override
+    public Boolean deleteStudentAttendance(String cne , Long id){
+        StudentModel student = studentRepository.findByCNE(cne);
+        if(student==null){
+            return false ;
+        }
+        try {
+            attendanceRepository.deleteById(id);
+            return true ;
+        } catch (Exception e) {
+            return false ;
+        }
     }
 
     

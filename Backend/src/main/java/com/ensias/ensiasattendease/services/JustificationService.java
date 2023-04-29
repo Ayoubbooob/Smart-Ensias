@@ -18,6 +18,10 @@ public interface JustificationService {
 
     JustificationModel affectAttendanceTOJustification(Long id  , AttendanceModel attendance);
 
+    JustificationModel getJustificationById(Long id) ;
+
+    JustificationModel updateJustification(JustificationModel justification) ;
+
 
     // Boolean updateAllJustification(JustificationModel justification) ;
 

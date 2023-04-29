@@ -14,5 +14,8 @@ public interface StudentService {
     Boolean deleteStudent(String cne);
     Collection<AttendanceModel> getStudentAllAttendance(String cne);
     StudentModel getStudentByCNE(String cne);
+    StudentModel updateStudent(StudentModel student);
+    AttendanceModel updateStudentAttendance(AttendanceModel attendance , String cne);
+    Boolean deleteStudentAttendance(String cne , Long id);
     
 }

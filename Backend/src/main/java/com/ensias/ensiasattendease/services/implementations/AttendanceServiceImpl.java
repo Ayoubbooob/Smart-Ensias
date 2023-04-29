@@ -53,7 +53,10 @@ public class AttendanceServiceImpl<justificationRepository> implements Attendanc
     @Override 
     public Boolean deleteAttendance(Long id){
         try {
-            attendanceRepository.deleteByStudentId(id);
+            if(attendanceRepository.findById(id).isPresent() == false){
+                return false ; 
+            }
+            attendanceRepository.deleteById(id);
             return true ;
         } catch (Exception e) {
             return false ;
@@ -75,11 +78,41 @@ public class AttendanceServiceImpl<justificationRepository> implements Attendanc
 
     @Override
     public JustificationModel getAttendanceJustification(Long id){
+        AttendanceModel attendance = attendanceRepository.findById(id).get();
+        return attendance.getJustification() ;
+    }
+
+    @Override
+    public AttendanceModel updateAttendance(AttendanceModel attendance){
+        if(attendanceRepository.findById(attendance.getId()).isPresent() == false){
+            return null ; 
+        }
+        return attendanceRepository.save(attendance) ; 
+    }
+
+    @Override
+    public JustificationModel updateAttendanceJustification(JustificationModel justification ,  Long id ){
         if(attendanceRepository.findById(id).isPresent() == false){
             return null ; 
         }
         AttendanceModel attendance = attendanceRepository.findById(id).get();
-        return attendance.getJustification() ;
+        justificationRepository.save(justification);
+        attendance.setJustification(justification);
+        return justificationRepository.save(justification) ; 
+    }
+
+    @Override
+    public Boolean deleteAttendanceJustification(Long id){
+        if(attendanceRepository.findById(id).isPresent() == false){
+            return false ; 
+        }
+        try {
+            justificationRepository.deleteById(id);
+            return true ;
+        } catch (Exception e) {
+            // TODO: handle exception
+            return false ;
+        }
     }
 
 
