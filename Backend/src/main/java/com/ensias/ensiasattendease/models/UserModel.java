@@ -26,9 +26,7 @@ public abstract class UserModel {
     protected String username;
 
     @Column(unique = true)
-    @Min(9)
     protected String phone  ; 
-
     // @NotEmpty(message = "la date de naissance est requise")
     private LocalDate date_of_birth;
 
@@ -43,12 +41,11 @@ public abstract class UserModel {
 
 
     @NotEmpty(message = "Le Mot de passe est requis")
-    @Min(6)
     protected String password;
 
     @NotEmpty(message = "le prenom est requis")
     protected String first_name;
 
-    @NotEmpty(message = "lz nom est requis")
+    @NotEmpty(message = "le nom est requis")
     protected String last_name;
 }

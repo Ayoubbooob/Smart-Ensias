@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
@@ -31,8 +32,8 @@ public class JustificationServiceImpl implements JustificationService {
     }
 
     @Override
-    public List<JustificationModel> getAllJustification(){
-        return justificationRepository.findAll();
+    public List<JustificationModel> getAllJustification(int page , int size){
+        return justificationRepository.findAll(PageRequest.of(page, size)).getContent() ;
     }
 
     @Override

@@ -1,5 +1,6 @@
 # Deadline d'aujourd'hui
 
+-0 possiblité de d'envouyer les attendance par semaine 
 I-completer tous les services de student
 
     2-finir l'implemenatation de attendance
@@ -19,3 +20,15 @@ V-completer les services de planning des cours
 VII-completer les services de Filière
 
 VII-completer les services de rapport
+
+student (tous les service ok )
+
+attendance(ok)
+
+justification(ok)
+
+course
+planning
+rapport 
+
+filiere - promotion 

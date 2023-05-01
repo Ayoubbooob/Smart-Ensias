@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
@@ -29,8 +30,8 @@ public class JustificationController {
     private final JustificationService justificationService ; 
 
     @GetMapping()
-    public ResponseEntity<List<JustificationModel>> getAllJusitification(){
-        return new ResponseEntity<>(justificationService.getAllJustification() , HttpStatus.OK);
+    public ResponseEntity<List<JustificationModel>> getAllJusitification(@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "10") int size){
+        return new ResponseEntity<>(justificationService.getAllJustification(page , size) , HttpStatus.OK);
     }
 
     @PostMapping("/add")
@@ -47,7 +48,7 @@ public class JustificationController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getJustificationById(@PathVariable Long id){
         if(id == null){
-            return new ResponseEntity<>("error : justification id not existe"  , HttpStatus.BAD_REQUEST) ; 
+            return new ResponseEntity<>("{\"error\" : \"justification id not existe\"}"  , HttpStatus.BAD_REQUEST) ; 
         }
         else{
             return new ResponseEntity<>(justificationService.getJustificationById(id) , HttpStatus.OK);
@@ -62,17 +63,16 @@ public class JustificationController {
         else{
             return new ResponseEntity<>(justificationService.deleteJustification(id) , HttpStatus.ACCEPTED);
         }
-
     }
 
     @PatchMapping()
     public ResponseEntity<?> updateJustification(@RequestBody JustificationModel justification){
         if(justification == null){
-            return new ResponseEntity<>("error : justification cant not be null"  ,HttpStatus.BAD_REQUEST) ; 
+            return new ResponseEntity<>("{\"error\" : \"justification cant not be null\"}"  ,HttpStatus.BAD_REQUEST) ; 
         }
         else{
             if(justificationService.updateJustification(justification)==null){
-                return new ResponseEntity<>("error : justification not found"  ,HttpStatus.BAD_REQUEST) ; 
+                return new ResponseEntity<>("{\"error\" : \"justification not found\"}"  ,HttpStatus.BAD_REQUEST) ; 
             }
             return new ResponseEntity<>(justificationService.updateJustification(justification) , HttpStatus.ACCEPTED);
         }

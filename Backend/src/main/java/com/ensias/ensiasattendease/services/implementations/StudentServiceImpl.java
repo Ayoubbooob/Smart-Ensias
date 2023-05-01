@@ -1,7 +1,5 @@
 package com.ensias.ensiasattendease.services.implementations;
 
-import java.io.Console;
-import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,8 +26,9 @@ public class StudentServiceImpl implements StudentService {
     private AttendanceRepository attendanceRepository ; 
 
 
-    public StudentServiceImpl(StudentRepository studentRepository ){
+    public StudentServiceImpl(StudentRepository studentRepository , AttendanceRepository attendanceRepository ){
         this.studentRepository = studentRepository ; 
+        this.attendanceRepository = attendanceRepository ;
     }
 
     @Override
@@ -39,26 +38,45 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentModel enrollStudent(StudentModel student){
-        return studentRepository.save(student);
+        try {
+            if(studentRepository.findByphone(student.getPhone() )!=null){
+                return null ;
+            }
+            if(studentRepository.findByCNE(student.getCNE())!=null){
+                return null ;
+            }
+            return studentRepository.save(student);
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println(e);
+            return null ;
+        }
     }
 
     /**
      * @target this methode is used to register student attendance 
      */
     @Override
-    public Boolean registerAttendance(AttendanceStatus status , String cne){
+    public StudentModel registerAttendance(AttendanceModel attendance , String cne){
         try {
+            
             StudentModel student = studentRepository.findByCNE(cne);
-            AttendanceModel newAttendanceModel = new AttendanceModel();
-            newAttendanceModel.setStatus(status);
-            newAttendanceModel.getStudent().add(student);
-            attendanceRepository.save(newAttendanceModel);
-            student.getAttendances().add(newAttendanceModel);
-            studentRepository.save(student);
-            return true ;
+            if(student == null){
+               return null ;
+            }
+            
+
+            attendance.getStudent().add(student);
+            // AttendanceModel newAttendanceModel = new AttendanceModel();
+            // newAttendanceModel.setStatus(attendance.getStatus());
+            // newAttendanceModel.getStudent().add(student);
+            attendanceRepository.save(attendance);
+            student.getAttendances().add(attendance);
+            return studentRepository.save(student);
         } catch (Exception e) {
             // TODO: handle exception
-            return false ;
+            System.out.println(e);
+            return null ;
         }
 
     }
@@ -83,8 +101,13 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Collection<AttendanceModel> getStudentAllAttendance(String cne){
-        StudentModel student = studentRepository.findByCNE(cne);
-        Collection<AttendanceModel> attendances = student.getAttendances();
+        if(studentRepository.findByCNE(cne)==null){
+            return null ;
+        }
+        Collection<AttendanceModel> attendances = studentRepository.findByCNE(cne).getAttendances();
+        if(attendances == null){
+            return null ;
+        }
         return attendances ;
     }
 
@@ -102,7 +125,16 @@ public class StudentServiceImpl implements StudentService {
         if(student==null){
             return null ;
         }
-        student.getAttendances().add(attendance);
+        student.getAttendances().forEach(
+            (AttendanceModel att)->{
+                if(att.getId()==attendance.getId()){
+                    att.setStatus(attendance.getStatus());
+                    attendanceRepository.save(att);
+                }
+            }
+        );
+        attendanceRepository.findById(attendance.getId()).get().setStatus(attendance.getStatus());
+        studentRepository.save(student);
         return attendanceRepository.save(attendance);
     }
 

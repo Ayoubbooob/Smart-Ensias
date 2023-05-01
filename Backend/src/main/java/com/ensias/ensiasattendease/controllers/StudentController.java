@@ -51,7 +51,7 @@ public class StudentController {
     @GetMapping("/{cne}/attendances")
     public ResponseEntity<?> getStudenAllAttendances(@PathVariable  String cne){
         if(studentService.getStudentAllAttendance(cne)==null){
-            return new ResponseEntity<>("error : Student do not exist" , HttpStatus.NOT_FOUND) ;
+            return new ResponseEntity<>("{\"error\" : \"Student do not exist\"}" , HttpStatus.NOT_FOUND) ;
         }
         return new ResponseEntity<>(studentService.getStudentAllAttendance(cne) , HttpStatus.OK);
     }
@@ -62,17 +62,23 @@ public class StudentController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST) ;
         }
         else{
+            if(studentService.enrollStudent(student)==null){
+                return new ResponseEntity<>("{\"error\" : \"phone unique constraint must be respected\"}" , HttpStatus.BAD_REQUEST) ;
+            }
             return new ResponseEntity<>(studentService.enrollStudent(student) , HttpStatus.CREATED);
         }
     }
 
     @PostMapping("/registerAttendance/{cne}")
-    public ResponseEntity<?> takeAttendance(@RequestBody String status  , @PathVariable String cne){
-        if(status == null || cne == null){
+    public ResponseEntity<?> takeAttendance(@RequestBody AttendanceModel attendance  , @PathVariable String cne){
+        if(attendance == null || cne == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST) ;
         }
         else{
-            return new ResponseEntity<>( studentService.registerAttendance(AttendanceStatus.valueOf(status) , cne)  , HttpStatus.CREATED);
+            if(studentService.registerAttendance(attendance , cne) == null){
+                return new ResponseEntity<>("{\"error\" : \"student  do not exist\"}" , HttpStatus.NOT_FOUND) ;
+            }
+            return new ResponseEntity<>( studentService.registerAttendance(attendance , cne)  , HttpStatus.CREATED);
         }
     }
 
@@ -83,18 +89,21 @@ public class StudentController {
         }
         else{
             if(studentService.deleteStudent(cne) == false){
-                return new ResponseEntity<>("deleted : false" , HttpStatus.NOT_FOUND) ;
+                return new ResponseEntity<>("{\"deleted\" : false}" , HttpStatus.NOT_FOUND) ;
             }
-            return new ResponseEntity<>("deleted : true" , HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("{\"deleted\" : true}" , HttpStatus.ACCEPTED);
         }
     }
 
     @PatchMapping()
     public ResponseEntity<?> updateStudent(@RequestBody StudentModel student){
         if(student == null){
-            return new ResponseEntity<>("error : student can not be null "  , HttpStatus.BAD_REQUEST) ;
+            return new ResponseEntity<>("{\"error\" : \"student can not be null\" }"  , HttpStatus.BAD_REQUEST) ;
         }
         else{
+            if(studentService.updateStudent(student) == null){
+                return new ResponseEntity<>("{\"error\" : \"student do not exist\"}" , HttpStatus.NOT_FOUND) ;
+            }
             return new ResponseEntity<>(studentService.updateStudent(student) , HttpStatus.ACCEPTED);
         }
     }
@@ -102,11 +111,11 @@ public class StudentController {
     @PatchMapping("/{cne}/attendance")
     public ResponseEntity<?> updateStudentAttendance(@RequestBody AttendanceModel attendance, @PathVariable String cne){
         if(cne == null || attendance == null){
-            return new ResponseEntity<>("error : cne or attendance can not be null " , HttpStatus.BAD_REQUEST) ;
+            return new ResponseEntity<>("{\"error\" : \"cne or attendance can not be null\" }" , HttpStatus.BAD_REQUEST) ;
         }
         else{
             if(studentService.updateStudentAttendance(attendance, cne) == null){
-                return new ResponseEntity<>("error : student or attendance do not exist" , HttpStatus.NOT_FOUND) ;
+                return new ResponseEntity<>("{\"error\" : \"student do not exist or don't have attendance\"}" , HttpStatus.NOT_FOUND) ;
             }
             return new ResponseEntity<>(studentService.updateStudentAttendance( attendance, cne) , HttpStatus.ACCEPTED);
         }
@@ -115,13 +124,13 @@ public class StudentController {
     @DeleteMapping("/{cne}/attendance/{id}")
     public ResponseEntity<?> deleteStudentAttendance(@PathVariable String cne , @PathVariable Long id){
         if(cne == null || id == null){
-            return new ResponseEntity<>("error : cne or id can not be null " , HttpStatus.BAD_REQUEST) ;
+            return new ResponseEntity<>("{\"error\" : \"cne or id can not be null\"} " , HttpStatus.BAD_REQUEST) ;
         }
         else{
             if(studentService.deleteStudentAttendance(cne, id) == false){
-                return new ResponseEntity<>("error : student or attendance do not exist" , HttpStatus.NOT_FOUND) ;
+                return new ResponseEntity<>("{\"error\" : \"student or attendance do not exist\"}" , HttpStatus.NOT_FOUND) ;
             }
-            return new ResponseEntity<>("deleted : true" , HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("{\"deleted\" : true}" , HttpStatus.ACCEPTED);
         }
     }
 

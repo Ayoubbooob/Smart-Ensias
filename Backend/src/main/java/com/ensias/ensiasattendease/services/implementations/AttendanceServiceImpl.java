@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
@@ -36,8 +39,8 @@ public class AttendanceServiceImpl<justificationRepository> implements Attendanc
     }
 
     @Override
-    public List<AttendanceModel> getAllAttendance(){
-        return attendanceRepository.findAll() ;
+    public List<AttendanceModel> getAllAttendance(int page , int size){
+        return attendanceRepository.findAll(PageRequest.of(page, size , Sort.by("dateTime").descending())).getContent() ;
     }
 
     @Override
@@ -102,12 +105,16 @@ public class AttendanceServiceImpl<justificationRepository> implements Attendanc
     }
 
     @Override
-    public Boolean deleteAttendanceJustification(Long id){
+    public Boolean deleteAttendanceJustification(Long id , Long idJustfication){
         if(attendanceRepository.findById(id).isPresent() == false){
             return false ; 
         }
         try {
-            justificationRepository.deleteById(id);
+            if(attendanceRepository.findById(id).get().getJustification() == null){
+                return false ; 
+            }
+            attendanceRepository.findById(id).get().setJustification(null);
+            justificationRepository.findById(idJustfication).get().getAttendance().remove(attendanceRepository.findById(id).get());
             return true ;
         } catch (Exception e) {
             // TODO: handle exception

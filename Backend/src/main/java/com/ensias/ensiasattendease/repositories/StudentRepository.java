@@ -14,5 +14,6 @@ public interface StudentRepository extends JpaRepository<StudentModel , Long> {
     StudentModel save(StudentModel student);
     void delete(StudentModel student);
     void deleteByCNE(String cne) ;
+    StudentModel findByphone(String phone) ;
     
 }

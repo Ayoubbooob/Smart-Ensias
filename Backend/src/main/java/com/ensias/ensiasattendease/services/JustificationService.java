@@ -8,7 +8,7 @@ import com.ensias.ensiasattendease.models.JustificationModel;
 
 public interface JustificationService {
 
-    List<JustificationModel> getAllJustification() ;
+    List<JustificationModel> getAllJustification(int page , int size) ;
 
     JustificationModel createJustification(Long attendanceId ,JustificationModel justification) ;
 
