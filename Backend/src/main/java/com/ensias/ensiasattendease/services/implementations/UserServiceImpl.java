@@ -1,6 +1,6 @@
 package com.ensias.ensiasattendease.services.implementations;
 
-import com.ensias.ensiasattendease.models.UserModel;
+import com.ensias.ensiasattendease.models.User;
 import com.ensias.ensiasattendease.repositories.UserRepository;
 import com.ensias.ensiasattendease.services.UserService;
 import jakarta.transaction.Transactional;
@@ -28,17 +28,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserModel> getAllUser() {
+    public List<User> getAllUser() {
         return  userRepository.findAll();
     }
 
     @Override
-    public UserModel saveUserModel(UserModel user){
+    public User saveUserModel(User user){
         return userRepository.save(user) ; 
     }
 
     @Override
-    public Optional<UserModel> getUserById(Long id){
+    public Optional<User> getUserById(Long id){
         return userRepository.findById(id) ;
     }
 

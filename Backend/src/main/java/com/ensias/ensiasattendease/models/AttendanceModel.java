@@ -39,7 +39,7 @@ public class AttendanceModel  {
     @JoinColumn(name = "course_id")
     private CourseModel course  ; 
     @ManyToMany(fetch = FetchType.LAZY)
-    private Collection<StudentModel> student  ; 
+    private Collection<Student> student  ;
     @ManyToOne
     private JustificationModel justification ; 
 }
