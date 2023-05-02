@@ -3,7 +3,11 @@ package com.ensias.ensiasattendease.controllers;
 import java.util.Collection;
 import java.util.List;
 
+<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Autowired;
+=======
+import com.ensias.ensiasattendease.resources.responses.StudentResponse;
+>>>>>>> 84e99edd3795a07dad7eda8513d2f6228c358c7e
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,26 +20,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
+<<<<<<< HEAD
 import com.ensias.ensiasattendease.models.AttendanceStatus;
 import com.ensias.ensiasattendease.models.FiliereModel;
 import com.ensias.ensiasattendease.models.StudentModel;
 import com.ensias.ensiasattendease.services.StudentService;
+=======
+import com.ensias.ensiasattendease.models.Student;
+import com.ensias.ensiasattendease.services.implementations.StudentServiceImpl;
+>>>>>>> 84e99edd3795a07dad7eda8513d2f6228c358c7e
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/students")
+@RequestMapping("/api/v1/student")
 public class StudentController {
 
     @Autowired
     private final StudentService studentService ; 
 
-    @GetMapping()
-    public ResponseEntity<List<StudentModel>> getAllStudent(){
+    @GetMapping("/all")
+    public ResponseEntity<List<Student>> getAllStudent(){
         return new ResponseEntity<>(studentService.getAllStudent() , HttpStatus.OK);
     }
 
+<<<<<<< HEAD
     @GetMapping("/{cne}")
     public ResponseEntity<?> getStudentByCNE(@PathVariable String cne){
         if(cne == null){
@@ -55,10 +65,15 @@ public class StudentController {
             return new ResponseEntity<>("{\"error\" : \"Student do not exist\"}" , HttpStatus.NOT_FOUND) ;
         }
         return new ResponseEntity<>(studentService.getStudentAllAttendance(cne) , HttpStatus.OK);
+=======
+    @GetMapping("/attendance/{cne}")
+    public ResponseEntity<Collection<AttendanceModel>> getStudentAttendance(@PathVariable String cne){
+        return new ResponseEntity<>(studentService.getStudentAttendance(cne) , HttpStatus.OK);
+>>>>>>> 84e99edd3795a07dad7eda8513d2f6228c358c7e
     }
 
     @PostMapping("/enrollStudent")
-    public ResponseEntity<?> createStudent(@RequestBody StudentModel student){
+    public ResponseEntity<?> createStudent(@RequestBody Student student){
         if(student == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST) ;
         }
@@ -190,6 +205,16 @@ public class StudentController {
                 return new ResponseEntity<>("{\"error\" : \"student do not exist or don't have filiere\"}" , HttpStatus.NOT_FOUND) ;
             }
             return new ResponseEntity<>("{\"deleted\" : true}" , HttpStatus.ACCEPTED);
+        }
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getStudentById(@PathVariable String id){
+        if(id == null){
+            return ResponseEntity.badRequest().body("The id must be set");
+        }else{
+            return ResponseEntity.ok(studentService.getStudentById(id));
         }
     }
 

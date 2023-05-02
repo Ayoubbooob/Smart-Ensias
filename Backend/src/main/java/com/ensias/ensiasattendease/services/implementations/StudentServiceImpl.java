@@ -1,15 +1,24 @@
 package com.ensias.ensiasattendease.services.implementations;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+
+import com.ensias.ensiasattendease.models.GenreUser;
+import com.ensias.ensiasattendease.models.StudentModel;
+import com.ensias.ensiasattendease.models.UserModel;
+import com.ensias.ensiasattendease.repositories.UserRepository;
+import com.ensias.ensiasattendease.resources.RequestModels.StudentRegisterRequest;
+import com.ensias.ensiasattendease.resources.responses.StudentResponse;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
-import com.ensias.ensiasattendease.models.AttendanceStatus;
 import com.ensias.ensiasattendease.models.FiliereModel;
-import com.ensias.ensiasattendease.models.StudentModel;
 import com.ensias.ensiasattendease.repositories.AttendanceRepository;
 import com.ensias.ensiasattendease.repositories.FiliereRepository;
 import com.ensias.ensiasattendease.repositories.StudentRepository;
@@ -19,25 +28,28 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
-    @Autowired
-    private StudentRepository studentRepository ;
+   
+    private final StudentRepository studentRepository ;
 
-    @Autowired
-    private AttendanceRepository attendanceRepository ; 
+    
+    private final  UserRepository userRepository;
 
-    @Autowired
-    private FiliereRepository filiereRepository ;
+    private  final FiliereRepository filiereRepository ;
 
+
+    
+    private final AttendanceRepository attendanceRepository ;
+
+   
+    private  PasswordEncoder passwordEncoder;
 
     public AttendanceModel saveAttendance(AttendanceModel attendance){
         return attendanceRepository.save(attendance);
     }
-    public StudentServiceImpl(StudentRepository studentRepository , AttendanceRepository attendanceRepository ){
-        this.studentRepository = studentRepository ; 
-        this.attendanceRepository = attendanceRepository ;
-    }
+
 
     @Override
     public List<StudentModel> getAllStudent(){
@@ -47,7 +59,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentModel enrollStudent(StudentModel student){
         try {
-            if(studentRepository.findByphone(student.getPhone() )!=null){
+            if(studentRepository.findByphone(student )!=null){
                 return null ;
             }
             if(studentRepository.findByCNE(student.getCNE())!=null){
@@ -80,7 +92,6 @@ public class StudentServiceImpl implements StudentService {
             System.out.println(e);
             return null ;
         }
-
     }
 
     @Override
@@ -202,8 +213,45 @@ public class StudentServiceImpl implements StudentService {
         return  true  ;
     }
 
-    
+    public StudentModel registerStudent(StudentRegisterRequest request) {
+        StudentModel student = StudentModel.builder()
+                .first_name(request.getFirstname())
+                .last_name(request.getLastname())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
 
-    
-    
+// .password(request.getPassword())
+
+                .role("Student")
+                .phone(request.getPhone())
+                .image_url(request.getImage_url())
+                .date_of_birth(LocalDate.parse(request.getDate_of_birth()))
+                .genre(GenreUser.valueOf(request.getGender()))
+                .cne(request.getCne())
+                .build();
+
+        System.out.println("******** : Student "+ student);
+        studentRepository.save(student);
+        return student;
+    }
+
+
+    public StudentResponse getStudentById(String id) {
+
+        UserModel user =  userRepository.findById(Long.valueOf(id)).get();
+        StudentModel student = studentRepository.findStudentById(Long.valueOf(id));
+        StudentResponse studentToReturn = StudentResponse.builder()
+                .firstname(user.getFirst_name())
+                .lastname(user.getLast_name())
+                .cne(student.getCne())
+                .date_of_birth(String.valueOf(user.getDate_of_birth()))
+                .image_url(user.getImage_url())
+                .gender(String.valueOf(user.getGenre()))
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .build();
+
+        return studentToReturn;
+    }
+   
 }

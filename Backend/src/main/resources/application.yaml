@@ -2,7 +2,8 @@
 spring:
   datasource:
     password:
-    url: jdbc:mysql://localhost:4306/ensias_attendance
+#    url: jdbc:mysql://localhost:4306/ensias_attendance  --OUMAR c'est ton ligne tu dois juste enlever le commentaire et commenter le mien
+    url: jdbc:mysql://localhost:3307/ensiasattendease
     username: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
@@ -13,3 +14,12 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
     show_sql: true
+
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+#      expiration: 60000 # 1 min (just to test - in general you've to put at least 1 day)
+      expiration: 86400000 # 1 day
+      refresh-token:
+        expiration: 604800000 # 7 days

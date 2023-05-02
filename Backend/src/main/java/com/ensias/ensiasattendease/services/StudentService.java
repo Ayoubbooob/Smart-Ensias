@@ -2,11 +2,15 @@ package com.ensias.ensiasattendease.services;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
+<<<<<<< HEAD
 import com.ensias.ensiasattendease.models.AttendanceStatus;
 import com.ensias.ensiasattendease.models.FiliereModel;
 import com.ensias.ensiasattendease.models.StudentModel;
+import com.ensias.ensiasattendease.resources.RequestModels.StudentRegisterRequest;
+import com.ensias.ensiasattendease.resources.responses.StudentResponse;
 
 public interface StudentService {
     List<StudentModel> getAllStudent() ; 
@@ -22,7 +26,7 @@ public interface StudentService {
     FiliereModel affectStudentFiliere(String cne , Long id);
     FiliereModel updateStudentFiliere(String cne , FiliereModel filiere);
     Boolean deleteStudentFiliere(String cne);
-
-    // StudentModel getStudentByPhoneNumber(String phoneNumber);
+    StudentModel registerStudent(StudentRegisterRequest request);
+    StudentResponse getStudentById(String id);
     
 }

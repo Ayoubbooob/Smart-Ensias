@@ -12,10 +12,15 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "Teacher")
+@SuperBuilder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class TeacherModel extends UserModel{
@@ -27,3 +32,4 @@ public class TeacherModel extends UserModel{
     // @JsonIgnoreProperties("teacher")
     // private Collection<CourseModel> course ;
 }
+

@@ -1,6 +1,8 @@
 package com.ensias.ensiasattendease.repositories;
 
+import com.ensias.ensiasattendease.models.User;
 import com.ensias.ensiasattendease.models.UserModel;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,8 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, Long> {
-    UserModel findUserById(Long id);
-
+    // UserModel find(Long id);
     List<UserModel> findAll();
 
     UserModel save(UserModel user);
@@ -19,5 +20,6 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
 
     Optional<UserModel> findById(Long id) ;
 
+    Optional<UserModel> findByEmail(String email);
 
 }
