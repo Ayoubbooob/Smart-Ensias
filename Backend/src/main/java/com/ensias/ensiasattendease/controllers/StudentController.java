@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
 import com.ensias.ensiasattendease.models.AttendanceStatus;
+import com.ensias.ensiasattendease.models.FiliereModel;
 import com.ensias.ensiasattendease.models.StudentModel;
 import com.ensias.ensiasattendease.services.StudentService;
 
@@ -62,10 +63,11 @@ public class StudentController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST) ;
         }
         else{
-            if(studentService.enrollStudent(student)==null){
-                return new ResponseEntity<>("{\"error\" : \"phone unique constraint must be respected\"}" , HttpStatus.BAD_REQUEST) ;
+            StudentModel studentModel = studentService.enrollStudent(student) ;
+            if(studentModel == null){
+                return new ResponseEntity<>("{\"error\" : \"field unique constraint must be respected\"}" , HttpStatus.BAD_REQUEST) ;
             }
-            return new ResponseEntity<>(studentService.enrollStudent(student) , HttpStatus.CREATED);
+            return new ResponseEntity<>(studentModel , HttpStatus.CREATED);
         }
     }
 
@@ -75,10 +77,11 @@ public class StudentController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST) ;
         }
         else{
-            if(studentService.registerAttendance(attendance , cne) == null){
+            AttendanceModel attendanceModel = studentService.registerAttendance(attendance , cne) ;
+            if( attendanceModel == null){
                 return new ResponseEntity<>("{\"error\" : \"student  do not exist\"}" , HttpStatus.NOT_FOUND) ;
             }
-            return new ResponseEntity<>( studentService.registerAttendance(attendance , cne)  , HttpStatus.CREATED);
+            return new ResponseEntity<>( attendanceModel  , HttpStatus.CREATED);
         }
     }
 
@@ -129,6 +132,62 @@ public class StudentController {
         else{
             if(studentService.deleteStudentAttendance(cne, id) == false){
                 return new ResponseEntity<>("{\"error\" : \"student or attendance do not exist\"}" , HttpStatus.NOT_FOUND) ;
+            }
+            return new ResponseEntity<>("{\"deleted\" : true}" , HttpStatus.ACCEPTED);
+        }
+    }
+
+    @GetMapping("/{cne}/filiere")
+    public ResponseEntity<?> getStudentFiliere(@PathVariable String cne){
+        if(cne == null){
+            return new ResponseEntity<>("{\"error\" : \"cne can not be null\"}" , HttpStatus.BAD_REQUEST) ;
+        }
+        else{
+            FiliereModel filiereModel = studentService.getStudentFiliere(cne) ;
+            if(filiereModel == null){
+                return new ResponseEntity<>("{\"error\" : \"student do not exist or don't have filiere\"}" , HttpStatus.NOT_FOUND) ;
+            }
+            return new ResponseEntity<>(filiereModel , HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/{cne}/filiere/{id}")
+    public ResponseEntity<?> addStudentFiliere(@PathVariable String cne , @PathVariable Long id){
+        if(cne == null || id == null){
+            return new ResponseEntity<>("{\"error\" : \"cne or filiere can not be null\"}" , HttpStatus.BAD_REQUEST) ;
+        }
+        else{
+            FiliereModel filiereModel = studentService.affectStudentFiliere(cne, id) ;
+            if(filiereModel == null){
+                return new ResponseEntity<>("{\"error\" : \"student do not exist or filiere already exist\"}" , HttpStatus.NOT_FOUND) ;
+            }
+            return new ResponseEntity<>(filiereModel , HttpStatus.CREATED);
+        }
+    }
+
+    @PatchMapping("/{cne}/filiere")
+    public ResponseEntity<?> updateStudentFiliere(@PathVariable String cne , @RequestBody FiliereModel filiere){
+        if(cne == null || filiere == null){
+            return new ResponseEntity<>("{\"error\" : \"cne or filiere can not be null\"}" , HttpStatus.BAD_REQUEST) ;
+        }
+        else{
+            FiliereModel filiereModel = studentService.updateStudentFiliere(cne, filiere) ;
+            if(filiereModel == null){
+                return new ResponseEntity<>("{\"error\" : \"student do not exist or filiere do not exist\"}" , HttpStatus.NOT_FOUND) ;
+            }
+            return new ResponseEntity<>(filiereModel , HttpStatus.ACCEPTED);
+        }
+    }
+
+    @DeleteMapping("/{cne}/filiere")
+    public ResponseEntity<?> deleteStudentFiliere(@PathVariable String cne){
+        if(cne == null){
+            return new ResponseEntity<>("{\"error\" : \"cne can not be null\"}" , HttpStatus.BAD_REQUEST) ;
+        }
+        else{
+            Boolean returnValue = studentService.deleteStudentFiliere(cne) ;
+            if( returnValue == null){
+                return new ResponseEntity<>("{\"error\" : \"student do not exist or don't have filiere\"}" , HttpStatus.NOT_FOUND) ;
             }
             return new ResponseEntity<>("{\"deleted\" : true}" , HttpStatus.ACCEPTED);
         }

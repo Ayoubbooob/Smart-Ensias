@@ -42,6 +42,10 @@ public class AttendanceController {
             return new ResponseEntity<Error>(HttpStatus.BAD_REQUEST) ; 
         }
         else{
+            AttendanceModel attendanceModel = attendanceService.saveAttendanceModel(attendance) ;
+            if(attendanceModel == null){
+                return new ResponseEntity<>("{\"error\" : \"attendance already exist or there an error\"}" , HttpStatus.BAD_REQUEST) ; 
+            }
             return new ResponseEntity<>(attendanceService.saveAttendanceModel(attendance) , HttpStatus.CREATED) ;
         }
     }
@@ -67,10 +71,11 @@ public class AttendanceController {
             return  new ResponseEntity<>("{\"error\" : \"id must provide\"}"  , HttpStatus.BAD_REQUEST) ;
         }
         else{
-            if(attendanceService.getAttendanceJustification(id) == null){
+            JustificationModel attendance = attendanceService.getAttendanceJustification(id) ;
+            if(attendance == null){
                 return new ResponseEntity<>("{\"error\" : \"attendance dont have justification\"}" , HttpStatus.BAD_REQUEST) ; 
             }
-            return new ResponseEntity<>(attendanceService.getAttendanceJustification(id) , HttpStatus.OK) ;
+            return new ResponseEntity<>( attendance , HttpStatus.OK) ;
         }
     }
 

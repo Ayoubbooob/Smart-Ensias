@@ -40,7 +40,7 @@ public class AttendanceServiceImpl<justificationRepository> implements Attendanc
 
     @Override
     public List<AttendanceModel> getAllAttendance(int page , int size){
-        return attendanceRepository.findAll(PageRequest.of(page, size , Sort.by("dateTime").descending())).getContent() ;
+        return attendanceRepository.findAll(PageRequest.of(page, size , Sort.by("takedTime").descending())).getContent() ;
     }
 
     @Override
@@ -81,6 +81,9 @@ public class AttendanceServiceImpl<justificationRepository> implements Attendanc
 
     @Override
     public JustificationModel getAttendanceJustification(Long id){
+        if(attendanceRepository.findById(id).isPresent() == false){
+            return null ; 
+        }
         AttendanceModel attendance = attendanceRepository.findById(id).get();
         return attendance.getJustification() ;
     }

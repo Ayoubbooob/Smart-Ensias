@@ -10,7 +10,7 @@ public interface JustificationService {
 
     List<JustificationModel> getAllJustification(int page , int size) ;
 
-    JustificationModel createJustification(Long attendanceId ,JustificationModel justification) ;
+    JustificationModel createJustification(JustificationModel justification) ;
 
     JustificationModel deleteJustification(Long id) ;
 

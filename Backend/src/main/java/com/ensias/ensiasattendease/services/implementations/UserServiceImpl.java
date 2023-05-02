@@ -1,5 +1,6 @@
 package com.ensias.ensiasattendease.services.implementations;
 
+import com.ensias.ensiasattendease.models.FiliereModel;
 import com.ensias.ensiasattendease.models.UserModel;
 import com.ensias.ensiasattendease.repositories.UserRepository;
 import com.ensias.ensiasattendease.services.UserService;
@@ -51,6 +52,7 @@ public class UserServiceImpl implements UserService {
             return false ;
         }
     }
+
 
     // implement here all methods that you've already put it in UserService
 }

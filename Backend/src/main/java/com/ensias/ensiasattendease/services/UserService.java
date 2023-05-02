@@ -3,6 +3,7 @@ package com.ensias.ensiasattendease.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.ensias.ensiasattendease.models.FiliereModel;
 import com.ensias.ensiasattendease.models.UserModel;
 
 public interface UserService {

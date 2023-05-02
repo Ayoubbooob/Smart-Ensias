@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -40,8 +41,8 @@ public class JustificationModel {
     @Enumerated(EnumType.STRING)
     private JustificationEtat etat = JustificationEtat.EN_ATTENTE ; 
     @NotNull(message ="la justification doit être lier à une abscense")
-    @OneToMany(mappedBy = "justification" , fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "justification" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "attendance-justification")
     private Collection<AttendanceModel> attendance ; 
     
 }

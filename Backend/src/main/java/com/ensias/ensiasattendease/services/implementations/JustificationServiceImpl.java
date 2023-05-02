@@ -47,12 +47,7 @@ public class JustificationServiceImpl implements JustificationService {
     }
 
     @Override
-    public JustificationModel createJustification(Long attendanceId ,JustificationModel justification){
-        Optional<AttendanceModel> attendance  = attendanceRepository.findById(attendanceId);
-        if(attendance.isEmpty()){
-            return null ; 
-        }
-        justification.getAttendance().add(attendance.get());
+    public JustificationModel createJustification(JustificationModel justification){
         return justificationRepository.save(justification);
     }
 
