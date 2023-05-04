@@ -26,4 +26,5 @@ public class StudentResponse {
     private String gender;
 
     private String cne;
+
 }

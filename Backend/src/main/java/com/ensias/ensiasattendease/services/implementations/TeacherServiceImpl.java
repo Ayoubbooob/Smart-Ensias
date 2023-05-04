@@ -1,7 +1,7 @@
 package com.ensias.ensiasattendease.services.implementations;
 
 import com.ensias.ensiasattendease.models.GenreUser;
-import com.ensias.ensiasattendease.models.Teacher;
+import com.ensias.ensiasattendease.models.TeacherModel;
 import com.ensias.ensiasattendease.repositories.TeacherRepository;
 import com.ensias.ensiasattendease.resources.RequestModels.TeacherRegisterRequest;
 import com.ensias.ensiasattendease.services.TeacherService;
@@ -18,9 +18,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     private final PasswordEncoder passwordEncoder;
     private final TeacherRepository teacherRepository;
-    public Teacher registerTeacher(TeacherRegisterRequest request) {
+    public TeacherModel registerTeacher(TeacherRegisterRequest request) {
         System.out.println("********** Password : "+request.getPassword());
-        Teacher teacher = Teacher.builder()
+        TeacherModel teacher = TeacherModel.builder()
                 .first_name(request.getFirstname())
                 .last_name(request.getLastname())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -32,6 +32,7 @@ public class TeacherServiceImpl implements TeacherService {
                 .image_url(request.getImage_url())
                 .genre(GenreUser.valueOf(request.getGender()))
                 .matricule(request.getMatricule())
+                .joining_date(LocalDate.parse(request.getJoining_date()))
                 .build();
         teacherRepository.save(teacher);
         return teacher;

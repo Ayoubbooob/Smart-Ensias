@@ -2,18 +2,22 @@ package com.ensias.ensiasattendease.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ensias.ensiasattendease.models.AttendanceModel;
 import com.ensias.ensiasattendease.models.JustificationModel;
-import com.ensias.ensiasattendease.services.implementations.JustificationServiceImpl;
+import com.ensias.ensiasattendease.services.JustificationService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,21 +26,32 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/justification")
 public class JustificationController {
 
-    private final JustificationServiceImpl justificationService ; 
+    @Autowired
+    private final JustificationService justificationService ; 
 
     @GetMapping()
-    public ResponseEntity<List<JustificationModel>> getAllJusitification(){
-        return new ResponseEntity<>(justificationService.getAllJustification() , HttpStatus.OK);
+    public ResponseEntity<List<JustificationModel>> getAllJusitification(@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "10") int size){
+        return new ResponseEntity<>(justificationService.getAllJustification(page , size) , HttpStatus.OK);
     }
 
     @PostMapping("/add")
     public ResponseEntity<?> creatJustification(@RequestBody JustificationModel justification){
-        if(justification == null){
+        if(justification == null ){
             return new ResponseEntity<Error>(HttpStatus.BAD_REQUEST) ; 
         }
         else{
             return new ResponseEntity<>(justificationService.createJustification(justification) , HttpStatus.CREATED);
 
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getJustificationById(@PathVariable Long id){
+        if(id == null){
+            return new ResponseEntity<>("{\"error\" : \"justification id not existe\"}"  , HttpStatus.BAD_REQUEST) ; 
+        }
+        else{
+            return new ResponseEntity<>(justificationService.getJustificationById(id) , HttpStatus.OK);
         }
     }
 
@@ -48,10 +63,20 @@ public class JustificationController {
         else{
             return new ResponseEntity<>(justificationService.deleteJustification(id) , HttpStatus.ACCEPTED);
         }
-
     }
 
-    // @PathcMapping("/{id}")
+    @PatchMapping()
+    public ResponseEntity<?> updateJustification(@RequestBody JustificationModel justification){
+        if(justification == null){
+            return new ResponseEntity<>("{\"error\" : \"justification cant not be null\"}"  ,HttpStatus.BAD_REQUEST) ; 
+        }
+        else{
+            if(justificationService.updateJustification(justification)==null){
+                return new ResponseEntity<>("{\"error\" : \"justification not found\"}"  ,HttpStatus.BAD_REQUEST) ; 
+            }
+            return new ResponseEntity<>(justificationService.updateJustification(justification) , HttpStatus.ACCEPTED);
+        }
+    }
 
     
 }

@@ -5,7 +5,7 @@ import com.ensias.ensiasattendease.models.*;
 import com.ensias.ensiasattendease.repositories.TokenRepository;
 import com.ensias.ensiasattendease.repositories.UserRepository;
 import com.ensias.ensiasattendease.resources.RequestModels.AuthenticationRequest;
-import com.ensias.ensiasattendease.resources.AuthenticationResponse;
+import com.ensias.ensiasattendease.resources.responses.AuthenticationResponse;
 import com.ensias.ensiasattendease.resources.RequestModels.StudentRegisterRequest;
 import com.ensias.ensiasattendease.resources.RequestModels.TeacherRegisterRequest;
 import com.ensias.ensiasattendease.services.AuthenticationService;
@@ -32,6 +32,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
 
 
+    private final TokenRepository tokenRepository;
     private final StudentServiceImpl studentService;
 
     private final TeacherServiceImpl teacherService;
@@ -39,11 +40,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
 
-    private final TokenRepository tokenRepository;
 
     public AuthenticationResponse registerStudent(StudentRegisterRequest request) {
 
-        Student student = studentService.registerStudent(request);
+        StudentModel student = studentService.registerStudent(request);
 
         var jwtToken = jwtService.generateToken(student);
         var refreshToken = jwtService.generateRefreshToken(student);
@@ -54,12 +54,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .role("Student")
+                .id(student.getId())
                 .build();
     }
 
     public AuthenticationResponse registerTeacher(TeacherRegisterRequest request) {
 
-        Teacher teacher = teacherService.registerTeacher(request);
+        TeacherModel teacher = teacherService.registerTeacher(request);
 
         var jwtToken = jwtService.generateToken(teacher);
         var refreshToken = jwtService.generateRefreshToken(teacher);
@@ -69,6 +70,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .role("Teacher")
+                .id(teacher.getId())
                 .build();
     }
     @Override
@@ -88,12 +90,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .role(user.getRole())
+                .id(user.getId())
                 .build();
 
     }
 
-    private void saveUserToken(User user, String jwtToken) {
-        var token = Token.builder()
+    private void saveUserToken(UserModel user, String jwtToken) {
+        var token = TokenModel.builder()
                 .user(user)
                 .token(jwtToken)
                 .tokenType(TokenType.BEARER)
@@ -103,7 +106,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         tokenRepository.save(token);
     }
 
-    private void revokeAllUserTokens(User user) {
+    private void revokeAllUserTokens(UserModel user) {
         var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
         if (validUserTokens.isEmpty())
             return;

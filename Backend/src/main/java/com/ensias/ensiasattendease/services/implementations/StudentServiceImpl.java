@@ -3,71 +3,101 @@ package com.ensias.ensiasattendease.services.implementations;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import com.ensias.ensiasattendease.models.GenreUser;
-import com.ensias.ensiasattendease.models.User;
+import com.ensias.ensiasattendease.models.StudentModel;
+import com.ensias.ensiasattendease.models.UserModel;
 import com.ensias.ensiasattendease.repositories.UserRepository;
 import com.ensias.ensiasattendease.resources.RequestModels.StudentRegisterRequest;
 import com.ensias.ensiasattendease.resources.responses.StudentResponse;
+import com.ensias.ensiasattendease.services.StudentService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
-import com.ensias.ensiasattendease.models.Student;
+import com.ensias.ensiasattendease.models.FiliereModel;
 import com.ensias.ensiasattendease.repositories.AttendanceRepository;
+import com.ensias.ensiasattendease.repositories.FiliereRepository;
 import com.ensias.ensiasattendease.repositories.StudentRepository;
-import com.ensias.ensiasattendease.services.StudentService;
+
+import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
+   
     private final StudentRepository studentRepository ;
 
-    private final UserRepository userRepository;
+    
+    private final  UserRepository userRepository;
 
-    private AttendanceRepository attendanceRepository ;
+    private  final FiliereRepository filiereRepository ;
 
-    private final PasswordEncoder passwordEncoder;
-//    public StudentServiceImpl(StudentRepository studentRepository ){
-//        this.studentRepository = studentRepository ;
-//    }
+
+    
+    private final AttendanceRepository attendanceRepository ;
+
+   
+    private  final PasswordEncoder passwordEncoder;
+
+    public AttendanceModel saveAttendance(AttendanceModel attendance){
+        return attendanceRepository.save(attendance);
+    }
+
 
     @Override
-    public List<Student> getAllStudent(){
+    public List<StudentModel> getAllStudent(){
         return studentRepository.findAll();
     }
 
     @Override
-    public Student enrollStudent(Student student){
-        return studentRepository.save(student);
+    public StudentModel enrollStudent(StudentModel student){
+        try {
+            if(studentRepository.findByphone(student.getPhone())!=null){
+                return null ;
+            }
+            if(studentRepository.findByCne(student.getCne()) !=null){
+                return null ;
+            }
+            return studentRepository.save(student);
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println(e);
+            return null ;
+        }
     }
 
     /**
      * @target this methode is used to register student attendance 
      */
     @Override
-    public Boolean registerAttendance(AttendanceModel attendance , String cne){
+    public AttendanceModel registerAttendance(AttendanceModel attendance , String cne){
         try {
-            Student student = studentRepository.findByCne(cne);
-            AttendanceModel attendanceFounded = attendanceRepository.save(attendance);
-            student.getAttendances().add(attendanceFounded);
-            studentRepository.save(student);
-            attendanceFounded.getStudent().add(student);
-            attendanceRepository.save(attendanceFounded);
-            return true ;
+            
+            StudentModel student = studentRepository.findByCne(cne);
+            if(student == null){
+               return null ;
+            }
+            attendance.getStudent().add(student);
+            student.getAttendance().add(attendance);
+            return attendanceRepository.save(attendance) ;
         } catch (Exception e) {
             // TODO: handle exception
-            return false ;
+            System.out.println(e);
+            return null ;
         }
-
     }
 
     @Override
     public Boolean deleteStudent(String cne){
         try {
+            if(studentRepository.findByCne(cne)==null){
+                return false ;
+            }
             studentRepository.deleteByCne(cne);
             return true ;
         } catch (Exception e){
@@ -76,21 +106,124 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override 
-    public Collection<AttendanceModel> getStudentAttendance(String cne){
-        Student student = studentRepository.findByCne(cne);
-        return student.getAttendances();
+    public StudentModel getStudentByCNE(String cne){
+        return studentRepository.findByCne(cne);
     }
 
+    @Override
+    public Collection<AttendanceModel> getStudentAllAttendance(String cne){
+        if(studentRepository.findByCne(cne)==null){
+            return null ;
+        }
+        Collection<AttendanceModel> attendances = studentRepository.findByCne(cne).getAttendance();
+        if(attendances == null){
+            return null ;
+        }
+        return attendances ;
+    }
 
+    @Override
+    public StudentModel updateStudent(StudentModel student){
+        StudentModel studentModel = studentRepository.findByCne(student.getCne());
+        if(studentModel == null){
+            return null ;
+        }
+        return studentRepository.save(student);
+    }
 
-    public Student registerStudent(StudentRegisterRequest request) {
-        Student student = Student.builder()
+    @Override
+    public AttendanceModel updateStudentAttendance(AttendanceModel attendance , String cne){
+        StudentModel student = studentRepository.findByCne(cne);
+        if(student==null){
+            return null ;
+        }
+        student.getAttendance().forEach(
+            (AttendanceModel att)->{
+                if(att.getId()==attendance.getId()){
+                    att.setStatus(attendance.getStatus());
+                    attendanceRepository.save(att);
+                }
+            }
+        );
+        attendanceRepository.findById(attendance.getId()).get().setStatus(attendance.getStatus());
+        studentRepository.save(student);
+        return attendanceRepository.save(attendance);
+    }
+
+    @Override
+    public Boolean deleteStudentAttendance(String cne , Long id){
+        StudentModel student = studentRepository.findByCne(cne);
+        if(student==null){
+            return false ;
+        }
+        try {
+            AttendanceModel attendanceModel = attendanceRepository.findById(id).get();
+            if(attendanceModel == null){
+                return false;
+            }
+            attendanceRepository.deleteById(id);
+            return true ;
+        } catch (Exception e) {
+            return false ;
+        }
+    }
+
+    @Override
+    public FiliereModel getStudentFiliere(String cne) {
+        if(studentRepository.findByCne(cne) == null){
+            return null ;
+        }
+        FiliereModel filiere =  studentRepository.findByCne(cne).getFiliere();
+        return filiere ;
+    }
+    @Override
+    public FiliereModel affectStudentFiliere(String cne, Long id) {
+        StudentModel student = studentRepository.findByCne(cne);
+        if(student==null || filiereRepository.findById(id).isPresent() == false){
+            return null ;
+        }
+        FiliereModel filiere = filiereRepository.findById(id).get();
+        student.setFiliere(filiere);
+        filiere.getStudent().add(student);
+        filiereRepository.save(filiere);
+        return studentRepository.save(student).getFiliere();
+    }
+    @Override
+    public FiliereModel updateStudentFiliere(String cne, FiliereModel filiere) {
+        StudentModel student = studentRepository.findByCne(cne);
+        if(student==null){
+            return null ;
+        }
+        filiere.getStudent().forEach(
+            (StudentModel std)->{
+                if(std.getCne().equals(cne)){
+                    std.setFiliere(filiere);
+                    studentRepository.save(std);
+                }
+            }
+        );
+        student.setFiliere(filiere);
+        filiereRepository.save(filiere);
+        return studentRepository.save(student).getFiliere();
+    }
+    @Override
+    public Boolean deleteStudentFiliere(String cne) {
+        StudentModel student = studentRepository.findByCne(cne);
+        if(student==null){
+            return false ;
+        }
+        filiereRepository.delete(student.getFiliere());
+        return  true  ;
+    }
+
+    public StudentModel registerStudent(StudentRegisterRequest request) {
+
+        StudentModel student = StudentModel.builder()
                 .first_name(request.getFirstname())
                 .last_name(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-
-//                .password(request.getPassword())
+// .password(request.getPassword())
 
                 .role("Student")
                 .phone(request.getPhone())
@@ -108,8 +241,9 @@ public class StudentServiceImpl implements StudentService {
 
     public StudentResponse getStudentById(String id) {
 
-        User user =  userRepository.findUserById(Long.valueOf(id));
-        Student student = studentRepository.findStudentById(Long.valueOf(id));
+        UserModel user =  userRepository.findById(Long.valueOf(id)).get();
+        StudentModel student = studentRepository.findStudentById(Long.valueOf(id));
+
         StudentResponse studentToReturn = StudentResponse.builder()
                 .firstname(user.getFirst_name())
                 .lastname(user.getLast_name())
@@ -123,4 +257,5 @@ public class StudentServiceImpl implements StudentService {
 
         return studentToReturn;
     }
+   
 }

@@ -5,6 +5,7 @@ spring:
 #    url: jdbc:mysql://localhost:4306/ensias_attendance  --OUMAR c'est ton ligne tu dois juste enlever le commentaire et commenter le mien
     url: jdbc:mysql://localhost:3307/ensiasattendease
     username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
