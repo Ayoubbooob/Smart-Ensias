@@ -1,11 +1,12 @@
 package com.ensias.ensiasattendease.controllers;
 
 
-import com.ensias.ensiasattendease.models.User;
+
+import com.ensias.ensiasattendease.models.UserModel;
 import com.ensias.ensiasattendease.repositories.TeacherRepository;
 import com.ensias.ensiasattendease.services.implementations.UserServiceImpl;
-
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,18 +26,19 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
 
 
+
     //This method returns list of users
 
     
     //TODO- ADD Response Class, that return elegant json file as Response to the postman user
     @GetMapping
-    public ResponseEntity<List<User>> getUsers(){
+    public ResponseEntity<List<UserModel>> getUsers(){
         return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
     }
 
 
     @PostMapping("/add")
-    public ResponseEntity<?> CreateUser(@RequestBody User user){
+    public ResponseEntity<?> CreateUser(@RequestBody UserModel user){
         if(user == null){
             return new ResponseEntity<Error>(HttpStatus.BAD_REQUEST) ; 
         }
@@ -46,7 +48,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<User>> getUSerById(@PathVariable Long id){
+    public ResponseEntity<Optional<UserModel>> getUSerById(@PathVariable Long id){
         return new ResponseEntity<>(userService.getUserById(id) , HttpStatus.OK) ;
     }
 

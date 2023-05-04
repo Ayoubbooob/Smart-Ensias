@@ -1,7 +1,7 @@
 package com.ensias.ensiasattendease.controllers;
 
 import com.ensias.ensiasattendease.resources.RequestModels.AuthenticationRequest;
-import com.ensias.ensiasattendease.resources.AuthenticationResponse;
+import com.ensias.ensiasattendease.resources.responses.AuthenticationResponse;
 import com.ensias.ensiasattendease.resources.RequestModels.StudentRegisterRequest;
 import com.ensias.ensiasattendease.resources.RequestModels.TeacherRegisterRequest;
 import com.ensias.ensiasattendease.services.implementations.AuthenticationServiceImpl;

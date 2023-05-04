@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TeacherRegisterRequest extends RegisterRequest{
     private String matricule;
+    private String joining_date;
 }
 
 

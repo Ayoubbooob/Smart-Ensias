@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Admin")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Admin extends User {
+public class AdminModel extends UserModel {
 
 
     private String matricule;
