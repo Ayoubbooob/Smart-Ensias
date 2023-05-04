@@ -1,9 +1,20 @@
 # Deadline d'aujourd'hui
+I-gestion des cours :
+ ajout 
+ modification
+ suppression
+ consultation
+ affectation à une filière
 
-1-revoir la conception de ma partie
+II-planning des cours 
+ ajout 
+ modification 
+ suppression
+ consultation
 
-2-finir l'implemenatation de attendance
-
-3-finition de Student et ses services
-
-4-faire la tous les service de Student
+III-gestion des filière 
+ ajout
+ modification
+ suppression
+ consultation
+ 

@@ -1,0 +1,433 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "smartEnsias_api",
+    "dateExported": "2023-05-01T23:24:12.750Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "a56be63b-713c-4153-b600-6fffbd7a3be0",
+            "name": "student",
+            "containerId": "",
+            "created": "2023-04-29T10:32:29.910Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "9bb0de3e-1541-4d76-a50a-46166858a63c",
+            "name": "a",
+            "containerId": "",
+            "created": "2023-04-29T10:39:02.580Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "9443d096-553b-4eda-9752-ce157e67db09",
+            "name": "attendance",
+            "containerId": "",
+            "created": "2023-04-29T10:39:40.619Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "0dea4988-fc38-4b3e-a20f-01d1d158f41e",
+            "name": "jusitifcation",
+            "containerId": "",
+            "created": "2023-04-29T10:42:21.988Z",
+            "sortNum": 40000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "c64c99dc-ba6c-48be-85ca-0f4e2accc34c",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "a56be63b-713c-4153-b600-6fffbd7a3be0",
+            "name": "inscrire_student",
+            "url": "http://localhost:8080/students/enrollStudent",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-04-25T18:06:52.436Z",
+            "modified": "2023-05-01T23:18:12.683Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\" : \"Adama3378\" , \n  \"phone\" : \"+343114545\" , \n  \"email\" : \"dianeoumar462@gmail.com\" , \n  \"password\": \"oumar123\" ,\n  \"first_name\" : \"oumar18\" , \n  \"last_name\" : \"Diane\",\n  \"cne\":\"201915244\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "none"
+            },
+            "tests": []
+        },
+        {
+            "_id": "5011c44f-a6aa-4054-83cf-3598cb0b8a3d",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "9443d096-553b-4eda-9752-ce157e67db09",
+            "name": "get_all_attendance",
+            "url": "http://localhost:8080/attendance",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-04-25T18:06:52.441Z",
+            "modified": "2023-05-01T18:51:45.507Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "ed58ffe5-6435-4448-88d2-71e2222f0b00",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "0dea4988-fc38-4b3e-a20f-01d1d158f41e",
+            "name": "get_all_justification",
+            "url": "http://localhost:8080/justification",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-04-25T18:06:52.444Z",
+            "modified": "2023-04-29T10:42:26.305Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "62cabb66-7a9a-4f80-9ae3-974e28749f36",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "a56be63b-713c-4153-b600-6fffbd7a3be0",
+            "name": "find_student_by_cne",
+            "url": "http://localhost:8080/students/2019117235",
+            "method": "GET",
+            "sortNum": 15000,
+            "created": "2023-04-25T18:06:52.439Z",
+            "modified": "2023-04-29T10:38:30.687Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "36a48a0f-d11c-4bab-bd7e-9a328f88bc17",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "a56be63b-713c-4153-b600-6fffbd7a3be0",
+            "name": "get_all_student",
+            "url": "http://localhost:8080/students",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-04-25T18:06:52.438Z",
+            "modified": "2023-04-29T11:17:24.244Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "none"
+            },
+            "tests": []
+        },
+        {
+            "_id": "0b6d82b1-88e3-4f1a-b65d-8ab07bda921f",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "0dea4988-fc38-4b3e-a20f-01d1d158f41e",
+            "name": "update_justification",
+            "url": "http://localhost:8080/justification",
+            "method": "PATCH",
+            "sortNum": 20000,
+            "created": "2023-04-25T18:06:52.443Z",
+            "modified": "2023-04-29T11:16:03.062Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": 2,\n  \"justificatif\": \" Mr j'etais malade aujourd'hui\",\n  \"attache\": \"https://stackoverfldsdsow.com/questions/68548488/sharing-viewmodel-within-jetpack-compose-navigation\",\n  \"etat\": \"EN_ATTENTE\",\n  \"attendance\": []\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "548e7a09-ab52-4a4e-a72b-05278b5f6ab3",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "9443d096-553b-4eda-9752-ce157e67db09",
+            "name": "add_attendance",
+            "url": "http://localhost:8080/attendance/add",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-04-26T13:18:51.636Z",
+            "modified": "2023-04-29T10:39:46.278Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"status\":\"PRESENT\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "none"
+            },
+            "tests": []
+        },
+        {
+            "_id": "c4f4dac9-294f-4503-af92-34e8fac83240",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "9443d096-553b-4eda-9752-ce157e67db09",
+            "name": "get_attedance_by_id",
+            "url": "http://localhost:8080/attendance/1",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-04-26T13:17:56.280Z",
+            "modified": "2023-04-29T17:54:51.758Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "none"
+            },
+            "tests": []
+        },
+        {
+            "_id": "297f6d0d-0ee1-4c70-9870-7fd0f7f482eb",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "a56be63b-713c-4153-b600-6fffbd7a3be0",
+            "name": "update_student",
+            "url": "http://localhost:8080/students",
+            "method": "PATCH",
+            "sortNum": 30000,
+            "created": "2023-04-29T10:07:48.693Z",
+            "modified": "2023-04-29T17:49:29.465Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\" : 1,\n  \"username\" : \"Adama3345\" , \n  \"phone\" : \"+234556774\" , \n  \"email\" : \"dianeoumar197@gmail.com\" , \n  \"password\": \"12323\" ,\n  \"first_name\" : \"oumar18\" , \n  \"last_name\" : \"Diane\",\n  \"cne\":\"2019117235\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "693e6981-670b-4962-a647-fa3060e0d202",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "a56be63b-713c-4153-b600-6fffbd7a3be0",
+            "name": "deleteStudent",
+            "url": "http://localhost:8080/students/2019117235",
+            "method": "DELETE",
+            "sortNum": 40000,
+            "created": "2023-04-28T10:31:05.026Z",
+            "modified": "2023-04-29T10:38:41.589Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "ba52d8e4-d163-405a-ad9d-a8c6fc9b062e",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "9443d096-553b-4eda-9752-ce157e67db09",
+            "name": "update_attendance",
+            "url": "http://localhost:8080/attendance",
+            "method": "PATCH",
+            "sortNum": 40000,
+            "created": "2023-04-29T10:33:43.025Z",
+            "modified": "2023-04-29T10:45:19.043Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": 2,\n  \"dateTime\": \"2023-04-29T10:43:26.4411184\",\n  \"status\": \"ABSENT\",\n  \"course\": null,\n  \"student\": null\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "c0f807e3-ac05-4974-a44b-9c0b8ccaebf9",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "a56be63b-713c-4153-b600-6fffbd7a3be0",
+            "name": "get_student_all_attendances",
+            "url": "http://localhost:8080/students/201911723/attendances",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2023-04-28T10:50:33.611Z",
+            "modified": "2023-05-01T20:07:11.172Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "76e0b573-9123-4196-b5bc-749f893072bc",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "9443d096-553b-4eda-9752-ce157e67db09",
+            "name": "delete_attendance",
+            "url": "http://localhost:8080/attendance/1",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2023-04-29T10:20:49.643Z",
+            "modified": "2023-04-29T10:40:16.377Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "c93d4d74-b760-4ad4-a308-5f87e783b493",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "9443d096-553b-4eda-9752-ce157e67db09",
+            "name": "get_attendance_justification",
+            "url": "http://localhost:8080/attendance/2/justification",
+            "method": "GET",
+            "sortNum": 55000,
+            "created": "2023-04-28T18:21:16.783Z",
+            "modified": "2023-05-01T22:34:30.869Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "3fae7761-8f3e-489e-a592-09e42be55869",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "a56be63b-713c-4153-b600-6fffbd7a3be0",
+            "name": "assign_student_attenddance",
+            "url": "http://localhost:8080/students/registerAttendance/201911723",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2023-04-25T18:06:52.440Z",
+            "modified": "2023-05-01T18:47:48.573Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"status\": \"PRESENT\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "cf54890b-1ded-4da4-83fb-7e6932f8689d",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "9443d096-553b-4eda-9752-ce157e67db09",
+            "name": "add_attendance_justification",
+            "url": "http://localhost:8080/attendance/2/justification/add",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2023-04-25T18:06:52.442Z",
+            "modified": "2023-05-01T22:34:42.435Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"justificatif\" : \"désole Mr j'etais malade aujourd'hui\",\n  \"attache\" : \"https://stackoverfldsdsow.com/questions/68548488/sharing-viewmodel-within-jetpack-compose-navigation\",\n  \"attendance\" : []\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "28144a41-2b25-4834-9115-bea7fcbd6000",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "a56be63b-713c-4153-b600-6fffbd7a3be0",
+            "name": "update_student_attendance",
+            "url": "http://localhost:8080/students/201911723/attendance",
+            "method": "PATCH",
+            "sortNum": 70000,
+            "created": "2023-05-01T19:58:17.226Z",
+            "modified": "2023-05-01T22:28:59.899Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": 8,\n  \"status\": \"PRESENT\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "24dcef61-42c6-486b-a3f1-cfd3cc032449",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "a56be63b-713c-4153-b600-6fffbd7a3be0",
+            "name": "delete_student_attendance",
+            "url": "http://localhost:8080/students/201911723/attendance/7",
+            "method": "DELETE",
+            "sortNum": 80000,
+            "created": "2023-05-01T20:03:10.972Z",
+            "modified": "2023-05-01T22:41:13.335Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "5a5198ed-c3a0-4e76-8fa3-1b2cd992d599",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "9443d096-553b-4eda-9752-ce157e67db09",
+            "name": "update_attendance_justification",
+            "url": "http://localhost:8080/attendance/2/justification",
+            "method": "PATCH",
+            "sortNum": 130000,
+            "created": "2023-04-29T11:03:05.429Z",
+            "modified": "2023-05-01T22:35:21.031Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"justificatif\" : \"désole Mr alamy j'etais malade aujourd'hui\",\n  \"attache\" : \"https://stackoverfldsdsow.com/questions/68548488/sharing-viewmodel-within-jetpack-compose-navigation\",\n  \"attendance\" : []\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "1ca1c62c-5395-428e-be70-90e889235de8",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "9443d096-553b-4eda-9752-ce157e67db09",
+            "name": "delete_attendance_justification",
+            "url": "http://localhost:8080/attendance/2/justification/2",
+            "method": "DELETE",
+            "sortNum": 140000,
+            "created": "2023-04-29T11:09:19.633Z",
+            "modified": "2023-05-01T22:35:38.973Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "545a24cd-6dfc-4e7d-8d60-9d673e5fa94b",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "0dea4988-fc38-4b3e-a20f-01d1d158f41e",
+            "name": "delete_justification",
+            "url": "",
+            "method": "DELETE",
+            "sortNum": 150000,
+            "created": "2023-04-29T11:10:30.012Z",
+            "modified": "2023-04-29T11:10:51.148Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "5e656c07-c5bc-4157-9821-31740d718273",
+            "colId": "b52765fc-654a-4388-bfe7-abde8d2201dd",
+            "containerId": "0dea4988-fc38-4b3e-a20f-01d1d158f41e",
+            "name": "get_justification_by_id",
+            "url": "http://localhost:8080/justification/2",
+            "method": "GET",
+            "sortNum": 160000,
+            "created": "2023-04-29T11:11:53.442Z",
+            "modified": "2023-04-29T11:12:24.799Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}
