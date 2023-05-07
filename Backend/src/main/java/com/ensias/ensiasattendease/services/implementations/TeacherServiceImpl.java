@@ -1,6 +1,7 @@
 package com.ensias.ensiasattendease.services.implementations;
 
 import com.ensias.ensiasattendease.models.GenreUser;
+import com.ensias.ensiasattendease.models.Role;
 import com.ensias.ensiasattendease.models.TeacherModel;
 import com.ensias.ensiasattendease.repositories.TeacherRepository;
 import com.ensias.ensiasattendease.resources.RequestModels.TeacherRegisterRequest;
@@ -25,7 +26,7 @@ public class TeacherServiceImpl implements TeacherService {
                 .last_name(request.getLastname())
                 .password(passwordEncoder.encode(request.getPassword()))
 //                .password(request.getPassword())
-                .role("Teacher")
+                .role(Role.TEACHER)
                 .email(request.getEmail())
                 .phone(request.getPhone())
                 .date_of_birth(LocalDate.parse(request.getDate_of_birth()))

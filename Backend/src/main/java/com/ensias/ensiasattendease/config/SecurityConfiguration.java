@@ -1,5 +1,7 @@
 package com.ensias.ensiasattendease.config;
 
+import com.ensias.ensiasattendease.models.Permission;
+import com.ensias.ensiasattendease.models.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +17,6 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,7 +41,26 @@ public class SecurityConfiguration {
 //
 //                .requestMatchers("/**")//ADD HERE ENDPOINTS THAT YOU DON'T NEED TO AUTHENTICATE TO USE THEM(WHITELIST)
 
+
+
                 .permitAll()
+
+                //SECURE HERE ENDPOINTS , EVERY ROLE & ITS PERMISSION
+
+                .requestMatchers("/students/**").hasAnyRole(Role.ADMIN.name(), Role.STUDENT.name(), Role.TEACHER.name())
+                .requestMatchers(HttpMethod.GET, "/students/**").hasAnyAuthority(Permission.STUDENT_READ.name())
+                .requestMatchers(HttpMethod.POST, "/students/**").hasAnyAuthority(Permission.STUDENT_CREATE.name())
+                .requestMatchers(HttpMethod.PUT, "/students/**").hasAnyAuthority(Permission.STUDENT_UPDATE.name())
+                .requestMatchers(HttpMethod.DELETE, "/students/**").hasAnyAuthority(Permission.STUDENT_DELETE.name())
+                .requestMatchers(HttpMethod.PATCH, "/students/**").hasAnyAuthority(Permission.STUDENT_PATCH.name())
+
+
+                /* .requestMatchers("/api/v1/admin/**").hasRole(ADMIN.name())
+                 .requestMatchers(GET, "/api/v1/admin/**").hasAuthority(ADMIN_READ.name())
+                 .requestMatchers(POST, "/api/v1/admin/**").hasAuthority(ADMIN_CREATE.name())
+                 .requestMatchers(PUT, "/api/v1/admin/**").hasAuthority(ADMIN_UPDATE.name())
+                 .requestMatchers(DELETE, "/api/v1/admin/**").hasAuthority(ADMIN_DELETE.name())*/
+
                 .anyRequest()
                 .authenticated()
                 .and()
