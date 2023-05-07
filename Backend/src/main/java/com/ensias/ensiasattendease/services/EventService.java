@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface EventService {
 
-    public EventModel createEvent(AddEventRequest addEventRequest);
+     EventModel createEvent(AddEventRequest addEventRequest);
 
-    public List<EventModel> getAllEvents();
+     List<EventModel> getAllEvents();
 }

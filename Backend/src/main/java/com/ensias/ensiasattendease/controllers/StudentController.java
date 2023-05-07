@@ -30,6 +30,7 @@ public class StudentController {
 
     private final StudentServiceImpl studentService;
 
+
     @GetMapping()
     public ResponseEntity<List<StudentModel>> getAllStudent(){
         return new ResponseEntity<>(studentService.getAllStudent() , HttpStatus.OK);

@@ -4,9 +4,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
-import com.ensias.ensiasattendease.models.GenreUser;
-import com.ensias.ensiasattendease.models.StudentModel;
-import com.ensias.ensiasattendease.models.UserModel;
+import com.ensias.ensiasattendease.models.*;
 import com.ensias.ensiasattendease.repositories.UserRepository;
 import com.ensias.ensiasattendease.resources.RequestModels.StudentRegisterRequest;
 import com.ensias.ensiasattendease.resources.responses.StudentResponse;
@@ -16,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.ensias.ensiasattendease.models.AttendanceModel;
-import com.ensias.ensiasattendease.models.FiliereModel;
 import com.ensias.ensiasattendease.repositories.AttendanceRepository;
 import com.ensias.ensiasattendease.repositories.FiliereRepository;
 import com.ensias.ensiasattendease.repositories.StudentRepository;
@@ -225,7 +221,7 @@ public class StudentServiceImpl implements StudentService {
                 .password(passwordEncoder.encode(request.getPassword()))
 // .password(request.getPassword())
 
-                .role("Student")
+                .role(Role.STUDENT)
                 .phone(request.getPhone())
                 .image_url(request.getImage_url())
                 .date_of_birth(LocalDate.parse(request.getDate_of_birth()))
