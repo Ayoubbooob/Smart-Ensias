@@ -21,7 +21,7 @@ public class EnsiasAttendEaseApplication{
 				registry
 						.addMapping("/**")
 						.allowedHeaders("*")
-						.allowedOrigins("http://localhost:4200")
+						.allowedOrigins("http://localhost:4200", "http://localhost:8080") //Origins allowed , let's make all origins for now but real origin to be allowed is http://localhost:4200
 						.allowedMethods("*")
 						.allowCredentials(true);
 			}
