@@ -47,12 +47,12 @@ public class SecurityConfiguration {
 
                 //SECURE HERE ENDPOINTS , EVERY ROLE & ITS PERMISSION
 
-                .requestMatchers("/students/**").hasAnyRole(Role.ADMIN.name(), Role.STUDENT.name(), Role.TEACHER.name())
-                .requestMatchers(HttpMethod.GET, "/students/**").hasAnyAuthority(Permission.STUDENT_READ.name())
-                .requestMatchers(HttpMethod.POST, "/students/**").hasAnyAuthority(Permission.STUDENT_CREATE.name())
-                .requestMatchers(HttpMethod.PUT, "/students/**").hasAnyAuthority(Permission.STUDENT_UPDATE.name())
-                .requestMatchers(HttpMethod.DELETE, "/students/**").hasAnyAuthority(Permission.STUDENT_DELETE.name())
-                .requestMatchers(HttpMethod.PATCH, "/students/**").hasAnyAuthority(Permission.STUDENT_PATCH.name())
+//                .requestMatchers("/students/**").hasAnyRole(Role.ADMIN.name(), Role.STUDENT.name(), Role.TEACHER.name())
+//                .requestMatchers(HttpMethod.GET, "/students/**").hasAnyAuthority(Permission.STUDENT_READ.name())
+//                .requestMatchers(HttpMethod.POST, "/students/**").hasAnyAuthority(Permission.STUDENT_CREATE.name())
+//                .requestMatchers(HttpMethod.PUT, "/students/**").hasAnyAuthority(Permission.STUDENT_UPDATE.name())
+//                .requestMatchers(HttpMethod.DELETE, "/students/**").hasAnyAuthority(Permission.STUDENT_DELETE.name())
+//                .requestMatchers(HttpMethod.PATCH, "/students/**").hasAnyAuthority(Permission.STUDENT_PATCH.name())
 
 
                 /* .requestMatchers("/api/v1/admin/**").hasRole(ADMIN.name())
