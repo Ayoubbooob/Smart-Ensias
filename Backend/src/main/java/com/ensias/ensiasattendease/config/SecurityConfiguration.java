@@ -46,7 +46,7 @@ public class SecurityConfiguration {
                 .permitAll()
 
                 //SECURE HERE ENDPOINTS , EVERY ROLE & ITS PERMISSION
-
+//
 //                .requestMatchers("/students/**").hasAnyRole(Role.ADMIN.name(), Role.STUDENT.name(), Role.TEACHER.name())
 //                .requestMatchers(HttpMethod.GET, "/students/**").hasAnyAuthority(Permission.STUDENT_READ.name())
 //                .requestMatchers(HttpMethod.POST, "/students/**").hasAnyAuthority(Permission.STUDENT_CREATE.name())
