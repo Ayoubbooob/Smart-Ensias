@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.ensias.ensiasattendease.models.GenreUser;
+import com.ensias.ensiasattendease.models.Role;
 import com.ensias.ensiasattendease.models.StudentModel;
 import com.ensias.ensiasattendease.models.UserModel;
 import com.ensias.ensiasattendease.repositories.UserRepository;
@@ -225,7 +226,7 @@ public class StudentServiceImpl implements StudentService {
                 .password(passwordEncoder.encode(request.getPassword()))
 // .password(request.getPassword())
 
-                .role("Student")
+                .role(Role.STUDENT)
                 .phone(request.getPhone())
                 .image_url(request.getImage_url())
                 .date_of_birth(LocalDate.parse(request.getDate_of_birth()))

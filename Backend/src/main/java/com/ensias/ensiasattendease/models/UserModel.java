@@ -56,7 +56,9 @@ public abstract class UserModel implements UserDetails {
     @NotEmpty(message = "le nom est requis")
     protected String last_name;
 
-    private String role;
+    //ADDED THIS
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 //    private String role;
 
@@ -75,7 +77,8 @@ public abstract class UserModel implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return role.getAuthorities(); //ADDED THIS
+//        return null;
     }
 
 
