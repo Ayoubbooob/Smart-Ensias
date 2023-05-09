@@ -32,6 +32,7 @@ public class TeacherServiceImpl implements TeacherService {
                 .image_url(request.getImage_url())
                 .genre(GenreUser.valueOf(request.getGender()))
                 .matricule(request.getMatricule())
+                .joining_date(LocalDate.parse(request.getJoining_date()))
                 .build();
         teacherRepository.save(teacher);
         return teacher;

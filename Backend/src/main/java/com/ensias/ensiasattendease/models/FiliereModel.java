@@ -35,7 +35,8 @@ public class FiliereModel {
     private String description ; 
     private String code ;
     @ManyToMany(mappedBy = "filiere" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-    private Collection<TeacherModel> teacher ;
+    @JsonIgnoreProperties("filiere")
+    private Collection<TeacherModel> teacher = new ArrayList<>() ;
     @ManyToMany(mappedBy = "filiere" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JsonIgnoreProperties("filiere")
     private Collection<CourseModel> course = new ArrayList<>() ;

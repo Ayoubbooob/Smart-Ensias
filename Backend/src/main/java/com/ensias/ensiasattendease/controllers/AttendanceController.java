@@ -28,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/attendance")
 public class AttendanceController {
     
-    @Autowired
     private final  AttendanceService  attendanceService;
 
     @GetMapping

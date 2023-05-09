@@ -3,7 +3,6 @@ package com.ensias.ensiasattendease.services.implementations;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import com.ensias.ensiasattendease.models.GenreUser;
 import com.ensias.ensiasattendease.models.StudentModel;
@@ -11,9 +10,9 @@ import com.ensias.ensiasattendease.models.UserModel;
 import com.ensias.ensiasattendease.repositories.UserRepository;
 import com.ensias.ensiasattendease.resources.RequestModels.StudentRegisterRequest;
 import com.ensias.ensiasattendease.resources.responses.StudentResponse;
+import com.ensias.ensiasattendease.services.StudentService;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,6 @@ import com.ensias.ensiasattendease.models.FiliereModel;
 import com.ensias.ensiasattendease.repositories.AttendanceRepository;
 import com.ensias.ensiasattendease.repositories.FiliereRepository;
 import com.ensias.ensiasattendease.repositories.StudentRepository;
-import com.ensias.ensiasattendease.services.StudentService;
 
 import jakarta.transaction.Transactional;
 
@@ -44,7 +42,7 @@ public class StudentServiceImpl implements StudentService {
     private final AttendanceRepository attendanceRepository ;
 
    
-    private  PasswordEncoder passwordEncoder;
+    private  final PasswordEncoder passwordEncoder;
 
     public AttendanceModel saveAttendance(AttendanceModel attendance){
         return attendanceRepository.save(attendance);
@@ -59,10 +57,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentModel enrollStudent(StudentModel student){
         try {
-            if(studentRepository.findByphone(student )!=null){
+            if(studentRepository.findByphone(student.getPhone())!=null){
                 return null ;
             }
-            if(studentRepository.findByCNE(student.getCNE())!=null){
+            if(studentRepository.findByCne(student.getCne()) !=null){
                 return null ;
             }
             return studentRepository.save(student);
@@ -80,7 +78,7 @@ public class StudentServiceImpl implements StudentService {
     public AttendanceModel registerAttendance(AttendanceModel attendance , String cne){
         try {
             
-            StudentModel student = studentRepository.findByCNE(cne);
+            StudentModel student = studentRepository.findByCne(cne);
             if(student == null){
                return null ;
             }
@@ -97,10 +95,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Boolean deleteStudent(String cne){
         try {
-            if(studentRepository.findByCNE(cne)==null){
+            if(studentRepository.findByCne(cne)==null){
                 return false ;
             }
-            studentRepository.deleteByCNE(cne);
+            studentRepository.deleteByCne(cne);
             return true ;
         } catch (Exception e){
             return false ;
@@ -109,15 +107,15 @@ public class StudentServiceImpl implements StudentService {
 
     @Override 
     public StudentModel getStudentByCNE(String cne){
-        return studentRepository.findByCNE(cne);
+        return studentRepository.findByCne(cne);
     }
 
     @Override
     public Collection<AttendanceModel> getStudentAllAttendance(String cne){
-        if(studentRepository.findByCNE(cne)==null){
+        if(studentRepository.findByCne(cne)==null){
             return null ;
         }
-        Collection<AttendanceModel> attendances = studentRepository.findByCNE(cne).getAttendance();
+        Collection<AttendanceModel> attendances = studentRepository.findByCne(cne).getAttendance();
         if(attendances == null){
             return null ;
         }
@@ -126,7 +124,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentModel updateStudent(StudentModel student){
-        if(studentRepository.findByCNE(student.getCNE())==null){
+        StudentModel studentModel = studentRepository.findByCne(student.getCne());
+        if(studentModel == null){
             return null ;
         }
         return studentRepository.save(student);
@@ -134,7 +133,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public AttendanceModel updateStudentAttendance(AttendanceModel attendance , String cne){
-        StudentModel student = studentRepository.findByCNE(cne);
+        StudentModel student = studentRepository.findByCne(cne);
         if(student==null){
             return null ;
         }
@@ -153,11 +152,15 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Boolean deleteStudentAttendance(String cne , Long id){
-        StudentModel student = studentRepository.findByCNE(cne);
+        StudentModel student = studentRepository.findByCne(cne);
         if(student==null){
             return false ;
         }
         try {
+            AttendanceModel attendanceModel = attendanceRepository.findById(id).get();
+            if(attendanceModel == null){
+                return false;
+            }
             attendanceRepository.deleteById(id);
             return true ;
         } catch (Exception e) {
@@ -167,15 +170,15 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public FiliereModel getStudentFiliere(String cne) {
-        if(studentRepository.findByCNE(cne) == null){
+        if(studentRepository.findByCne(cne) == null){
             return null ;
         }
-        FiliereModel filiere =  studentRepository.findByCNE(cne).getFiliere();
+        FiliereModel filiere =  studentRepository.findByCne(cne).getFiliere();
         return filiere ;
     }
     @Override
     public FiliereModel affectStudentFiliere(String cne, Long id) {
-        StudentModel student = studentRepository.findByCNE(cne);
+        StudentModel student = studentRepository.findByCne(cne);
         if(student==null || filiereRepository.findById(id).isPresent() == false){
             return null ;
         }
@@ -187,13 +190,13 @@ public class StudentServiceImpl implements StudentService {
     }
     @Override
     public FiliereModel updateStudentFiliere(String cne, FiliereModel filiere) {
-        StudentModel student = studentRepository.findByCNE(cne);
+        StudentModel student = studentRepository.findByCne(cne);
         if(student==null){
             return null ;
         }
         filiere.getStudent().forEach(
             (StudentModel std)->{
-                if(std.getCNE().equals(cne)){
+                if(std.getCne().equals(cne)){
                     std.setFiliere(filiere);
                     studentRepository.save(std);
                 }
@@ -205,7 +208,7 @@ public class StudentServiceImpl implements StudentService {
     }
     @Override
     public Boolean deleteStudentFiliere(String cne) {
-        StudentModel student = studentRepository.findByCNE(cne);
+        StudentModel student = studentRepository.findByCne(cne);
         if(student==null){
             return false ;
         }
@@ -214,12 +217,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     public StudentModel registerStudent(StudentRegisterRequest request) {
+
         StudentModel student = StudentModel.builder()
                 .first_name(request.getFirstname())
                 .last_name(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-
 // .password(request.getPassword())
 
                 .role("Student")
@@ -240,6 +243,7 @@ public class StudentServiceImpl implements StudentService {
 
         UserModel user =  userRepository.findById(Long.valueOf(id)).get();
         StudentModel student = studentRepository.findStudentById(Long.valueOf(id));
+
         StudentResponse studentToReturn = StudentResponse.builder()
                 .firstname(user.getFirst_name())
                 .lastname(user.getLast_name())

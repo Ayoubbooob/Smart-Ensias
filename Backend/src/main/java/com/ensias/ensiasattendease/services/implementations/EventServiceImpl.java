@@ -1,6 +1,6 @@
 package com.ensias.ensiasattendease.services.implementations;
 
-import com.ensias.ensiasattendease.models.Event;
+import com.ensias.ensiasattendease.models.EventModel;
 import com.ensias.ensiasattendease.repositories.EventRepository;
 import com.ensias.ensiasattendease.resources.RequestModels.AddEventRequest;
 import com.ensias.ensiasattendease.services.EventService;
@@ -17,17 +17,18 @@ public class EventServiceImpl implements EventService {
 
 
     private final EventRepository eventRepository;
-    public Event createEvent(AddEventRequest addEventRequest){
-        Event eventToSave = Event.builder()
+    public EventModel createEvent(AddEventRequest addEventRequest){
+        EventModel eventToSave = EventModel.builder()
                 .start_date(LocalDate.parse(addEventRequest.getStart_date()))
                 .end_date(LocalDate.parse(addEventRequest.getEnd_date()))
+                .title(addEventRequest.getTitle())
                 .build();
 
         eventRepository.save(eventToSave);
         return eventToSave;
     }
 
-    public List<Event> getAllEvents() {
+    public List<EventModel> getAllEvents() {
         return eventRepository.findAll();
     }
 }

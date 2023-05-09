@@ -25,18 +25,17 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class AttendanceServiceImpl<justificationRepository> implements AttendanceService {
 
-    @Autowired
-    private AttendanceRepository attendanceRepository ; 
+    private final AttendanceRepository attendanceRepository ;
 
-    @Autowired
-    private JustificationRepository justificationRepository ; 
+
+    private final JustificationRepository justificationRepository ;
     
     
-    public void AttendanceServiceImpl(AttendanceRepository attendanceRepository  , JustificationRepository justificationRepository){
-        this.attendanceRepository = attendanceRepository ;  
-        this.justificationRepository  = justificationRepository ; 
-
-    }
+//    public void AttendanceServiceImpl(AttendanceRepository attendanceRepository  , JustificationRepository justificationRepository){
+//        this.attendanceRepository = attendanceRepository ;
+//        this.justificationRepository  = justificationRepository ;
+//
+//    }
 
     @Override
     public List<AttendanceModel> getAllAttendance(int page , int size){

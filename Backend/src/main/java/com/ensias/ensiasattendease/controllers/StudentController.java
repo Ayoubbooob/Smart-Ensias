@@ -3,11 +3,7 @@ package com.ensias.ensiasattendease.controllers;
 import java.util.Collection;
 import java.util.List;
 
-<<<<<<< HEAD
-import org.springframework.beans.factory.annotation.Autowired;
-=======
-import com.ensias.ensiasattendease.resources.responses.StudentResponse;
->>>>>>> 84e99edd3795a07dad7eda8513d2f6228c358c7e
+import com.ensias.ensiasattendease.services.implementations.StudentServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,32 +16,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
-<<<<<<< HEAD
-import com.ensias.ensiasattendease.models.AttendanceStatus;
 import com.ensias.ensiasattendease.models.FiliereModel;
 import com.ensias.ensiasattendease.models.StudentModel;
-import com.ensias.ensiasattendease.services.StudentService;
-=======
-import com.ensias.ensiasattendease.models.Student;
-import com.ensias.ensiasattendease.services.implementations.StudentServiceImpl;
->>>>>>> 84e99edd3795a07dad7eda8513d2f6228c358c7e
+
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/student")
+@RequestMapping("/students")
 public class StudentController {
 
-    @Autowired
-    private final StudentService studentService ; 
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Student>> getAllStudent(){
+    private final StudentServiceImpl studentService;
+
+    @GetMapping()
+    public ResponseEntity<List<StudentModel>> getAllStudent(){
         return new ResponseEntity<>(studentService.getAllStudent() , HttpStatus.OK);
     }
 
-<<<<<<< HEAD
     @GetMapping("/{cne}")
     public ResponseEntity<?> getStudentByCNE(@PathVariable String cne){
         if(cne == null){
@@ -59,32 +48,29 @@ public class StudentController {
         }
     }
 
+
     @GetMapping("/{cne}/attendances")
-    public ResponseEntity<?> getStudenAllAttendances(@PathVariable  String cne){
-        if(studentService.getStudentAllAttendance(cne)==null){
-            return new ResponseEntity<>("{\"error\" : \"Student do not exist\"}" , HttpStatus.NOT_FOUND) ;
+    public ResponseEntity<?> getStudentAttendance(@PathVariable String cne){
+        Collection<AttendanceModel> coll = studentService.getStudentAllAttendance(cne);
+        if(coll == null ){
+            return new ResponseEntity<>("{\"error\" : \"student or attendances  do not exist\"}" , HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(studentService.getStudentAllAttendance(cne) , HttpStatus.OK);
-=======
-    @GetMapping("/attendance/{cne}")
-    public ResponseEntity<Collection<AttendanceModel>> getStudentAttendance(@PathVariable String cne){
-        return new ResponseEntity<>(studentService.getStudentAttendance(cne) , HttpStatus.OK);
->>>>>>> 84e99edd3795a07dad7eda8513d2f6228c358c7e
     }
 
-    @PostMapping("/enrollStudent")
-    public ResponseEntity<?> createStudent(@RequestBody Student student){
-        if(student == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST) ;
-        }
-        else{
-            StudentModel studentModel = studentService.enrollStudent(student) ;
-            if(studentModel == null){
-                return new ResponseEntity<>("{\"error\" : \"field unique constraint must be respected\"}" , HttpStatus.BAD_REQUEST) ;
-            }
-            return new ResponseEntity<>(studentModel , HttpStatus.CREATED);
-        }
-    }
+//    @PostMapping("/enrollStudent")
+//    public ResponseEntity<?> createStudent(@RequestBody StudentModel student){
+//        if(student == null){
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST) ;
+//        }
+//        else{
+//            StudentModel studentModel = studentService.enrollStudent(student) ;
+//            if(studentModel == null){
+//                return new ResponseEntity<>("{\"error\" : \"field unique constraint must be respected\"}" , HttpStatus.BAD_REQUEST) ;
+//            }
+//            return new ResponseEntity<>(studentModel , HttpStatus.CREATED);
+//        }
+//    }
 
     @PostMapping("/registerAttendance/{cne}")
     public ResponseEntity<?> takeAttendance(@RequestBody AttendanceModel attendance  , @PathVariable String cne){
@@ -106,6 +92,7 @@ public class StudentController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST) ;
         }
         else{
+
             if(studentService.deleteStudent(cne) == false){
                 return new ResponseEntity<>("{\"deleted\" : false}" , HttpStatus.NOT_FOUND) ;
             }
@@ -209,7 +196,7 @@ public class StudentController {
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/getstudent/{id}")
     public ResponseEntity<?> getStudentById(@PathVariable String id){
         if(id == null){
             return ResponseEntity.badRequest().body("The id must be set");

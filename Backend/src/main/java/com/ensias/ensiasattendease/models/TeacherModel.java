@@ -1,18 +1,12 @@
 package com.ensias.ensiasattendease.models;
 
+import java.time.LocalDate;
 import java.util.Collection;
-
-import org.hibernate.annotations.ManyToAny;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -24,7 +18,10 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TeacherModel extends UserModel{
-    private String Matricule ;
+    @Column(unique = true)
+    private String matricule;
+
+    private LocalDate joining_date;
     @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JsonIgnoreProperties("teacher")
     private Collection<FiliereModel> filiere ;

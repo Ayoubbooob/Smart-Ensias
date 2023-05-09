@@ -4,13 +4,11 @@ package com.ensias.ensiasattendease.models;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,8 +21,10 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 public class StudentModel extends UserModel {
+
+    @Column(unique = true)
     private String cne;
-    @ManyToMany(mappedBy = "student" , fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "student" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JsonIgnoreProperties("student")
     private Collection<AttendanceModel> attendance = new ArrayList<>() ;
     @ManyToOne

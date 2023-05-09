@@ -1,6 +1,6 @@
 package com.ensias.ensiasattendease.controllers;
 
-import com.ensias.ensiasattendease.models.Holiday;
+import com.ensias.ensiasattendease.models.HolidayModel;
 import com.ensias.ensiasattendease.resources.RequestModels.AddHolidayRequest;
 import com.ensias.ensiasattendease.services.implementations.HolidayServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +17,12 @@ public class HolidayController {
     private final HolidayServiceImpl holidayService;
 
     @PostMapping("/create")
-    public ResponseEntity<Holiday> createHoliday(@RequestBody AddHolidayRequest addHolidayRequest){
+    public ResponseEntity<HolidayModel> createHoliday(@RequestBody AddHolidayRequest addHolidayRequest){
         return ResponseEntity.ok(holidayService.createHoliday(addHolidayRequest));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Holiday>> getAllHolidays(){
+    public ResponseEntity<List<HolidayModel>> getAllHolidays(){
         return ResponseEntity.ok(holidayService.getAllHolidays());
     }
 }

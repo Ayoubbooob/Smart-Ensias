@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "User")
@@ -24,7 +26,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class UserModel implments UserDetails {
+public abstract class UserModel implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
@@ -36,6 +38,7 @@ public abstract class UserModel implments UserDetails {
 
 
     @Email(message = "Email Invalide")
+    @Column(unique = true)
     protected  String email ;
 
     @Enumerated(EnumType.STRING)
@@ -58,7 +61,7 @@ public abstract class UserModel implments UserDetails {
 //    private String role;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<TokenModel> tokens ;
 
 

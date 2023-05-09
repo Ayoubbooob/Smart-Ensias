@@ -1,6 +1,5 @@
 package com.ensias.ensiasattendease.repositories;
 
-import com.ensias.ensiasattendease.models.User;
 import com.ensias.ensiasattendease.models.UserModel;
 
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -2,11 +2,8 @@ package com.ensias.ensiasattendease.services;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
-<<<<<<< HEAD
-import com.ensias.ensiasattendease.models.AttendanceStatus;
 import com.ensias.ensiasattendease.models.FiliereModel;
 import com.ensias.ensiasattendease.models.StudentModel;
 import com.ensias.ensiasattendease.resources.RequestModels.StudentRegisterRequest;

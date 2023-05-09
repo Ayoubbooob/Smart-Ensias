@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Holiday {
+public class HolidayModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

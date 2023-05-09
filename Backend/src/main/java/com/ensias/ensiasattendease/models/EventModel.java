@@ -25,6 +25,7 @@ public class EventModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
     private LocalDate start_date;
 
     private LocalDate end_date;
