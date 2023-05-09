@@ -56,7 +56,6 @@ public abstract class UserModel implements UserDetails {
     @NotEmpty(message = "le nom est requis")
     protected String last_name;
 
-
     //ADDED THIS
     @Enumerated(EnumType.STRING)
     private Role role;

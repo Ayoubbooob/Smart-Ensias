@@ -24,7 +24,7 @@ public class StudentModel extends UserModel {
 
     @Column(unique = true)
     private String cne;
-    @ManyToMany(mappedBy = "student" , fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "student" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JsonIgnoreProperties("student")
     private Collection<AttendanceModel> attendance = new ArrayList<>() ;
     @ManyToOne
