@@ -32,7 +32,8 @@ public class AttendanceController {
 
     @GetMapping
     public ResponseEntity<List<AttendanceModel>> getAttendance(@RequestParam(name = "page" , defaultValue = "0") int page , @RequestParam(name = "size" , defaultValue = "5") int size){
-        return new ResponseEntity<>(attendanceService.getAllAttendance(page , size) , HttpStatus.OK); 
+        List<AttendanceModel> attendanceModel =  attendanceService.getAllAttendance();
+        return new ResponseEntity<>(attendanceModel , HttpStatus.OK); 
     }
 
     @PostMapping("/add")

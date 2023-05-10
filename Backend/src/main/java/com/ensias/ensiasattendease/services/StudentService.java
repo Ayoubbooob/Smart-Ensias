@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
+import com.ensias.ensiasattendease.models.AttendanceStatus;
 import com.ensias.ensiasattendease.models.FiliereModel;
 import com.ensias.ensiasattendease.models.StudentModel;
 import com.ensias.ensiasattendease.resources.RequestModels.StudentRegisterRequest;
@@ -12,7 +13,7 @@ import com.ensias.ensiasattendease.resources.responses.StudentResponse;
 public interface StudentService {
     List<StudentModel> getAllStudent() ; 
     StudentModel enrollStudent(StudentModel student ) ; 
-    AttendanceModel registerAttendance(AttendanceModel attendance , String cne);
+    AttendanceModel registerAttendance(AttendanceStatus status , Long course_id , String cne);
     Boolean deleteStudent(String cne);
     Collection<AttendanceModel> getStudentAllAttendance(String cne);
     StudentModel getStudentByCNE(String cne);
