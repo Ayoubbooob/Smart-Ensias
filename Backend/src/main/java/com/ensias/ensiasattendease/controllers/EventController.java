@@ -42,6 +42,7 @@ public class EventController {
     private final EventServiceImpl eventService;
 
     @PostMapping("/create")
+
     public ResponseEntity<EventModel> createEvent(@RequestBody AddEventRequest addEventRequest) throws Exception {
         try {
             EventModel event = eventService.createEvent(addEventRequest);

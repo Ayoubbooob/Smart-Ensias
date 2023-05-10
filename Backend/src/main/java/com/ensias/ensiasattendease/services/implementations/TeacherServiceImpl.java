@@ -179,7 +179,7 @@ public class TeacherServiceImpl implements TeacherService {
 
         TeacherModel teacher = teacherRepository.findByMatricule(matricule);
         if(teacher != null){
-            attendance.getTeacher().add(teacher);
+            attendance.setTeacher(teacher);
             teacher.getAttendance().add(attendance);
             return attendanceRepository.save(attendance) ;
         } else {

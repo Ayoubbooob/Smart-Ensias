@@ -1,13 +1,24 @@
 package com.ensias.ensiasattendease.services;
 
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
 import com.ensias.ensiasattendease.models.JustificationModel;
 
 public interface AttendanceService {
-    List<AttendanceModel> getAllAttendance(int page , int size);
+    List<AttendanceModel> getAllAttendance();
+
+    Long getCurentDayAttendanceNumber();
+    Long getCurentDayAttendanceBoysNumber();
+    Long getCurentDayAttendanceGirlsNumber();
+    Long getCurentDayAttendanceAbsencesNumber();
+    Long getYearAttendaceGirls(int year);
+    Long getYearAttendaceBoys(int year);
+    Long getYearAttendaceByClass(int year);
     AttendanceModel saveAttendanceModel(AttendanceModel attendance);
     Optional<AttendanceModel>getAttendanceById(Long id) ;
     Boolean deleteAttendance(Long id);

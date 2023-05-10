@@ -1,7 +1,13 @@
 package com.ensias.ensiasattendease.services.implementations;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -10,9 +16,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
+import com.ensias.ensiasattendease.models.GenreUser;
 import com.ensias.ensiasattendease.models.JustificationModel;
 import com.ensias.ensiasattendease.repositories.AttendanceRepository;
 import com.ensias.ensiasattendease.repositories.JustificationRepository;
+import com.ensias.ensiasattendease.repositories.StudentRepository;
 import com.ensias.ensiasattendease.services.AttendanceService;
 
 import jakarta.transaction.Transactional;
@@ -27,9 +35,12 @@ public class AttendanceServiceImpl<justificationRepository> implements Attendanc
 
     private final AttendanceRepository attendanceRepository ;
 
+    private final StudentRepository studentRepository ;
+
 
     private final JustificationRepository justificationRepository ;
-    
+
+
     
 //    public void AttendanceServiceImpl(AttendanceRepository attendanceRepository  , JustificationRepository justificationRepository){
 //        this.attendanceRepository = attendanceRepository ;
@@ -38,8 +49,8 @@ public class AttendanceServiceImpl<justificationRepository> implements Attendanc
 //    }
 
     @Override
-    public List<AttendanceModel> getAllAttendance(int page , int size){
-        return attendanceRepository.findAll(PageRequest.of(page, size , Sort.by("takedTime").descending())).getContent() ;
+    public List<AttendanceModel> getAllAttendance(){
+        return attendanceRepository.findAll() ;
     }
 
     @Override
@@ -122,6 +133,50 @@ public class AttendanceServiceImpl<justificationRepository> implements Attendanc
             // TODO: handle exception
             return false ;
         }
+    }
+
+    @Override
+    public Long getCurentDayAttendanceNumber() {
+        // attendanceRepository.findAll().forEach(attendance -> {
+        //     if(attendance.getTakedTime().toLocalDate().equals(LocalDate.now()) == true){
+        //         countedValue ++ ;
+        //     }
+        // });
+        return attendanceRepository.findAll().stream().filter(attendance -> attendance.getTakedTime().toLocalDate().equals(LocalDate.now())).count() ;
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public Long getCurentDayAttendanceBoysNumber() {
+        return studentRepository.findAll().stream().filter(student -> student.getGenre().equals(GenreUser.MALE)).filter(student -> student.getAttendance().stream().filter(attendance -> attendance.getTakedTime().toLocalDate().equals(LocalDate.now())).count() > 0).count();
+    }
+
+    @Override
+    public Long getCurentDayAttendanceGirlsNumber() {
+        return studentRepository.findAll().stream().filter(student -> student.getGenre().equals(GenreUser.FEMALE)).filter(student -> student.getAttendance().stream().filter(attendance -> attendance.getTakedTime().toLocalDate().equals(LocalDate.now())).count() > 0).count();
+    }
+
+    @Override
+    public Long getCurentDayAttendanceAbsencesNumber() {
+        return studentRepository.findAll().stream().filter(student -> student.getAttendance().stream().filter(attendance -> attendance.getTakedTime().toLocalDate().equals(LocalDate.now())).count() == 0).count();
+    }
+
+    @Override
+    public Long getYearAttendaceGirls(int year) {
+        Long countedValue = studentRepository.findAll().stream().filter(student -> student.getGenre().equals(GenreUser.FEMALE)).filter(student -> student.getAttendance().stream().filter(attendance -> (attendance.getTakedTime().toLocalDate().getYear() == (LocalDate.now().getYear())) && (attendance.getTakedTime().toLocalDate().getMonthValue() == year )).count() > 0).count();
+        return countedValue;
+    }
+
+    @Override
+    public Long getYearAttendaceBoys(int year) {
+        Long countedValue = studentRepository.findAll().stream().filter(student -> student.getGenre().equals(GenreUser.MALE)).filter(student -> student.getAttendance().stream().filter(attendance -> (attendance.getTakedTime().toLocalDate().getYear() == (LocalDate.now().getYear())) && (attendance.getTakedTime().toLocalDate().getMonthValue() == year )).count() > 0).count();
+        return countedValue;
+    }
+
+    @Override
+    public Long getYearAttendaceByClass(int year) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getYearAttendaceByClass'");
     }
 
 

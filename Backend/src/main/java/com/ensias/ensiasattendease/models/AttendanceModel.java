@@ -43,15 +43,20 @@ public class AttendanceModel  {
     @Column(name ="takedTime" ,  columnDefinition = "TIMESTAMP")
     private LocalDateTime  takedTime = LocalDateTime.now()  ; 
     @ManyToOne
+    @JsonBackReference(value="attendance-class")
+    private classModel classe ;
+    @ManyToOne
     @JsonBackReference(value="attendance-course")
     private CourseModel course  ; 
-    @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("attendance")
-    private Collection<StudentModel> student = new ArrayList<>()  ;
-
-    @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("attendance")
-    private Collection<TeacherModel> teacher = new ArrayList<>()  ;
+    @ManyToOne()
+    @JsonBackReference(value = "attendance-student")
+    private StudentModel student  ; 
+    @ManyToOne()
+    @JsonBackReference(value = "attendance-teacher")
+    private TeacherModel teacher  ; 
+    @ManyToOne()
+    @JsonBackReference(value = "attendance-filiere")
+    private FiliereModel filiere  ; 
     @ManyToOne
     @JsonBackReference(value="attendance-justification")
     private JustificationModel justification ; 

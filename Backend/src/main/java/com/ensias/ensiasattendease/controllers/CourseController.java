@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ensias.ensiasattendease.models.CourseModel;
 import com.ensias.ensiasattendease.services.CourseService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,17 +37,29 @@ public class CourseController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> createCourse(@RequestBody CourseModel course){
+    public ResponseEntity<?> createCourse(@RequestBody JsonNode newCourse){
+       try {
+        JsonNode filiereIDNode = newCourse.get("filiereIDS");
+        JsonNode courseNode = newCourse.get("course") ;
+        ObjectMapper filiereIDMapper = new ObjectMapper();
+        ObjectMapper courseMapper = new ObjectMapper();
+        Long[] filiereIDS =  filiereIDMapper.readValue(filiereIDNode.toString(), Long[].class);
+        CourseModel course =  courseMapper.readValue(courseNode.toString(), CourseModel.class);
         if(course == null){
             return new ResponseEntity<>("{\"error\" : \"course is required\"}" , HttpStatus.BAD_REQUEST) ; 
         }
         else{
-            CourseModel courseModel = courseService.saveCourseModel(course) ;
+            CourseModel courseModel = courseService.saveCourseModel(course , filiereIDS) ;
             if(courseModel == null){
                 return new ResponseEntity<>("{\"error\" : \"course already exist or there an error\"}" , HttpStatus.BAD_REQUEST) ; 
             }
-            return new ResponseEntity<>(courseService.saveCourseModel(course) , HttpStatus.CREATED) ;
+            return new ResponseEntity<>(courseModel , HttpStatus.CREATED) ;
         }
+       } catch (Exception e) {
+        // TODO: handle exception
+        return new ResponseEntity<>("{\"error\" : \"filiereID[] or course is required\"}" , HttpStatus.BAD_REQUEST) ;
+       }
+
     }
 
     @PatchMapping("/{id}")

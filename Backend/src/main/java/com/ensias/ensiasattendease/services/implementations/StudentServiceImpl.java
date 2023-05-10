@@ -1,10 +1,15 @@
 package com.ensias.ensiasattendease.services.implementations;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-import com.ensias.ensiasattendease.models.*;
+import com.ensias.ensiasattendease.models.GenreUser;
+import com.ensias.ensiasattendease.models.PlanningModel;
+import com.ensias.ensiasattendease.models.Role;
+import com.ensias.ensiasattendease.models.StudentModel;
+import com.ensias.ensiasattendease.models.UserModel;
 import com.ensias.ensiasattendease.repositories.UserRepository;
 import com.ensias.ensiasattendease.resources.RequestModels.StudentRegisterRequest;
 import com.ensias.ensiasattendease.resources.responses.StudentResponse;
@@ -14,8 +19,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ensias.ensiasattendease.models.AttendanceModel;
+import com.ensias.ensiasattendease.models.AttendanceStatus;
+import com.ensias.ensiasattendease.models.CourseModel;
+import com.ensias.ensiasattendease.models.CoursePlanningModel;
+import com.ensias.ensiasattendease.models.FiliereModel;
 import com.ensias.ensiasattendease.repositories.AttendanceRepository;
+import com.ensias.ensiasattendease.repositories.CourseRepository;
 import com.ensias.ensiasattendease.repositories.FiliereRepository;
+import com.ensias.ensiasattendease.repositories.PlanningRepository;
 import com.ensias.ensiasattendease.repositories.StudentRepository;
 
 import jakarta.transaction.Transactional;
@@ -33,12 +45,13 @@ public class StudentServiceImpl implements StudentService {
 
     private  final FiliereRepository filiereRepository ;
 
-
-    
     private final AttendanceRepository attendanceRepository ;
-
    
     private  final PasswordEncoder passwordEncoder;
+
+    private final PlanningRepository planningRepository ;
+
+    private final CourseRepository courseRepository ;
 
     public AttendanceModel saveAttendance(AttendanceModel attendance){
         return attendanceRepository.save(attendance);
@@ -71,15 +84,30 @@ public class StudentServiceImpl implements StudentService {
      * @target this methode is used to register student attendance 
      */
     @Override
-    public AttendanceModel registerAttendance(AttendanceModel attendance , String cne){
+    public AttendanceModel registerAttendance(AttendanceStatus status , Long course_id , String cne){
         try {
             
             StudentModel student = studentRepository.findByCne(cne);
-            if(student == null){
-               return null ;
+            CoursePlanningModel coursenPlan = planningRepository.findByDay(LocalDate.now()).getCoursePlanning().stream().filter(c -> c.getId() == course_id).findFirst().orElse(null);
+            // CourseModel course = 
+            if(student == null || coursenPlan == null ){
+                return null ;
+            }
+            else if(coursenPlan.getStartedDate().isBefore(LocalDateTime.now()) || coursenPlan.getEndedDate().isAfter(LocalDateTime.now())){
+                return null ;
             }
             if(attendance.getStatus().equals(AttendanceStatus.ABSENT)) student.incrementAbsence();
-            attendance.getStudent().add(student);
+            // attendance.getStudent().add(student); //FOR AYOUB
+          
+            AttendanceModel attendance = new AttendanceModel(); 
+            CourseModel courseFounded = courseRepository.findById(course_id).get();
+            attendance.setCourse(courseFounded);
+            attendance.setStarted(coursenPlan.getStartedDate());
+            attendance.setEnded(coursenPlan.getEndedDate());
+            attendance.setFiliere(student.getFiliere());
+            attendance.setStatus(status);
+            attendance.setStudent(student);
+            attendance.setClasse(coursenPlan.getClasse());
             student.getAttendance().add(attendance);
             return attendanceRepository.save(attendance) ;
         } catch (Exception e) {
