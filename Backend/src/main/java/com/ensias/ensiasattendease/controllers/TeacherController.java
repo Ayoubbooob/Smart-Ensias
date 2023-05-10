@@ -1,8 +1,10 @@
 package com.ensias.ensiasattendease.controllers;
 
 
+import com.ensias.ensiasattendease.models.AttendanceModel;
 import com.ensias.ensiasattendease.models.TeacherModel;
 import com.ensias.ensiasattendease.resources.RequestModels.TeacherRequestResponse;
+import com.ensias.ensiasattendease.resources.responses.TeacherAttendanceResponse;
 import com.ensias.ensiasattendease.services.implementations.TeacherServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -71,6 +73,28 @@ public class TeacherController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
+    @GetMapping("/attendances/{matricule}")
+    public ResponseEntity<List<TeacherAttendanceResponse>> getTeacherAttendances(@PathVariable String matricule) throws Exception{
+        try{
+            List<TeacherAttendanceResponse> attendances = teacherService.getTeacherAttendances(matricule);
+            return ResponseEntity.ok(attendances);
+        }catch(Exception e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/affectAttendance/{matricule}")
+    public ResponseEntity<AttendanceModel> affectTeacherAttendance(@RequestBody AttendanceModel attendance  , @PathVariable String matricule){
+        try{
+            AttendanceModel attendanceAffected = teacherService.affectTeacherAttendance(attendance , matricule) ;
+            return  ResponseEntity.ok(attendanceAffected);
+        }catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 
 
