@@ -1,12 +1,12 @@
 package com.ensias.ensiasattendease.services.implementations;
 
-import com.ensias.ensiasattendease.models.GenreUser;
+import com.ensias.ensiasattendease.models.*;
 import com.ensias.ensiasattendease.models.TeacherModel;
-import com.ensias.ensiasattendease.models.Role;
-import com.ensias.ensiasattendease.models.TeacherModel;
+import com.ensias.ensiasattendease.repositories.AttendanceRepository;
 import com.ensias.ensiasattendease.repositories.TeacherRepository;
 import com.ensias.ensiasattendease.resources.RequestModels.TeacherRegisterRequest;
 import com.ensias.ensiasattendease.resources.RequestModels.TeacherRequestResponse;
+import com.ensias.ensiasattendease.resources.responses.TeacherAttendanceResponse;
 import com.ensias.ensiasattendease.services.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -27,6 +24,8 @@ public class TeacherServiceImpl implements TeacherService {
 
     private final PasswordEncoder passwordEncoder;
     private final TeacherRepository teacherRepository;
+
+    private final AttendanceRepository attendanceRepository;
     public TeacherModel registerTeacher(TeacherRegisterRequest request) {
         System.out.println("********** Password : "+request.getPassword());
         TeacherModel teacher = TeacherModel.builder()
@@ -55,6 +54,7 @@ public class TeacherServiceImpl implements TeacherService {
         List<TeacherRequestResponse> teachersResponses = new ArrayList<>();
         for(TeacherModel teacher : teachers){
             TeacherRequestResponse response = TeacherRequestResponse.builder()
+                    .id(teacher.getId())
                 .firstname(teacher.getFirst_name())
                 .lastname(teacher.getLast_name())
                 .email(teacher.getEmail())
@@ -77,6 +77,7 @@ public class TeacherServiceImpl implements TeacherService {
         if(teacher ==  null) return null;
 
         return TeacherRequestResponse.builder()
+                .id(teacher.getId())
                 .firstname(teacher.getFirst_name())
                 .lastname(teacher.getLast_name())
                 .email(teacher.getEmail())
@@ -135,9 +136,61 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
 
+//    @Override
+//    public List<AttendanceModel> getTeacherAttendances(Long id) throws Exception{
+//        Optional<TeacherModel> teacher = teacherRepository.findById(id);
+//        if(teacher.isPresent()) {
+//            return teacher.get().getAttendance();
+//        }else{
+//            throw new Exception("Teacher with ID " + id + " not found");
+//        }
+//
+//    }
+
+    @Override
+    public List<TeacherAttendanceResponse> getTeacherAttendances(String matricule) throws Exception{
+        TeacherModel teacher = teacherRepository.findByMatricule(matricule);
+        if(teacher != null) {
+            Collection<AttendanceModel> attendances = teacher.getAttendance();
+            List<TeacherAttendanceResponse> response = new ArrayList<>();
+            for(AttendanceModel attendance : attendances){
+                response.add(
+                        TeacherAttendanceResponse.builder()
+                                .id(attendance.getId())
+                                .matricule(teacher.getMatricule())
+                                .firstname(teacher.getFirst_name())
+                                .lastname(teacher.getLast_name())
+//                                .subject(attendance.getCourse().getName())
+                                .start_time(attendance.getStarted().toString())
+                                .end_time(attendance.getEnded().toString())
+                                .date(attendance.getTakedTime().toString())
+                                .status(attendance.getStatus().toString())
+                        .build()
+                );
+            }
+            return response;
+        }else{
+            throw new Exception("Teacher with Matricule " + matricule + " not found");
+        }
+
+    }
+
+    public AttendanceModel affectTeacherAttendance(AttendanceModel attendance, String matricule) throws Exception {
+
+        TeacherModel teacher = teacherRepository.findByMatricule(matricule);
+        if(teacher != null){
+            attendance.setTeacher(teacher);
+            teacher.getAttendance().add(attendance);
+            return attendanceRepository.save(attendance) ;
+        } else {
+            throw new Exception("Teacher with Matricule " + matricule + " not found");
+        }
+
+    }
 
 
-  //  We can use this methode if we want to create a teacher in our system , not account
+
+    //  We can use this methode if we want to create a teacher in our system , not account
 //
 //    public TeacherModel createHoliday(AddTeacherRequest addTeacherRequest){
 //

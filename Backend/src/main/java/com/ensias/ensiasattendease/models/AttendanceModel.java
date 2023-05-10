@@ -52,6 +52,9 @@ public class AttendanceModel  {
     @JsonBackReference(value = "attendance-student")
     private StudentModel student  ; 
     @ManyToOne()
+    @JsonBackReference(value = "attendance-teacher")
+    private TeacherModel teacher  ; 
+    @ManyToOne()
     @JsonBackReference(value = "attendance-filiere")
     private FiliereModel filiere  ; 
     @ManyToOne

@@ -47,7 +47,9 @@ public class SecurityConfiguration  {
                 .cors().and() // added this
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**")//ADD HERE ENDPOINTS THAT YOU DON'T NEED TO AUTHENTICATE TO USE THEM(WHITELIST)
-//
+
+//                .requestMatchers("/api/v1/auth/**", "/**")//ADD HERE ENDPOINTS THAT YOU DON'T NEED TO AUTHENTICATE TO USE THEM(WHITELIST)
+
 //                .requestMatchers("/**")//ADD HERE ENDPOINTS THAT YOU DON'T NEED TO AUTHENTICATE TO USE THEM(WHITELIST)
 
 

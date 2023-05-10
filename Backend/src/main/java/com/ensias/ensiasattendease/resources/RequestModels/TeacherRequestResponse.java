@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 public class TeacherRequestResponse {
 
+    private Long id;
     private String firstname;
     private String lastname;
     private String email;
