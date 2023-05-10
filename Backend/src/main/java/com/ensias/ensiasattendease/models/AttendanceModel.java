@@ -47,7 +47,11 @@ public class AttendanceModel  {
     private CourseModel course  ; 
     @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JsonIgnoreProperties("attendance")
-    private Collection<StudentModel> student = new ArrayList<>()  ; 
+    private Collection<StudentModel> student = new ArrayList<>()  ;
+
+    @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("attendance")
+    private Collection<TeacherModel> teacher = new ArrayList<>()  ;
     @ManyToOne
     @JsonBackReference(value="attendance-justification")
     private JustificationModel justification ; 

@@ -1,7 +1,9 @@
 package com.ensias.ensiasattendease.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -25,6 +27,12 @@ public class TeacherModel extends UserModel{
     @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JsonIgnoreProperties("teacher")
     private Collection<FiliereModel> filiere ;
+
+    @ManyToMany(mappedBy = "teacher" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("teacher")
+    private List<AttendanceModel> attendance ;
+
+
     // @ManyToMany(mappedBy = "teacher" , fetch = FetchType.LAZY)
     // @JsonIgnoreProperties("teacher")
     // private Collection<CourseModel> course ;
