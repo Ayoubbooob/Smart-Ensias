@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class AdminModel extends UserModel {
 
 
+
     private String matricule;
 
 

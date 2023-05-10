@@ -78,6 +78,7 @@ public class StudentServiceImpl implements StudentService {
             if(student == null){
                return null ;
             }
+            if(attendance.getStatus().equals(AttendanceStatus.ABSENT)) student.incrementAbsence();
             attendance.getStudent().add(student);
             student.getAttendance().add(attendance);
             return attendanceRepository.save(attendance) ;

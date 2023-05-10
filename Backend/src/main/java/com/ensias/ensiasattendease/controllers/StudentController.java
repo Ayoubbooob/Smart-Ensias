@@ -3,6 +3,7 @@ package com.ensias.ensiasattendease.controllers;
 import java.util.Collection;
 import java.util.List;
 
+import com.ensias.ensiasattendease.services.implementations.NotificationServiceImpl;
 import com.ensias.ensiasattendease.services.implementations.StudentServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ public class StudentController {
 
 
     private final StudentServiceImpl studentService;
+    private final NotificationServiceImpl notificationService;
 
 
     @GetMapping()
@@ -83,6 +85,12 @@ public class StudentController {
             if( attendanceModel == null){
                 return new ResponseEntity<>("{\"error\" : \"student  do not exist\"}" , HttpStatus.NOT_FOUND) ;
             }
+            StudentModel student = studentService.getStudentByCNE(cne);
+            int numberOfAbsences = student.getNumberOfAbsences();
+            if(numberOfAbsences >= 3){
+                notificationService.addNotification(student, "You have missed three or more classes.");
+            }
+            studentService.updateStudent(student);
             return new ResponseEntity<>( attendanceModel  , HttpStatus.CREATED);
         }
     }

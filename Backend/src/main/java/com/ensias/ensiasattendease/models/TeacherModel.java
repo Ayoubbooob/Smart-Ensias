@@ -30,7 +30,7 @@ public class TeacherModel extends UserModel{
 
     @ManyToMany(mappedBy = "teacher" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnoreProperties("teacher")
-    private List<AttendanceModel> attendance ;
+    private Collection<AttendanceModel> attendance = new ArrayList<>() ;
 
 
     // @ManyToMany(mappedBy = "teacher" , fetch = FetchType.LAZY)

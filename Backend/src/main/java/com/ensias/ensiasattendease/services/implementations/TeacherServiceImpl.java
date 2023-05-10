@@ -151,7 +151,7 @@ public class TeacherServiceImpl implements TeacherService {
     public List<TeacherAttendanceResponse> getTeacherAttendances(String matricule) throws Exception{
         TeacherModel teacher = teacherRepository.findByMatricule(matricule);
         if(teacher != null) {
-            List<AttendanceModel> attendances = teacher.getAttendance();
+            Collection<AttendanceModel> attendances = teacher.getAttendance();
             List<TeacherAttendanceResponse> response = new ArrayList<>();
             for(AttendanceModel attendance : attendances){
                 response.add(
