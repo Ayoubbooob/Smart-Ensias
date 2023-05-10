@@ -113,4 +113,5 @@ public abstract class UserModel implements UserDetails {
     public String getPassword() {
         return password;
     }
+
 }

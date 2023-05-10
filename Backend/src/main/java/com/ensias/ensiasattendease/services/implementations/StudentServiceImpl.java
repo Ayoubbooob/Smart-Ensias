@@ -96,6 +96,9 @@ public class StudentServiceImpl implements StudentService {
             else if(coursenPlan.getStartedDate().isBefore(LocalDateTime.now()) || coursenPlan.getEndedDate().isAfter(LocalDateTime.now())){
                 return null ;
             }
+            if(attendance.getStatus().equals(AttendanceStatus.ABSENT)) student.incrementAbsence();
+            // attendance.getStudent().add(student); //FOR AYOUB
+          
             AttendanceModel attendance = new AttendanceModel(); 
             CourseModel courseFounded = courseRepository.findById(course_id).get();
             attendance.setCourse(courseFounded);

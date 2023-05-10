@@ -3,6 +3,7 @@ package com.ensias.ensiasattendease.controllers;
 import java.util.Collection;
 import java.util.List;
 
+import com.ensias.ensiasattendease.services.implementations.NotificationServiceImpl;
 import com.ensias.ensiasattendease.services.implementations.StudentServiceImpl;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,6 +35,7 @@ public class StudentController {
 
 
     private final StudentServiceImpl studentService;
+    private final NotificationServiceImpl notificationService;
 
     @GetMapping()
     public ResponseEntity<List<StudentModel>> getAllStudent(){
@@ -96,9 +98,20 @@ public class StudentController {
                 }
                 return new ResponseEntity<>( attendanceModel  , HttpStatus.CREATED);
             }
+
+          // ME, AYOUB ADDED THIS  - FOR NOIFICATION
+            StudentModel student = studentService.getStudentByCNE(cne);
+            int numberOfAbsences = student.getNumberOfAbsences();
+            if(numberOfAbsences >= 3){
+                notificationService.addNotification(student, "You have missed three or more classes.");
+            }
+            studentService.updateStudent(student);
+            return new ResponseEntity<>( attendanceModel  , HttpStatus.CREATED);
+          // UNTIL HERE
         } catch (Exception e) {
             // TODO: handle exception
             return new ResponseEntity<>("{\"error\" : \"can't  the json values\"}" , HttpStatus.BAD_REQUEST) ;
+
         }
         
     }
