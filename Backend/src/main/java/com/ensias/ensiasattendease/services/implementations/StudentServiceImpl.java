@@ -1,15 +1,12 @@
 package com.ensias.ensiasattendease.services.implementations;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-import com.ensias.ensiasattendease.models.GenreUser;
-import com.ensias.ensiasattendease.models.PlanningModel;
-import com.ensias.ensiasattendease.models.Role;
-import com.ensias.ensiasattendease.models.StudentModel;
-import com.ensias.ensiasattendease.models.UserModel;
+import com.ensias.ensiasattendease.models.*;
 import com.ensias.ensiasattendease.repositories.UserRepository;
 import com.ensias.ensiasattendease.resources.RequestModels.StudentRegisterRequest;
 import com.ensias.ensiasattendease.resources.responses.StudentResponse;
@@ -19,11 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.ensias.ensiasattendease.models.AttendanceModel;
-import com.ensias.ensiasattendease.models.AttendanceStatus;
-import com.ensias.ensiasattendease.models.CourseModel;
-import com.ensias.ensiasattendease.models.CoursePlanningModel;
-import com.ensias.ensiasattendease.models.FiliereModel;
 import com.ensias.ensiasattendease.repositories.AttendanceRepository;
 import com.ensias.ensiasattendease.repositories.CourseRepository;
 import com.ensias.ensiasattendease.repositories.FiliereRepository;
@@ -88,16 +80,18 @@ public class StudentServiceImpl implements StudentService {
         try {
             
             StudentModel student = studentRepository.findByCne(cne);
-            CoursePlanningModel coursenPlan = planningRepository.findByDay(LocalDate.now()).getCoursePlanning().stream().filter(c -> c.getId() == course_id).findFirst().orElse(null);
-            // CourseModel course = 
+//            CoursePlanningModel coursenPlan = planningRepository.findByDay(LocalDate.now().getDayOfWeek()).getCoursePlanning().stream().filter(c -> c.getId() == course_id).findFirst().orElse(null);
+            // CourseModel course =
+            CoursePlanningModel coursenPlan = planningRepository.findByStartedDate(LocalDate.now()).getCoursePlanning().stream().filter(c -> c.getId() == course_id).findFirst().orElse(null);
+
+
             if(student == null || coursenPlan == null ){
                 return null ;
             }
             else if(coursenPlan.getStartedDate().isBefore(LocalDateTime.now()) || coursenPlan.getEndedDate().isAfter(LocalDateTime.now())){
                 return null ;
             }
-            if(attendance.getStatus().equals(AttendanceStatus.ABSENT)) student.incrementAbsence();
-            // attendance.getStudent().add(student); //FOR AYOUB
+//             attendance.getStudent().add(student); //FOR AYOUB
           
             AttendanceModel attendance = new AttendanceModel(); 
             CourseModel courseFounded = courseRepository.findById(course_id).get();
@@ -109,6 +103,8 @@ public class StudentServiceImpl implements StudentService {
             attendance.setStudent(student);
             attendance.setClasse(coursenPlan.getClasse());
             student.getAttendance().add(attendance);
+            if(attendance.getStatus().equals(AttendanceStatus.ABSENT)) student.incrementAbsence();
+            attendance.setStudent(student);
             return attendanceRepository.save(attendance) ;
         } catch (Exception e) {
             // TODO: handle exception

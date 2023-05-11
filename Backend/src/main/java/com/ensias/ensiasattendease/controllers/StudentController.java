@@ -96,17 +96,23 @@ public class StudentController {
                 if( attendanceModel == null){
                     return new ResponseEntity<>("{\"error\" : \"student  do not exist\"}" , HttpStatus.NOT_FOUND) ;
                 }
+                StudentModel student = studentService.getStudentByCNE(cne);
+                int numberOfAbsences = student.getNumberOfAbsences();
+                if(numberOfAbsences >= 3){
+                    notificationService.addNotification(student, "You have missed three or more classes.");
+                }
+                studentService.updateStudent(student);
                 return new ResponseEntity<>( attendanceModel  , HttpStatus.CREATED);
             }
 
           // ME, AYOUB ADDED THIS  - FOR NOIFICATION
-            StudentModel student = studentService.getStudentByCNE(cne);
-            int numberOfAbsences = student.getNumberOfAbsences();
-            if(numberOfAbsences >= 3){
-                notificationService.addNotification(student, "You have missed three or more classes.");
-            }
-            studentService.updateStudent(student);
-            return new ResponseEntity<>( attendanceModel  , HttpStatus.CREATED);
+//            StudentModel student = studentService.getStudentByCNE(cne);
+//            int numberOfAbsences = student.getNumberOfAbsences();
+//            if(numberOfAbsences >= 3){
+//                notificationService.addNotification(student, "You have missed three or more classes.");
+//            }
+//            studentService.updateStudent(student);
+//            return new ResponseEntity<>( attendanceModel  , HttpStatus.CREATED);
           // UNTIL HERE
         } catch (Exception e) {
             // TODO: handle exception

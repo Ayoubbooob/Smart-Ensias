@@ -30,12 +30,12 @@ public class TeacherModel extends UserModel{
     private Collection<FiliereModel> filiere ;
 
 //AYOUB ADDED THIS
-    @ManyToMany(mappedBy = "teacher" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("teacher")
+//    @ManyToMany(mappedBy = "teacher" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JsonIgnoreProperties("teacher")
     //UNTIL HERE
   // THIS FOR OUMAR
-//     @OneToMany(mappedBy = "teacher" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-//     @JsonManagedReference(value = "attendance-teacher")
+     @OneToMany(mappedBy = "teacher" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+     @JsonManagedReference(value = "attendance-teacher")
     private Collection<AttendanceModel> attendance = new ArrayList<>() ;
 
 

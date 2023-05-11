@@ -27,16 +27,16 @@ public class StudentModel extends UserModel {
     private String cne;
 
   // AYOUB ADDED THIS - NOTIF
-    @ManyToMany(mappedBy = "student" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("student")
+//    @ManyToMany(mappedBy = "student" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JsonIgnoreProperties("student")
 //UNTIL HERE
   
     // THIS FOR OUMAR
 
-//     @OneToMany(mappedBy = "student" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-//     @JsonManagedReference(value = "attendance-student")
-
-  private Collection<AttendanceModel> attendance = new ArrayList<>() ;
+     @OneToMany(mappedBy = "student" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+     @JsonManagedReference(value = "attendance-student")
+//
+    private Collection<AttendanceModel> attendance = new ArrayList<>() ;
     @ManyToOne
     @JsonBackReference(value = "filiere-student")
     private  FiliereModel filiere ;
