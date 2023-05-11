@@ -13,7 +13,6 @@ public interface PlanningRepository  extends JpaRepository<PlanningModel , Long>
     PlanningModel save(PlanningModel planning) ;
     List<PlanningModel>findAll();
     PlanningModel findById(long id);
-    PlanningModel findByDay(LocalDate day);
-
+    PlanningModel findByNowDate(LocalDate date);
     
 }

@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
+import com.ensias.ensiasattendease.repositories.FiliereRepository;
 import com.ensias.ensiasattendease.services.AttendanceService;
+import com.ensias.ensiasattendease.services.FiliereService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -25,6 +27,9 @@ public class dashboarController {
     
     @Autowired
     private final AttendanceService attenService;
+
+    @Autowired
+    private final FiliereService filiereService ;
 
     @GetMapping("/dashboard")
     public ResponseEntity<?> getDashboard(){
@@ -48,5 +53,18 @@ public class dashboarController {
             arrayNode.add(month);
         }
         return new ResponseEntity<>(dashboardOverview , HttpStatus.OK);
+    }
+    @GetMapping("/attendanceByClass")
+    public ResponseEntity<?> getAttendanceByClass(){
+        ObjectNode attendanceByClass = new ObjectMapper().createObjectNode();
+        ArrayNode arrayNode =  attendanceByClass.putArray("attendance");
+        filiereService.getAllFiliere().forEach(filiere ->{
+            ObjectNode month = new ObjectMapper().createObjectNode();
+            month.put("filiere" , filiere.getName());
+            month.put("totalGirls" , attenService.getYearAttendaceByClassGirls(filiere.getId()));
+            month.put("totalBoys" , attenService.getYearAttendaceByClassBoys(filiere.getId()));
+            arrayNode.add(month);
+        }); 
+        return new ResponseEntity<>(attendanceByClass , HttpStatus.OK);
     }
 }

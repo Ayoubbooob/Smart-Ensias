@@ -35,11 +35,10 @@ public class CourseModel {
     private String name ; 
     private String description ; 
     private String code  ; 
-    @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnoreProperties("course")
     private Collection<FiliereModel> filiere = new ArrayList<>() ;
-
-    // @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-    // @JsonIgnoreProperties("course")
-    // private Collection<FiliereModel> teacher;
+    @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("course")
+    private Collection<FiliereModel> teacher;
 }

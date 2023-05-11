@@ -92,7 +92,7 @@ public class StudentController {
             else{
                 AttendanceModel attendanceModel = studentService.registerAttendance( status , course_id ,  cne) ;
                 if( attendanceModel == null){
-                    return new ResponseEntity<>("{\"error\" : \"student  do not exist\"}" , HttpStatus.NOT_FOUND) ;
+                    return new ResponseEntity<>("{\"error\" : \"student  do not exist or attendance is closed or there is an error\"}" , HttpStatus.NOT_FOUND) ;
                 }
                 return new ResponseEntity<>( attendanceModel  , HttpStatus.CREATED);
             }

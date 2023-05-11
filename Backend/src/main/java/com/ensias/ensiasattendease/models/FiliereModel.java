@@ -3,8 +3,6 @@ package com.ensias.ensiasattendease.models;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.hibernate.annotations.ManyToAny;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -36,7 +34,7 @@ public class FiliereModel {
     private String name ; 
     private String description ; 
     private String code ;
-    @ManyToMany(mappedBy = "filiere" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "filiere" , fetch = FetchType.LAZY , cascade = CascadeType.ALL )
     @JsonIgnoreProperties("filiere")
     private Collection<TeacherModel> teacher = new ArrayList<>() ;
     @ManyToMany(mappedBy = "filiere" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
@@ -48,8 +46,5 @@ public class FiliereModel {
     @ManyToOne
     @JsonBackReference(value = "filiere-planning")
     private PlanningModel planning ;
-    // @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL )
-    // @JsonIgnoreProperties("filiere")
-    // private Collection<PromotionModel> promotion ;
 
 }

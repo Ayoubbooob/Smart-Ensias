@@ -1,7 +1,7 @@
 package com.ensias.ensiasattendease.services.implementations;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -88,23 +88,34 @@ public class StudentServiceImpl implements StudentService {
         try {
             
             StudentModel student = studentRepository.findByCne(cne);
-            CoursePlanningModel coursenPlan = planningRepository.findByDay(LocalDate.now()).getCoursePlanning().stream().filter(c -> c.getId() == course_id).findFirst().orElse(null);
-            // CourseModel course = 
-            if(student == null || coursenPlan == null ){
+            if(student == null){
+                System.out.println("student not found"); 
                 return null ;
             }
-            else if(coursenPlan.getStartedDate().isBefore(LocalDateTime.now()) || coursenPlan.getEndedDate().isAfter(LocalDateTime.now())){
+            PlanningModel planning = planningRepository.findAll().stream().filter(p -> p.getFiliere().stream().filter(fil -> fil.getName().equals(student.getFiliere().getName())).count() > 0).findFirst().orElse(null);
+            if(planning == null){
+                System.err.println("planning not found");
+                return null ;
+            }
+            CoursePlanningModel coursePlan = planning.getCoursePlanning().stream().filter(c -> c.getCourses().getId() == course_id).findFirst().orElse(null);
+            if(coursePlan == null){
+                System.err.println(planning.getCoursePlanning());
+                return null ;
+            }
+            else if(coursePlan.getStartedTime().isAfter(LocalTime.now()) || coursePlan.getEndedTime().isBefore(LocalTime.now())){
+                System.err.println("course not started yet");
                 return null ;
             }
             AttendanceModel attendance = new AttendanceModel(); 
             CourseModel courseFounded = courseRepository.findById(course_id).get();
             attendance.setCourse(courseFounded);
-            attendance.setStarted(coursenPlan.getStartedDate());
-            attendance.setEnded(coursenPlan.getEndedDate());
+            attendance.setDate(LocalDate.now());
+            attendance.setStarted(coursePlan.getStartedTime());
+            attendance.setEnded(coursePlan.getEndedTime());
             attendance.setFiliere(student.getFiliere());
             attendance.setStatus(status);
             attendance.setStudent(student);
-            attendance.setClasse(coursenPlan.getClasse());
+            attendance.setClasse(coursePlan.getClasse());
             student.getAttendance().add(attendance);
             return attendanceRepository.save(attendance) ;
         } catch (Exception e) {

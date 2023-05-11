@@ -1,5 +1,7 @@
-
 spring:
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
   datasource:
     password:
     url: jdbc:mysql://localhost:4306/ensias_attendance 

@@ -142,41 +142,47 @@ public class AttendanceServiceImpl<justificationRepository> implements Attendanc
         //         countedValue ++ ;
         //     }
         // });
-        return attendanceRepository.findAll().stream().filter(attendance -> attendance.getTakedTime().toLocalDate().equals(LocalDate.now())).count() ;
+        return attendanceRepository.findAll().stream().filter(attendance -> attendance.getDate().equals(LocalDate.now())).count() ;
         // TODO Auto-generated method stub
     }
 
     @Override
     public Long getCurentDayAttendanceBoysNumber() {
-        return studentRepository.findAll().stream().filter(student -> student.getGenre().equals(GenreUser.MALE)).filter(student -> student.getAttendance().stream().filter(attendance -> attendance.getTakedTime().toLocalDate().equals(LocalDate.now())).count() > 0).count();
+        return studentRepository.findAll().stream().filter(student -> student.getGenre().equals(GenreUser.MALE)).filter(student -> student.getAttendance().stream().filter(attendance -> attendance.getDate().equals(LocalDate.now())).count() > 0).count();
     }
 
     @Override
     public Long getCurentDayAttendanceGirlsNumber() {
-        return studentRepository.findAll().stream().filter(student -> student.getGenre().equals(GenreUser.FEMALE)).filter(student -> student.getAttendance().stream().filter(attendance -> attendance.getTakedTime().toLocalDate().equals(LocalDate.now())).count() > 0).count();
+        return studentRepository.findAll().stream().filter(student -> student.getGenre().equals(GenreUser.FEMALE)).filter(student -> student.getAttendance().stream().filter(attendance -> attendance.getDate().equals(LocalDate.now())).count() > 0).count();
     }
 
     @Override
     public Long getCurentDayAttendanceAbsencesNumber() {
-        return studentRepository.findAll().stream().filter(student -> student.getAttendance().stream().filter(attendance -> attendance.getTakedTime().toLocalDate().equals(LocalDate.now())).count() == 0).count();
+        return studentRepository.findAll().stream().filter(student -> student.getAttendance().stream().filter(attendance -> attendance.getDate().equals(LocalDate.now())).count() == 0).count();
     }
 
     @Override
-    public Long getYearAttendaceGirls(int year) {
-        Long countedValue = studentRepository.findAll().stream().filter(student -> student.getGenre().equals(GenreUser.FEMALE)).filter(student -> student.getAttendance().stream().filter(attendance -> (attendance.getTakedTime().toLocalDate().getYear() == (LocalDate.now().getYear())) && (attendance.getTakedTime().toLocalDate().getMonthValue() == year )).count() > 0).count();
+    public Long getYearAttendaceGirls(int month) {
+        Long countedValue = studentRepository.findAll().stream().filter(student -> student.getGenre().equals(GenreUser.FEMALE)).filter(student -> student.getAttendance().stream().filter(attendance -> (attendance.getDate().getYear() == (LocalDate.now().getYear())) && (attendance.getDate().getMonthValue() == month )).count() > 0).count();
         return countedValue;
     }
 
     @Override
-    public Long getYearAttendaceBoys(int year) {
-        Long countedValue = studentRepository.findAll().stream().filter(student -> student.getGenre().equals(GenreUser.MALE)).filter(student -> student.getAttendance().stream().filter(attendance -> (attendance.getTakedTime().toLocalDate().getYear() == (LocalDate.now().getYear())) && (attendance.getTakedTime().toLocalDate().getMonthValue() == year )).count() > 0).count();
+    public Long getYearAttendaceBoys(int month) {
+        Long countedValue = studentRepository.findAll().stream().filter(student -> student.getGenre().equals(GenreUser.MALE)).filter(student -> student.getAttendance().stream().filter(attendance -> (attendance.getDate().getYear() == (LocalDate.now().getYear())) && (attendance.getDate().getMonthValue() == month )).count() > 0).count();
         return countedValue;
     }
 
     @Override
-    public Long getYearAttendaceByClass(int year) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getYearAttendaceByClass'");
+    public Long getYearAttendaceByClassGirls(Long filiereId) {
+        Long countedValue = studentRepository.findAll().stream().filter(student -> student.getGenre().equals(GenreUser.FEMALE) && (student.getFiliere().getId() == filiereId)).filter(student -> student.getAttendance().stream().filter(attendance -> (attendance.getDate().equals(LocalDate.now()))).count() > 0).count();
+        return countedValue;
+    }
+
+    @Override
+    public Long getYearAttendaceByClassBoys(Long filiereId) {
+        Long countedValue = studentRepository.findAll().stream().filter(student -> student.getGenre().equals(GenreUser.MALE) && (student.getFiliere().getId() == filiereId)).filter(student -> student.getAttendance().stream().filter(attendance -> (attendance.getDate().equals(LocalDate.now()))).count() > 0).count();
+        return countedValue;
     }
 
 

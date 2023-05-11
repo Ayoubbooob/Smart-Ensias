@@ -16,9 +16,10 @@ public interface AttendanceService {
     Long getCurentDayAttendanceBoysNumber();
     Long getCurentDayAttendanceGirlsNumber();
     Long getCurentDayAttendanceAbsencesNumber();
-    Long getYearAttendaceGirls(int year);
-    Long getYearAttendaceBoys(int year);
-    Long getYearAttendaceByClass(int year);
+    Long getYearAttendaceGirls(int month);
+    Long getYearAttendaceBoys(int month);
+    Long getYearAttendaceByClassGirls(Long filiereId);
+    Long getYearAttendaceByClassBoys(Long filiereId);
     AttendanceModel saveAttendanceModel(AttendanceModel attendance);
     Optional<AttendanceModel>getAttendanceById(Long id) ;
     Boolean deleteAttendance(Long id);

@@ -14,8 +14,6 @@ public interface FiliereRepository extends JpaRepository<FiliereModel,Long> {
     List<FiliereModel> findAll();
     void deleteById(Long id);
     void delete(FiliereModel filiere);
-
-
     FiliereModel findByName(String name);
 
 

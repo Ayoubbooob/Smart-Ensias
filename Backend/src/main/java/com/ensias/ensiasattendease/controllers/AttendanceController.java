@@ -20,7 +20,6 @@ import com.ensias.ensiasattendease.models.AttendanceModel;
 import com.ensias.ensiasattendease.models.JustificationModel;
 import com.ensias.ensiasattendease.services.AttendanceService;
 
-import ch.qos.logback.core.model.Model;
 import lombok.RequiredArgsConstructor;
 
 @RestController
