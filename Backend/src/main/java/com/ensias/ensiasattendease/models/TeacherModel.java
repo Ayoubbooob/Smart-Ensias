@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,8 +29,13 @@ public class TeacherModel extends UserModel{
     @JsonIgnoreProperties("teacher")
     private Collection<FiliereModel> filiere ;
 
+//AYOUB ADDED THIS
     @ManyToMany(mappedBy = "teacher" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnoreProperties("teacher")
+    //UNTIL HERE
+  // THIS FOR OUMAR
+//     @OneToMany(mappedBy = "teacher" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+//     @JsonManagedReference(value = "attendance-teacher")
     private Collection<AttendanceModel> attendance = new ArrayList<>() ;
 
 

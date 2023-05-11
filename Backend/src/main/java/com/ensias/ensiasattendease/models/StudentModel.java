@@ -7,6 +7,7 @@ import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,9 +25,18 @@ public class StudentModel extends UserModel {
 
     @Column(unique = true)
     private String cne;
+
+  // AYOUB ADDED THIS - NOTIF
     @ManyToMany(mappedBy = "student" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnoreProperties("student")
-    private Collection<AttendanceModel> attendance = new ArrayList<>() ;
+//UNTIL HERE
+  
+    // THIS FOR OUMAR
+
+//     @OneToMany(mappedBy = "student" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+//     @JsonManagedReference(value = "attendance-student")
+
+  private Collection<AttendanceModel> attendance = new ArrayList<>() ;
     @ManyToOne
     @JsonBackReference(value = "filiere-student")
     private  FiliereModel filiere ;

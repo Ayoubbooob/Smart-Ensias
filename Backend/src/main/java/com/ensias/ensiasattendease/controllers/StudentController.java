@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.ensias.ensiasattendease.services.implementations.NotificationServiceImpl;
 import com.ensias.ensiasattendease.services.implementations.StudentServiceImpl;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ensias.ensiasattendease.models.AttendanceModel;
+import com.ensias.ensiasattendease.models.AttendanceStatus;
+import com.ensias.ensiasattendease.models.AttendanceStatusClass;
 import com.ensias.ensiasattendease.models.FiliereModel;
 import com.ensias.ensiasattendease.models.StudentModel;
 
@@ -31,7 +36,6 @@ public class StudentController {
 
     private final StudentServiceImpl studentService;
     private final NotificationServiceImpl notificationService;
-
 
     @GetMapping()
     public ResponseEntity<List<StudentModel>> getAllStudent(){
@@ -76,15 +80,26 @@ public class StudentController {
 //    }
 
     @PostMapping("/registerAttendance/{cne}")
-    public ResponseEntity<?> takeAttendance(@RequestBody AttendanceModel attendance  , @PathVariable String cne){
-        if(attendance == null || cne == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST) ;
-        }
-        else{
-            AttendanceModel attendanceModel = studentService.registerAttendance(attendance , cne) ;
-            if( attendanceModel == null){
-                return new ResponseEntity<>("{\"error\" : \"student  do not exist\"}" , HttpStatus.NOT_FOUND) ;
+    public ResponseEntity<?> takeAttendance(@RequestBody JsonNode new_attendance  , @PathVariable String cne){
+        try {
+            JsonNode statusNode = new_attendance.get("status");
+            JsonNode courseIdNode = new_attendance.get("course_id") ;
+            ObjectMapper statusMapper = new ObjectMapper();
+            ObjectMapper courseIdMapper = new ObjectMapper();
+            AttendanceStatus status =  statusMapper.readValue(statusNode.toString() , AttendanceStatus.class);
+            Long course_id =  courseIdMapper.readValue(courseIdNode.toString(), Long.class);
+            if(status == null || course_id == null){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST) ;
             }
+            else{
+                AttendanceModel attendanceModel = studentService.registerAttendance( status , course_id ,  cne) ;
+                if( attendanceModel == null){
+                    return new ResponseEntity<>("{\"error\" : \"student  do not exist\"}" , HttpStatus.NOT_FOUND) ;
+                }
+                return new ResponseEntity<>( attendanceModel  , HttpStatus.CREATED);
+            }
+
+          // ME, AYOUB ADDED THIS  - FOR NOIFICATION
             StudentModel student = studentService.getStudentByCNE(cne);
             int numberOfAbsences = student.getNumberOfAbsences();
             if(numberOfAbsences >= 3){
@@ -92,7 +107,13 @@ public class StudentController {
             }
             studentService.updateStudent(student);
             return new ResponseEntity<>( attendanceModel  , HttpStatus.CREATED);
+          // UNTIL HERE
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new ResponseEntity<>("{\"error\" : \"can't  the json values\"}" , HttpStatus.BAD_REQUEST) ;
+
         }
+        
     }
 
     @DeleteMapping("/{cne}")
