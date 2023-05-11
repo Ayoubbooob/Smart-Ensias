@@ -61,14 +61,14 @@ public class NotificationServiceImpl {
 
     }
 
-    public void markNotificationAsRead(Long notificationId) throws NotFoundException {
+    public void markNotificationAsRead(Long notificationId) throws ChangeSetPersister.NotFoundException {
         Optional<NotificationModel> notificationOptional = notificationRepository.findById(notificationId);
         if (notificationOptional.isPresent()) {
             NotificationModel notification = notificationOptional.get();
             notification.setNotifStatus(NotificationStatus.READ);
             notificationRepository.save(notification);
         } else {
-            throw new NotFoundException("dddd");
+            throw new ChangeSetPersister.NotFoundException();
         }
     }
 

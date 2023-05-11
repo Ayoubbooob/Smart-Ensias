@@ -16,6 +16,9 @@ import java.util.List;
 @RequestMapping("/api/v1/notification")
 public class NotificationController {
 
+
+
+
     private final NotificationServiceImpl notificationService;
     @GetMapping("/{studentId}")
     public ResponseEntity<List<NotificationResponse>> getNotificationsByStudentId(@PathVariable Long studentId) {
