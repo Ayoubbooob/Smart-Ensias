@@ -1,15 +1,12 @@
 package com.ensias.ensiasattendease.services.implementations;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
 
-import com.ensias.ensiasattendease.models.GenreUser;
-import com.ensias.ensiasattendease.models.PlanningModel;
-import com.ensias.ensiasattendease.models.Role;
-import com.ensias.ensiasattendease.models.StudentModel;
-import com.ensias.ensiasattendease.models.UserModel;
+import com.ensias.ensiasattendease.models.*;
 import com.ensias.ensiasattendease.repositories.UserRepository;
 import com.ensias.ensiasattendease.resources.RequestModels.StudentRegisterRequest;
 import com.ensias.ensiasattendease.resources.responses.StudentResponse;
@@ -19,11 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.ensias.ensiasattendease.models.AttendanceModel;
-import com.ensias.ensiasattendease.models.AttendanceStatus;
-import com.ensias.ensiasattendease.models.CourseModel;
-import com.ensias.ensiasattendease.models.CoursePlanningModel;
-import com.ensias.ensiasattendease.models.FiliereModel;
 import com.ensias.ensiasattendease.repositories.AttendanceRepository;
 import com.ensias.ensiasattendease.repositories.CourseRepository;
 import com.ensias.ensiasattendease.repositories.FiliereRepository;
@@ -106,6 +98,8 @@ public class StudentServiceImpl implements StudentService {
                 System.err.println("course not started yet");
                 return null ;
             }
+//             attendance.getStudent().add(student); //FOR AYOUB
+          
             AttendanceModel attendance = new AttendanceModel(); 
             CourseModel courseFounded = courseRepository.findById(course_id).get();
             attendance.setCourse(courseFounded);
@@ -117,6 +111,12 @@ public class StudentServiceImpl implements StudentService {
             attendance.setStudent(student);
             attendance.setClasse(coursePlan.getClasse());
             student.getAttendance().add(attendance);
+            /**
+             * @target increment student absence if he is absent
+             * @Ayoub
+             */
+            // if(attendance.getStatus().equals(AttendanceStatus.ABSENT)) student.incrementAbsence();
+            attendance.setStudent(student);
             return attendanceRepository.save(attendance) ;
         } catch (Exception e) {
             // TODO: handle exception

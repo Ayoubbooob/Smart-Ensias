@@ -29,13 +29,18 @@ public class TeacherModel extends UserModel{
     @JsonIgnoreProperties("teacher")
     private Collection<FiliereModel> filiere ;
 
+//AYOUB ADDED THIS
+//    @ManyToMany(mappedBy = "teacher" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JsonIgnoreProperties("teacher")
+    //UNTIL HERE
+  // THIS FOR OUMAR
     @OneToMany(mappedBy = "teacher" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JsonManagedReference(value = "attendance-teacher")
     private Collection<AttendanceModel> attendance = new ArrayList<>() ;
 
 
-    // @ManyToMany(mappedBy = "teacher" , fetch = FetchType.LAZY)
-    // @JsonIgnoreProperties("teacher")
-    // private Collection<CourseModel> course ;
+    @ManyToMany(mappedBy = "teacher" , fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("teacher")
+    private Collection<CourseModel> course ;
 }
 
