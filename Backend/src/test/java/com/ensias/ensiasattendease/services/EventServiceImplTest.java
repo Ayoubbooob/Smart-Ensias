@@ -69,6 +69,8 @@ public class EventServiceImplTest {
         Assertions.assertEquals(event2.getStart_date(), result2.getStart_date());
         Assertions.assertEquals(event2.getEnd_date(), result2.getEnd_date());
         Assertions.assertEquals(event2.getTitle(), result2.getTitle());
+
+        //comment here to test again
     }
 
 
