@@ -30,6 +30,7 @@ public class AuthentificationServiceImpl {
                 .email("Kajje1213@dd.com")
                 .password("11112345678")
                 .build();
+                System.out.println();
         AuthenticationResponse response = authenticationService.authenticate(request);
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getAccessToken()).isNotNull();
