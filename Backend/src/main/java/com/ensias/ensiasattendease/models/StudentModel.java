@@ -32,11 +32,11 @@ public class StudentModel extends UserModel {
 //UNTIL HERE
   
     // THIS FOR OUMAR
-
-     @OneToMany(mappedBy = "student" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-     @JsonManagedReference(value = "attendance-student")
-//
+    @JsonIgnore
+    @OneToMany(mappedBy = "student" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "attendance-student")
     private Collection<AttendanceModel> attendance = new ArrayList<>() ;
+    @JsonIgnore
     @ManyToOne
     @JsonBackReference(value = "filiere-student")
     private  FiliereModel filiere ;

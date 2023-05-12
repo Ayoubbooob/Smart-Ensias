@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -55,6 +56,7 @@ public class AttendanceModel  {
     @ManyToOne
     @JsonBackReference(value = "attendance-filiere")
     private FiliereModel filiere  ; 
+    @JsonIgnore
     @ManyToOne
     @JsonBackReference(value="attendance-justification")
     private JustificationModel justification ; 

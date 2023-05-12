@@ -3,10 +3,8 @@ package com.ensias.ensiasattendease.models;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.hibernate.annotations.ManyToAny;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -16,8 +14,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +35,6 @@ public class CourseModel {
     @JsonIgnoreProperties("course")
     private Collection<FiliereModel> filiere = new ArrayList<>() ;
     @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("course")
+    @JsonIgnore
     private Collection<FiliereModel> teacher;
 }

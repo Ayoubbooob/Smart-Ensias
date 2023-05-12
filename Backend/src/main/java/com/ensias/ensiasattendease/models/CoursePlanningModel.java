@@ -35,6 +35,7 @@ public class CoursePlanningModel {
     private LocalTime endedTime ;
     private DaysOfWeek day;
     @ManyToOne
+    @JsonBackReference(value = "coursePlanning-course")
     private CourseModel courses ;
     @ManyToOne
     private ClasseModel classe ;

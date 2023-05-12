@@ -7,6 +7,7 @@ import java.util.Collection;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -36,8 +37,8 @@ public class PlanningModel {
     private LocalDate endedDate ;
     private LocalDate nowDate ;
     @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("planning")
     private Collection<CoursePlanningModel> coursePlanning = new ArrayList<>() ;
+    @JsonIgnore
     @OneToMany(mappedBy = "planning" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JsonManagedReference(value = "filiere-planning")
     private Collection<FiliereModel> filiere = new ArrayList<>();
