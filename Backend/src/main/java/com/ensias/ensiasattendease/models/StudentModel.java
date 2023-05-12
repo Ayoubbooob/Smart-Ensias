@@ -32,31 +32,31 @@ public class StudentModel extends UserModel {
 //UNTIL HERE
   
     // THIS FOR OUMAR
-
-     @OneToMany(mappedBy = "student" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-     @JsonManagedReference(value = "attendance-student")
-//
+    @JsonIgnore
+    @OneToMany(mappedBy = "student" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "attendance-student")
     private Collection<AttendanceModel> attendance = new ArrayList<>() ;
+    @JsonIgnore
     @ManyToOne
     @JsonBackReference(value = "filiere-student")
     private  FiliereModel filiere ;
 
+    //AYOUB THIS FOR NOTIF
+    // @JsonIgnore
+    // private int numberOfAbsences = 0;
 
-    @JsonIgnore
-    private int numberOfAbsences = 0;
+    // public int getNumberOfAbsences(){
+    //     int absences = 0;
+    //     if(attendance == null){
+    //         return 0;
+    //     }
+    //     for(AttendanceModel attendance : attendance){
+    //         if(attendance.getStatus().equals(AttendanceStatus.ABSENT))  absences++ ;
+    //     }
+    //     return absences;
+    // }
 
-    public int getNumberOfAbsences(){
-        int absences = 0;
-        if(attendance == null){
-            return 0;
-        }
-        for(AttendanceModel attendance : attendance){
-            if(attendance.getStatus().equals(AttendanceStatus.ABSENT))  absences++ ;
-        }
-        return absences;
-    }
-
-    public void incrementAbsence(){
-        numberOfAbsences++;
-    }
+    // public void incrementAbsence(){
+    //     numberOfAbsences++;
+    // }
 }

@@ -1,10 +1,13 @@
 package com.ensias.ensiasattendease.models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -36,27 +39,24 @@ public class AttendanceModel  {
     private  Long id ; 
     @Enumerated(EnumType.STRING) 
     private AttendanceStatus status = AttendanceStatus.ABSENT ;
-    @Column(name = "started " , columnDefinition = "TIMESTAMP")
-    private LocalDateTime  started = LocalDateTime.now() ;
-    @Column(name="ended" , columnDefinition = "TIMESTAMP")
-    private LocalDateTime  ended = LocalDateTime.now()  ;
-    @Column(name ="takedTime" ,  columnDefinition = "TIMESTAMP")
-    private LocalDateTime  takedTime = LocalDateTime.now()  ; 
+    private LocalTime  started  ;
+    private LocalTime  ended  ;
+    private LocalTime  takedTime  = LocalTime.now() ; 
+    private LocalDate  date ; 
     @ManyToOne
-    @JsonBackReference(value="attendance-class")
-    private classModel classe ;
+    private ClasseModel classe ;
     @ManyToOne
-    @JsonBackReference(value="attendance-course")
     private CourseModel course  ; 
-    @ManyToOne()
+    @ManyToOne
     @JsonBackReference(value = "attendance-student")
     private StudentModel student  ; 
-    @ManyToOne()
+    @ManyToOne
     @JsonBackReference(value = "attendance-teacher")
     private TeacherModel teacher  ; 
-    @ManyToOne()
+    @ManyToOne
     @JsonBackReference(value = "attendance-filiere")
     private FiliereModel filiere  ; 
+    @JsonIgnore
     @ManyToOne
     @JsonBackReference(value="attendance-justification")
     private JustificationModel justification ; 
