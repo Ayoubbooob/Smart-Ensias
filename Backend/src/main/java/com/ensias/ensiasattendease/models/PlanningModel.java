@@ -7,10 +7,12 @@ import java.util.Collection;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -31,12 +33,12 @@ public class PlanningModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate startedDate ; 
+    private LocalDate startedDate; 
     private LocalDate endedDate ;
-    private DaysOfWeek day;
+    private LocalDate nowDate ;
     @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("planning")
     private Collection<CoursePlanningModel> coursePlanning = new ArrayList<>() ;
+    @JsonIgnore
     @OneToMany(mappedBy = "planning" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JsonManagedReference(value = "filiere-planning")
     private Collection<FiliereModel> filiere = new ArrayList<>();

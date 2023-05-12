@@ -2,7 +2,6 @@
 
 // import java.util.Collection;
 
-// import org.hibernate.annotations.ManyToAny;
 
 // import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 // import com.fasterxml.jackson.annotation.JsonManagedReference;
