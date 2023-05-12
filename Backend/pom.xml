@@ -115,6 +115,7 @@
 			<version>3.3.1</version>
 			</plugin>
 		</plugins>
+		<finalName>spring-boot-docker</finalName>
 	</build>
 
 </project>
