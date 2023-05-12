@@ -38,7 +38,7 @@ public class StudentRegistrationServiceImpl{
         request.setPhone("0612345678"); 
         request.setDate_of_birth("1999-08-17");
         /**
-         * when
+         * when year 
          */
         AuthenticationResponse response = studentService.registerStudent(request);
 
