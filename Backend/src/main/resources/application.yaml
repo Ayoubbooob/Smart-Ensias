@@ -3,15 +3,28 @@ spring:
     serialization:
       write-dates-as-timestamps: false
   datasource:
-    password:
+#    password:
+#    username: root
 # <<<<<<< AyoubBranch1
 # #    url: jdbc:mysql://localhost:4306/ensias_attendance  --OUMAR c'est ton ligne tu dois juste enlever le commentaire et commenter le mien
-    url: jdbc:mysql://localhost:3307/ensiasattendease2
+#    url: jdbc:mysql://localhost:3307/ensiasattendease2
+# =======
+
+#    url: jdbc:mysql://localhost:4306/ensias_attendance
+
+# <<<<<<< AyoubBranch1
+# #    url: jdbc:mysql://localhost:4306/ensias_attendance
+#    url: jdbc:mysql://localhost:3307/ensiasattendease2  #url for local machine
+#     url: jdbc:mysql://mysqldb:3306/ensiasattendease2 #url  for docker run
+#     password: 1234
+#     username: ensias
+
 # =======
 #    url: jdbc:mysql://localhost:4306/ensias_attendance
-    # url: jdbc:mysql://localhost:3307/ensiasattendease2
-    username: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+
+     url: jdbc:mysql://localhost:3307/ensiasattendease2
+     username: root
+#    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
