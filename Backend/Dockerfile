@@ -1,3 +1,3 @@
 FROM openjdk:17-jdk-alpine
-COPY ./target/spring-boot-docker.jar spring-boot-docker.jar
+COPY ./target/smartensias.jar smart-ensias-springapi.jar
 CMD ["java","-jar","/smart-ensias-springapi.jar"]
