@@ -35,7 +35,7 @@ public class AuthentificationServiceImpl {
         Assertions.assertThat(response.getAccessToken()).isNotNull();
         Assertions.assertThat(response.getRefreshToken()).isNotNull();
         Assertions.assertThat(response.getId()).isNotNull();
-        Assertions.assertThat(response.getRole()).isEqualTo("TEACHER");
+        Assertions.assertThat(response.getRole()).isEqualTo("STUDENT");
     }
     
 }
