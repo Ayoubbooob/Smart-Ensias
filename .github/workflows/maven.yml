@@ -17,8 +17,10 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
-
+    name: Build SAMRT-ENSIAS-API
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 19
