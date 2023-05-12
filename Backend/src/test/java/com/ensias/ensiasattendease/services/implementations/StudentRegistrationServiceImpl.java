@@ -29,13 +29,13 @@ public class StudentRegistrationServiceImpl{
          * setup test env 
          */
         StudentRegisterRequest request = new StudentRegisterRequest(); 
-        request.setCne("20191173");
-        request.setEmail("teste@gmail.com");
+        request.setCne("203949");
+        request.setEmail("teste01@gmail.com");
         request.setGender("MALE");
         request.setFirstname("testFirstName");
         request.setLastname("testLastName");
-        request.setPassword("12345678");
-        request.setPhone("0612345678"); 
+        request.setPassword("3445667");
+        request.setPhone("46070798"); 
         request.setDate_of_birth("1999-08-17");
         /**
          * when year 
