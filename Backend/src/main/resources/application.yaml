@@ -20,9 +20,9 @@ spring:
 #     username: ensias
 
 # =======
-    url: jdbc:mysql://localhost:4306/ensias_attendance
+    # url: jdbc:mysql://localhost:4306/ensias_attendance
 
-    #  url: jdbc:mysql://localhost:3307/ensiasattendease2
+    url: jdbc:mysql://localhost:3307/ensiasattendease2
     username: root
 #    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
