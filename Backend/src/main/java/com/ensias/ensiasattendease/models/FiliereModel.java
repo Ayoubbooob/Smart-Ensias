@@ -41,6 +41,7 @@ public class FiliereModel {
     @ManyToMany(mappedBy = "filiere" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JsonIgnoreProperties("course")
     private Collection<CourseModel> course = new ArrayList<>() ;
+    @JsonIgnore
     @OneToMany(mappedBy = "filiere" , fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
     @JsonManagedReference(value = "filiere-student")
     private Collection<StudentModel> student = new ArrayList<>() ;
